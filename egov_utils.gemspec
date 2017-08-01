@@ -21,5 +21,7 @@ Gem::Specification.new do |s|
   # Use ActiveModel has_secure_password
   s.add_dependency 'bcrypt', '~> 3.1.11'
 
+  s.add_dependency "audited", "~> 4.4"
+
   s.add_development_dependency "sqlite3"
 end
