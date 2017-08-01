@@ -66,4 +66,3 @@ module EgovUtils
     end
   end
 end
-EasyExtensions::PatchManager.register_rails_patch 'ActiveRecord::Base', 'EasyPatch::ActsAsEasyJournalized'

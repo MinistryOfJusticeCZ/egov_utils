@@ -1,0 +1,51 @@
+.row.address-fields
+  = form.hidden_field :egov_identifier
+  .col-6
+    = form.text_field :street
+  .col-3
+    = form.text_field :house_number
+  .col-3
+    = form.text_field :orientation_number
+  .col-12
+    = form.text_field :city
+    = form.text_field :postcode
+    = form.text_field :district
+    = form.select :region, EgovUtils::Address.regions.collect{|r| [r,r]}
+    -# form.text_field :country
+    %div.validation-button
+      = link_to t('label_find'), 'javascript:void(0)', class: 'btn btn-secondary address-validator-btn'
+
+:javascript
+  $(function(){
+    $('.address-validator-btn').not('.validator-initialized').on('click', function(evt) {
+      var values = {},
+          $fields = $(this).closest('.address-fields');
+
+      $fields.find(':input').each(function(i){
+        var name,
+            name_m = $(this).attr('name').match(/\[([^\[]*)\]$/);
+        name = name_m[1];
+        values[name] = $(this).val();
+      });
+      $.ajax('#{egov_utils.validate_ruian_path}', {
+        method: 'GET',
+        dataType: 'json',
+        data: {
+          address: values
+        }
+      }).done(function(json){
+        var field;
+        for( var key in json ) {
+          field = $fields.find("[name$='["+key+"]']");
+          if( field.length !== 1 || !json[key] )
+            continue;
+          field.val(json[key]);
+        }
+      }).fail(function(xhr, status, errorMsg){
+        $('#modal').modal('hide');
+        eGovUtilities.showModal(xhr.responseJSON.error, {modalId: 'modalAlert', backdrop: 'static'}).on('hidden.bs.modal', function(){
+          $('#modal').modal('show');
+        });
+      });
+    }).addClass('.validator-initialized');
+  });

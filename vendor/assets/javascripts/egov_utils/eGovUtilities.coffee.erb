@@ -1,0 +1,70 @@
+
+window.eGovUtilities =
+  setup: ()->
+    $.extend $.fn.datetimepicker.defaults.icons, {
+      time: 'fa fa-clock-o',
+      date: 'fa fa-calendar',
+      up: 'fa fa-chevron-up',
+      down: 'fa fa-chevron-down',
+      previous: 'fa fa-chevron-left',
+      next: 'fa fa-chevron-right',
+      today: 'fa fa-calendar-check-o',
+      clear: 'fa fa-trash-o',
+      close: 'fa fa-close'
+    }
+
+  initPage: ()->
+    eGovUtilities.initDatepickers()
+
+  initDatepickers: ($container)->
+    $container ||= $(document)
+    pickers = $('[data-provide="datepicker"]', $container)
+    pickers.datetimepicker()
+
+  initModal: (modalId, options)->
+    options = options || {}
+    modalId = modalId || 'modal'
+    $modal = $('#'+modalId)
+    if $modal.length != 1
+      $modal = $('<div id="'+modalId+'" class="modal fade"'+(if options['backdrop'] then ' data-backdrop="static"' else '')+'><div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title"></h5>
+        <button class="close" type="button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body"></div>
+      <div class="modal-footer"></div>
+    </div></div></div>').appendTo('body')
+      $modal.on 'submit', 'form', (evt)->
+        evt.preventDefault()
+        $form = $(this)
+        data = $form.serializeArray()
+        $.ajax($form.attr('action')+'.json', {method: $form.attr('method'), data: data, dataType: 'json'}).done (xhr)->
+          $modal.trigger('egov:submitted', [xhr])
+          $modal.modal('hide')
+        .fail (xhr) ->
+          if xhr.status == 422
+            $.ajax($form.attr('action'),  {method: $form.attr('method'), data: data, dataType: 'html'}).done (xhr)->
+              eGovUtilities.setModalContent($modal, xhr)
+
+    $modal
+
+  setModalContent: ($modal, body, title) ->
+    $modal.find('.modal-title').text(title)
+    $modal.find('.modal-body').html(body)
+    eGovUtilities.initDatepickers($modal)
+
+  showModal: (body, options) ->
+    options = options || {}
+    $modal = this.initModal((options['modalId']), {backdrop: options['backdrop']})
+    title = options['title']
+    delete options['modalId']
+    delete options['backdrop']
+    delete options['title']
+    eGovUtilities.setModalContent($modal, body, title)
+    $modal.modal(options)
+    $modal
+
+$(eGovUtilities.setup)
+$(document).on 'turbolinks:load', (evt)->
+  eGovUtilities.initPage()

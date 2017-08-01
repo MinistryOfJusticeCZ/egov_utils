@@ -1,0 +1,67 @@
+---
+cs:
+  ministery_justice_name: Ministerstvo spravedlnosti ČR
+
+
+
+  models: &my_models
+    egov_utils::address:
+      one: Adresa
+      other: Adresy
+
+  model_attributes: &my_attributes
+    egov_utils/address:
+      street: Ulice
+      number: "Č.p./Č.o."
+      house_number: Č. popisné
+      orientation_number: Č. orientační
+      city: Obec
+      postcode: PSČ
+      district: Okres
+      region: Kraj
+      country: Země
+
+
+  models_errors: &my_model_errors
+    profile:
+      too_many_authors: Příliš mnoho autorů
+
+  labels: &my_labels
+    user:
+      password: Heslo
+    session:
+      username: Přihlášení
+      password: Heslo
+
+  activerecord:
+    models:
+      <<: *my_models
+    attributes:
+      <<: *my_attributes
+    errors:
+      models:
+        <<: *my_model_errors
+      messages:
+        record_invalid: 'Validace je neúspešná: %{errors}'
+        restrict_dependent_destroy:
+          has_one: Nemůžu smazat položku protože existuje závislá/ý/é %{record}
+          has_many: Nemůžu smazat položku protože existuje závislé/ý %{record}
+    successful:
+      messages:
+        created: "%{model} úspěšně vytvořen"
+        updated: "%{model} úspěšně aktualizován"
+
+  helpers:
+    label:
+      <<: *my_labels
+
+    submit:
+      create: Vytvořit %{model}
+      submit: Uložit %{model}
+      update: Aktualizovat %{model}
+
+
+  errors:
+    messages:
+      ico_format: Není správný formát IČO
+      email_format: není e-mail

@@ -1,0 +1,98 @@
+html, body {
+  height: 100%;
+}
+main {
+  min-height: calc( 100% - #{$navbar-height + 16rem});
+}
+
+nav {
+  margin-bottom: 1rem;
+  @include media-breakpoint-up(lg) {
+    .user-drop {
+      margin-left: 30px;
+    }
+  }
+}
+.main-menu.navbar-nav {
+  .nav-item .nav-link {
+    color: $brand-primary;
+    font-size: 120%;
+    border-radius: $border-radius-lg;
+    &:hover {
+      color: darken($brand-primary, 7.5%);
+      // -webkit-box-shadow: $btn-focus-box-shadow;
+      // box-shadow: $btn-focus-box-shadow;
+    }
+  }
+}
+
+label {
+  color: $gray;
+}
+
+.previous_names.attribute {
+  border-bottom: none;
+  .value {
+    color: $gray-light;
+    text-decoration: line-through;
+  }
+}
+
+.attribute {
+  border-bottom: 1px solid lighten($gray-lighter, 10%);
+  margin: 0 8%;
+  margin-bottom: .5rem;
+  width: 88%;
+  .label {
+    font-size: 80%;
+    color: $gray;
+  }
+  .value {
+    padding-left: 1rem;
+    .unfilled-message {
+      color: $gray;
+    }
+  }
+}
+
+.address-fields .validation-button {
+  text-align: center;
+}
+
+form .form-actions {
+  text-align: center;
+}
+
+footer {
+  margin-top: 4rem;
+  border-top: solid 1px $gray-lighter;
+  padding: .5rem 1.5rem;
+  font-size: 80%;
+  .subtitle {
+    //border: solid 1px $gray-light;
+    //border-radius: 5px;
+    color: $gray;
+    text-align: justify;
+    margin-bottom: 1rem;
+    margin-top: .5rem;
+  }
+  .contacts {
+    text-align: center;
+  }
+  .social-network-links {
+    a {
+      display: inline-block;
+      padding: 0.5rem;
+      color: #000;
+    }
+  }
+  .notice, .copyright {
+    color: $gray;
+    font-size: 80%;
+  }
+  @include media-breakpoint-up(sm) {
+    .copyright {
+      text-align: right;
+    }
+  }
+}

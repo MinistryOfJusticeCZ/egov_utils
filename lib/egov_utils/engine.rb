@@ -15,9 +15,26 @@ module EgovUtils
       end
     end
 
-    initializer "active_record.include_plugins" do
-      ActiveSupport.on_load(:active_record) do
-        include EgovUtils::HasAuditTrail
+    initializer 'egov_utils.grid_setup' do
+      require 'grid/shield_grid'
+      ActiveSupport::Reloader.to_prepare do
+        ActiveSchema::Outputs.register(Grid::ShieldGrid)
+      end
+    end
+
+    # initializer "active_record.include_plugins" do
+    #   ActiveSupport.on_load(:active_record) do
+    #     require 'egov_utils/has_audit_trail'
+    #     include EgovUtils::HasAuditTrail
+    #   end
+    # end
+
+    initializer 'egov_utils.user_setup' do
+      ActiveSupport.on_load(:action_controller) do
+        require 'egov_utils/user_utils/application_controller_patch'
+        include EgovUtils::UserUtils::ApplicationControllerPatch
+
+        helper EgovUtils::GridHelper
       end
     end
   end

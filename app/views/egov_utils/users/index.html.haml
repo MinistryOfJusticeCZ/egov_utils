@@ -1,0 +1,41 @@
+= bootstrap_form_for(:search, url: search_users_path(format: :json), html: {id: 'user_search_form'}) do |f|
+  = f.text_field(:q, id: 'search_q')
+  = f.submit
+
+%table.table#user_results
+  %thead
+    %tr
+      %th Login
+      %th Actions
+  %tbody
+
+%h5 Ke schválení
+%table.table#users
+  %thead
+    %tr
+      %th= t('model_attributes.user.fullname')
+      %th Akce
+  %tbody
+    - EgovUtils::User.inactive.each do |user|
+      %tr
+        %td= user.fullname
+        %td= button_to(t('label_approve'), approve_user_path(user), class: 'btn btn-primary')
+
+:javascript
+  $('#user_search_form').on('submit', function(evt) {
+    evt.preventDefault();
+    $form = $(this);
+    $.ajax(this.action, {method: 'GET', data: {q: $('#search_q').val()}}).done(function(data, status, xhr){
+      var tbl = $('#user_results tbody');
+      tbl.html('');
+      for(var i = 0; i < data.length; ++i) {
+        var user_data = data[i];
+        $("<tr><td>"+data[i].login+'</td><td><button class="btn btn-primary add-button">Add</button></td></tr>').
+          appendTo(tbl).on('click', '.add-button', function(evt){
+            evt.preventDefault();
+            $.ajax('#{users_path(format: :json)}', {method: 'POST', data: {user: user_data}});
+          });
+      }
+      $form.find('input[type="submit"]').prop('disabled', false);
+    });
+  });
