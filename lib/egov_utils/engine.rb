@@ -1,3 +1,4 @@
+require 'audited'
 module EgovUtils
   class Engine < ::Rails::Engine
     isolate_namespace EgovUtils
