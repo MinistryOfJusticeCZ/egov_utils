@@ -6,12 +6,15 @@ module EgovUtils
     validates :street, :city, length: 3..255
     validates :postcode, numericality: { only_integer: true }
 
+    District = Struct.new(:id, :name, :region_id)
+    Region = Struct.new(:id, :name)
+
     def self.districts
       return @districts if @districts
       require 'csv'
       @districts = []
       CSV.foreach(EgovUtils::Engine.root.join('config', 'okres.csv'), col_sep: ';', headers: true) do |row|
-        @districts << row[1] if row[1]
+        @districts << District.new( row[0].to_i, row[1], row[2].to_i) if row[1]
       end
       @districts
     end
@@ -21,9 +24,19 @@ module EgovUtils
       require 'csv'
       @regions = []
       CSV.foreach(EgovUtils::Engine.root.join('config', 'kraj.csv'), col_sep: ';', headers: true) do |row|
-        @regions << row[1] if row[1]
+        @regions << Region.new( row[0].to_i, row[1]) if row[1]
       end
       @regions
+    end
+
+    def self.region_for_district(district_name)
+      district = districts.detect{|d| d[:name] == district_name }
+      regions.detect{|r| r[:id] == district[:region_id] } if district
+    end
+
+    def district=(value)
+      self.region = self.class.region_for_district(value)[:name]
+      super
     end
 
     def number

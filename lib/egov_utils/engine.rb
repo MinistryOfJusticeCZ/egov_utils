@@ -1,4 +1,6 @@
+require 'i18n-js'
 require 'audited'
+
 module EgovUtils
   class Engine < ::Rails::Engine
     isolate_namespace EgovUtils
@@ -16,10 +18,14 @@ module EgovUtils
       end
     end
 
+    initializer 'azahara_schema.set_locales' do
+      config.middleware.use I18n::JS::Middleware
+    end
+
     initializer 'egov_utils.grid_setup' do
       require 'grid/shield_grid'
       ActiveSupport::Reloader.to_prepare do
-        ActiveSchema::Outputs.register(Grid::ShieldGrid)
+        AzaharaSchema::Outputs.register(Grid::ShieldGrid)
       end
     end
 

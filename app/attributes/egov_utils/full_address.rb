@@ -1,5 +1,5 @@
 module EgovUtils
-  class FullAddress < ActiveSchema::Attribute
+  class FullAddress < AzaharaSchema::Attribute
 
     def initialize
       super(EgovUtils::Address, 'full_address', 'string')

@@ -1,5 +1,5 @@
 module Grid
-  class ShieldGrid < ActiveSchema::Output
+  class ShieldGrid < AzaharaSchema::Output
 
     def self.key
       'grid'

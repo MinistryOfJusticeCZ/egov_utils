@@ -10,4 +10,7 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require_tree .
+//= require i18n
+//= require egov_utils/setup_locale
+//= require i18n/translations
+//= require egov_utils/eGovUtilities
