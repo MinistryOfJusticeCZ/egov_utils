@@ -15,8 +15,10 @@ nav {
 }
 .main-menu.navbar-nav {
   .nav-item .nav-link {
-    color: $brand-primary;
     font-size: 120%;
+  }
+  .main-item.nav-item .nav-link {
+    color: $brand-primary;
     border-radius: $border-radius-lg;
     &:hover {
       color: darken($brand-primary, 7.5%);

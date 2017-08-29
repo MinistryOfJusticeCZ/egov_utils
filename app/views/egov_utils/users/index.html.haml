@@ -2,40 +2,62 @@
   = f.text_field(:q, id: 'search_q')
   = f.submit
 
-%table.table#user_results
+%table.table#users_results
   %thead
     %tr
-      %th Login
-      %th Actions
+      %th= EgovUtils::User.human_attribute_name('login')
+      %th= EgovUtils::User.human_attribute_name('fullname')
+      %th= t(:label_actions)
+  %tbody
+%table.table#groups_results
+  %thead
+    %tr
+      %th= EgovUtils::Group.human_attribute_name('name')
+      %th= t(:label_actions)
   %tbody
 
-%h5 Ke schválení
+%h5= EgovUtils::User.model_name.human(count: :other)
 %table.table#users
   %thead
     %tr
       %th= t('model_attributes.user.fullname')
       %th Akce
   %tbody
-    - EgovUtils::User.inactive.each do |user|
+    - EgovUtils::User.all.each do |user|
       %tr
         %td= user.fullname
-        %td= button_to(t('label_approve'), approve_user_path(user), class: 'btn btn-primary')
+        %td
+          - unless user.active?
+            = button_to(t('label_approve'), approve_user_path(user), class: 'btn btn-primary btn-sm')
 
 :javascript
   $('#user_search_form').on('submit', function(evt) {
     evt.preventDefault();
     $form = $(this);
     $.ajax(this.action, {method: 'GET', data: {q: $('#search_q').val()}}).done(function(data, status, xhr){
-      var tbl = $('#user_results tbody');
-      tbl.html('');
-      for(var i = 0; i < data.length; ++i) {
-        var user_data = data[i];
-        $("<tr><td>"+data[i].login+'</td><td><button class="btn btn-primary add-button">Add</button></td></tr>').
-          appendTo(tbl).on('click', '.add-button', function(evt){
-            evt.preventDefault();
-            $.ajax('#{users_path(format: :json)}', {method: 'POST', data: {user: user_data}});
-          });
-      }
+      $.each(['users', 'groups'], function(i, type) {
+        var tbl = $('#'+type+'_results tbody');
+        tbl.html('');
+        $.each(data[type], function(i, entity_data) {
+          var str, data_key, path, req_data;
+          if( type == 'users' ) {
+            str = '<td>'+entity_data.login+'</td><td>'+entity_data.firstname + ' ' + entity_data.lastname +'</td>';
+            req_data = {user: entity_data};
+            path = '#{users_path(format: :json)}';
+          } else {
+            str = '<td>'+entity_data.name+'</td>';
+            req_data = {group: entity_data};
+            path = '#{groups_path(format: :json)}';
+          }
+
+          $('<tr>' + str + '<td><button class="btn btn-primary add-button">Add</button></td></tr>').
+            appendTo(tbl).on('click', '.add-button', function(evt){
+              evt.preventDefault();
+              console.log(req_data);
+              $.ajax(path, {method: 'POST', data: req_data});
+            });
+        });
+      });
       $form.find('input[type="submit"]').prop('disabled', false);
     });
   });

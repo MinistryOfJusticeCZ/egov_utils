@@ -18,7 +18,7 @@ module EgovUtils
       @user = User.new(create_params)
       respond_to do |format|
         if @user.save
-          format.html{ redirect_to main_app.root_path, notice: t('success_user_registered') }
+          format.html{ redirect_to main_app.root_path, notice: t('activerecord.successful.messages.created', model: Group.model_name.human) }
           format.json{ render json: @user, status: :created }
         else
           format.html{ render 'new' }
@@ -39,12 +39,13 @@ module EgovUtils
     end
 
     def search
-      results = []
+      user_results = []; group_results = []
       providers.each do |provider|
-        results.concat( provider.search(params[:q]) )
+        user_results.concat( provider.search_user(params[:q]) )
+        group_results.concat( provider.search_group(params[:q]) )
       end if params[:q].present?
       respond_to do |format|
-        format.json{ render json: results }
+        format.json{ render json: {users: user_results, groups: group_results} }
       end
     end
 

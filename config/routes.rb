@@ -10,6 +10,11 @@ EgovUtils::Engine.routes.draw do
     post :approve, on: :member
   end
 
+  resources :groups
+  resources :roles
+
+  # post '/auth/:provider/callback', to: 'sessions#create'
+
   get '/address/validate_ruian' => 'addresses#validate_ruian', as: :validate_ruian
 
 

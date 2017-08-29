@@ -1,0 +1,56 @@
+# Place all the behaviors and hooks related to the matching controller here.
+
+$ = jQuery
+
+$.widget 'egov_utils.roles',
+  options:
+    editBtnClass: 'btn btn-sm btn-info'
+    submitBtnClass: 'btn btn-xs btn-primary'
+    editIconClass: 'fa fa-pencil'
+    allRoles: ['<%= EgovUtils::UserUtils::Role.roles.keys.join("', '") %>']
+    url: null
+    idParamName: 'id'
+    valueName: 'roles'
+
+  _create: ()->
+    this.allRoles = this.element.data('all_roles') || this.options.allRoles || []
+    this._initialize();
+
+  _initialize: ()->
+
+    btn = this._edit_btn()
+    this.element.find('.roles').append(btn)
+
+  _edit_btn: ()->
+    that = this
+    $('<a/>', {href: 'javascript:void(0);', class: this.options.editBtnClass})
+      .html('<i class="'+this.options.editIconClass+'"></i>')
+      .on 'click', (evt)->
+        evt.preventDefault()
+        that._create_form($(this).closest('.roles'))
+
+  _create_form: ($elem)->
+    that = this
+    $elem.html('')
+    entity_id = $elem.data('id')
+    roles = $elem.data('roles')
+    if typeof this.options.url == 'function'
+      url = this.options.url(entity_id)
+    else
+      url = this.options.url
+
+    $form = $('<form/>', {action: url, method: 'post'})
+    $form.append('<input type="hidden" name="authenticity_token" value="'+$('meta[name=csrf-token]').attr('content')+'">')
+    $form.append('<input type="hidden" name="utf8" value="✔">')
+    $form.append('<input type="hidden" name="'+this.options.idParamName+'" value="'+entity_id.toString()+'">')
+    $form.append('<input type="hidden" name="'+this.options.valueName+'[]" value="">')
+    for r in this.allRoles
+      $form.append('<label><input type="checkbox" value="'+r+'" '+(if r in roles then 'checked="true"' else '')+' name="'+this.options.valueName+'[]">'+r+'</label>')
+    $form.append('<input type="submit" name="commit" value="Submit" class="'+this.options.submitBtnClass+'">')
+    $elem.append($form)
+    $form.on 'submit', (evt)->
+      evt.preventDefault()
+      $.ajax(url, {data: $form.serializeArray(), dataType: 'json', method: 'POST'}).done (data, textStatus, jqXHR)->
+        $elem.html(data.toString())
+        $elem.data('roles', data)
+        $elem.append(that._edit_btn())

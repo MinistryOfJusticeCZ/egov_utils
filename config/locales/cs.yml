@@ -3,9 +3,17 @@ cs:
   ministery_justice_name: Ministerstvo spravedlnosti ČR
   label_no_records: Žádné záznamy k zobrazení
 
+  label_approve: Schválit
+
 
 
   models: &my_models
+    egov_utils::user:
+      one: Uživatel
+      others: Uživatelé
+    egov_utils::group:
+      one: Skupina
+      others: Skupiny
     egov_utils::address:
       one: Adresa
       other: Adresy

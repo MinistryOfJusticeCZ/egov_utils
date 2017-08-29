@@ -1,4 +1,5 @@
 require 'i18n-js'
+require 'cancancan'
 require 'audited'
 
 module EgovUtils
@@ -18,7 +19,7 @@ module EgovUtils
       end
     end
 
-    initializer 'azahara_schema.set_locales' do
+    initializer 'egov_utils.set_locales' do
       config.middleware.use I18n::JS::Middleware
     end
 
@@ -26,6 +27,9 @@ module EgovUtils
       require 'grid/shield_grid'
       ActiveSupport::Reloader.to_prepare do
         AzaharaSchema::Outputs.register(Grid::ShieldGrid)
+      end
+      ActiveSupport.on_load(:action_controller) do
+        helper EgovUtils::GridHelper
       end
     end
 
@@ -37,12 +41,41 @@ module EgovUtils
     # end
 
     initializer 'egov_utils.user_setup' do
+      require 'egov_utils/user_utils/role'
       ActiveSupport.on_load(:action_controller) do
         require 'egov_utils/user_utils/application_controller_patch'
         include EgovUtils::UserUtils::ApplicationControllerPatch
+      end
+      # require 'omniauth'
+      # require 'omniauth-kerberos'
+      # Rails.application.config.middleware.use OmniAuth::Builder do
+      #   provider :kerberos
+      # end
+    end
 
-        helper EgovUtils::GridHelper
+    initializer 'egov_utils.bootstrap_form' do
+      require 'bootstrap_form/helpers/bootstrap4'
+      require 'bootstrap_form/datetimepicker'
+      BootstrapForm::Helpers::Bootstrap.__send__(:prepend, BootstrapForm::Helpers::Bootstrap4)
+
+      BootstrapForm::DATE_FORMAT = 'DD/MM/YYYY'
+      ruby_format_string = BootstrapForm::DATE_FORMAT.gsub('YYYY', "%Y").gsub('MM', "%m").gsub('DD', "%d")
+
+      BootstrapForm::FormBuilder.__send__(:prepend, BootstrapForm::Datetimepicker)
+
+
+      ActionView::Helpers::Tags::DateField.redefine_method(:format_date) do |value|
+        value.try(:strftime, ruby_format_string)
+      end
+
+      ActionView::Helpers::Tags::DatetimeLocalField.redefine_method(:format_date) do |value|
+        value.try(:strftime, ruby_format_string+"T%T")
       end
     end
+
+    # config.after_initialize do
+    #   Rails.application.reload_routes!
+    #   OmniAuth.config.path_prefix = "#{Rails.application.routes.named_routes[:egov_utils].path.spec.to_s}/auth"
+    # end
   end
 end

@@ -19,11 +19,16 @@ Gem::Specification.new do |s|
   s.add_dependency "rails", "~> 5.1"
 
   # Use ActiveModel has_secure_password
-  s.add_dependency 'bcrypt', '~> 3.1.11'
+  s.add_runtime_dependency 'bcrypt', '~> 3.1.11'
+
+  s.add_dependency 'net-ldap', '~> 0.16'
 
   s.add_dependency "i18n-js", '~> 3.0'
 
   s.add_dependency "audited", "~> 4.4"
+
+  s.add_runtime_dependency 'request_store_rails', '~> 1.0'
+  s.add_dependency 'cancancan', '~> 2.0'
 
   s.add_development_dependency "sqlite3"
 end

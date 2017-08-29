@@ -2,12 +2,14 @@ module EgovUtils
   module GridHelper
     def type_for_grid(type)
       case type
-      when 'integer'
+      when 'integer', 'float'
         'Number'
       when 'string', 'list'
         'String'
-      when 'datetime'
+      when 'date', 'datetime'
         'Date'
+      when 'boolean'
+        'Boolean'
       else
         raise "Undefined grid type for type #{type}"
       end

@@ -1,6 +1,8 @@
 module EgovUtils
   class SessionsController < ApplicationController
 
+    skip_before_action :verify_authenticity_token, only: [:create]
+
     def new
       if current_user.logged?
         redirect_to main_app.root_path
@@ -17,6 +19,7 @@ module EgovUtils
     end
 
     private
+
       def password_authentication
         user = User.authenticate(params[:session][:username], params[:session][:password], false)
 

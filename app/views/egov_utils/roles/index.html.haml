@@ -1,0 +1,29 @@
+%h3= EgovUtils::User.model_name.human(count: :other)
+%table#user_roles.table
+  %thead
+    %tr
+      %th= EgovUtils::User.human_attribute_name('fullname')
+      %th= EgovUtils::User.human_attribute_name('roles')
+  %tbody
+    - @users.each do |user|
+      %tr
+        %td= user.fullname
+        %td.roles{data: {roles: user.roles, id: user.id}}= user.roles.join(', ')
+
+%h3= EgovUtils::Group.model_name.human(count: :other)
+%table#group_roles.table
+  %thead
+    %tr
+      %th= EgovUtils::Group.human_attribute_name('name')
+      %th= EgovUtils::Group.human_attribute_name('roles')
+  %tbody
+    - @groups.each do |group|
+      %tr
+        %td= group.name
+        %td.roles{data: {roles: group.roles, id: group.id}}= group.roles.join(', ')
+
+:javascript
+  $(function(){
+    $('#user_roles tbody').roles({ url: '#{roles_path(entity_class: 'EgovUtils::User')}' });
+    $('#group_roles tbody').roles({ url: '#{roles_path(entity_class: 'EgovUtils::Group')}' });
+  });

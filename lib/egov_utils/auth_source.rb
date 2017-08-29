@@ -1,3 +1,5 @@
+require 'net-ldap'
+
 module EgovUtils
 
   class AuthSourceException < Exception; end
@@ -29,6 +31,7 @@ module EgovUtils
     def initialize(provider)
       require 'net-ldap'
       @provider = provider
+      raise "EgovUtils::AuthSource#initialize - Non existing provider (#{provider.to_s})"  unless self.class.providers.include?(provider)
     end
 
     def options
@@ -68,8 +71,12 @@ module EgovUtils
       raise AuthSourceException.new(e.message)
     end
 
-    def base_filter
-      Net::LDAP::Filter.eq("objectClass", "*")
+    def base_user_filter
+      Net::LDAP::Filter.eq("objectClass", "user") & Net::LDAP::Filter.eq("objectCategory", "person")
+    end
+
+    def base_group_filter
+      Net::LDAP::Filter.eq("objectClass", "group")
     end
 
     # Check if a DN (user record) authenticates with the password
@@ -80,18 +87,17 @@ module EgovUtils
     end
 
     # Searches the source for users and returns an array of results
-    def search(q, by_login=false)
+    def search_user(q, by_login=false)
       q = q.to_s.strip
       return [] unless q.present?
 
       results = []
-      search_filter = base_filter & user_search_filters(q)
+      search_filter = base_user_filter & user_search_filters(q)
       ldap_con = initialize_ldap_con(options['bind_dn'], options['password'])
       ldap_con.search(:base => options['base'],
                       :filter => search_filter,
-                      :attributes => search_attributes,
+                      :attributes => user_search_attributes,
                       :size => 10) do |entry|
-        pp entry
         attrs = get_user_attributes_from_ldap_entry(entry)
         if attrs
           attrs[:login] = get_attr(entry, options['attributes']['username'])
@@ -101,6 +107,48 @@ module EgovUtils
       results
     rescue *NETWORK_EXCEPTIONS => e
       raise AuthSourceException.new(e.message)
+    end
+
+    def search_group(q, by_login=false)
+      q = q.to_s.strip
+      return [] unless q.present?
+
+      results = []
+      search_filter = base_group_filter & group_search_filters(q)
+      ldap_con = initialize_ldap_con(options['bind_dn'], options['password'])
+      ldap_con.search(:base => options['base'],
+                      :filter => search_filter,
+                      :attributes => group_search_attributes,
+                      :size => 10) do |entry|
+        attrs = get_group_attributes_from_ldap_entry(entry)
+        results << attrs if attrs
+      end
+      results
+    rescue *NETWORK_EXCEPTIONS => e
+      raise AuthSourceException.new(e.message)
+    end
+
+    def group_members(group_sid)
+      ldap_con = initialize_ldap_con(options['bind_dn'], options['password'])
+      group_dn = nil
+      ldap_con.search(base: options['base'],
+                      filter: base_group_filter & Net::LDAP::Filter.eq('objectSID', group_sid),
+                      attributes: ['dn']) do |entry|
+        group_dn = get_attr(entry, 'dn')
+      end
+      results = []
+      if group_dn
+        ldap_con.search(base: options['base'],
+                          filter: base_user_filter & Net::LDAP::Filter.eq("memberOf", group_dn),
+                          attributes: user_search_attributes) do |entry|
+          attrs = get_user_attributes_from_ldap_entry(entry)
+          if attrs
+            attrs[:login] = get_attr(entry, options['attributes']['username'])
+            results << attrs
+          end
+        end
+      end
+      results
     end
 
     private
@@ -136,17 +184,30 @@ module EgovUtils
         }
       end
 
+      def get_group_attributes_from_ldap_entry(entry)
+        {
+         :dn => entry.dn,
+         :name => get_attr(entry, 'cn'),
+         :provider => provider,
+         :ldap_uid => get_sid_string( get_attr(entry, 'objectSID') )
+        }
+      end
+
       # Return the attributes needed for the LDAP search.  It will only
       # include the user attributes if on-the-fly registration is enabled
-      def search_attributes
+      def user_search_attributes
         ['dn'] + options['attributes']['username'] + options['attributes']['email'] + [options['attributes']['name'], options['attributes']['first_name'], options['attributes']['last_name']]
       end
       def login_attributes
         if onthefly_register?
-          search_attributes
+          user_search_attributes
         else
           ['dn']
         end
+      end
+
+      def group_search_attributes
+        ['dn', 'cn', 'objectSID']
       end
 
       def get_user_dn(login, password=nil)
@@ -157,10 +218,10 @@ module EgovUtils
           ldap_con = initialize_ldap_con(options['bind_dn'], options['password'])
         end
         attrs = nil
-        search_filter = login_filters(login) #base_filter & Net::LDAP::Filter.eq(self.attr_login, login)
+        search_filter = base_user_filter & login_filters(login)
         ldap_con.search( :base => options['base'],
                          :filter => search_filter,
-                         :attributes=> search_attributes) do |entry|
+                         :attributes=> user_search_attributes) do |entry|
           if onthefly_register?
             attrs = get_user_attributes_from_ldap_entry(entry)
           else
@@ -182,7 +243,15 @@ module EgovUtils
       end
 
       def user_search_filters(q)
-        Net::LDAP::Filter.begins(options['attributes']['first_name'], q) | Net::LDAP::Filter.begins(options['attributes']['last_name'], q)
+        Net::LDAP::Filter.begins(options['attributes']['name'], q) |
+          Net::LDAP::Filter.begins(options['attributes']['first_name'], q) |
+          Net::LDAP::Filter.begins(options['attributes']['last_name'], q) |
+          Net::LDAP::Filter.begins(options['attributes']['username'].first, q) |
+          Net::LDAP::Filter.begins(options['attributes']['email'].first, q)
+      end
+
+      def group_search_filters(q)
+        Net::LDAP::Filter.begins('cn', q)
       end
 
       def get_attr(entry, attr_name)
@@ -192,6 +261,19 @@ module EgovUtils
           value = entry[attr_name].is_a?(Array) ? entry[attr_name].first : entry[attr_name]
           value.to_s.force_encoding('UTF-8')
         end
+      end
+
+      # converts hex representation of SID returned by AD to its string representation
+      def get_sid_string(data)
+        sid = data.unpack('b x nN V*')
+        sid[1, 2] = Array[nil, b48_to_fixnum(sid[1], sid[2])]
+        'S-' + sid.compact.join('-')
+      end
+
+      B32 = 2**32
+
+      def b48_to_fixnum(i16, i32)
+        i32 + (i16 * B32)
       end
 
   end

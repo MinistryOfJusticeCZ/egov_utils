@@ -1,7 +1,8 @@
 require_dependency 'egov_utils/auth_source'
+require 'request_store_rails'
 
 module EgovUtils
-  class User < ApplicationRecord
+  class User < Principal
     has_secure_password validations: false
 
     serialize :roles, Array
@@ -45,11 +46,11 @@ module EgovUtils
     end
 
     def self.current=(user)
-      RequestStore.store[:current_user] = user || anonymous
+      RequestLocals.store[:current_user] = user || anonymous
     end
 
     def self.current
-      RequestStore.store[:current_user]
+      RequestLocals.fetch(:current_user) { User.anonymous }
     end
 
     def password_check?(password)
@@ -74,7 +75,29 @@ module EgovUtils
 
 
     def admin?
-      roles.include?(:admin)
+      has_role?('admin')
+    end
+
+    def has_role?(role_name)
+      all_role_names.include?(role_name)
+    end
+
+    def all_role_names
+      @all_role_names ||= roles + groups.collect{|g| g.roles}.reduce([], :concat)
+    end
+
+    def all_roles
+      all_role_names.map{|rn| EgovUtils::UserUtils::Role.find(rn).new }.compact
+    end
+
+    def groups
+      ldap_groups || []
+    end
+
+    def ldap_groups
+      if provider
+        EgovUtils::Group.where(provider: provider).to_a.select{|g| g.ldap_member?(self) }
+      end
     end
 
   end
