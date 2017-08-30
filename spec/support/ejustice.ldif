@@ -1,0 +1,71 @@
+version: 1
+
+dn: ou=ejustice,dc=ejustice,dc=cz
+objectClass: top
+objectClass: organizationalUnit
+ou: ejustice
+
+dn: ou=Groups,dc=ejustice,dc=cz
+objectClass: organizationalUnit
+objectClass: top
+ou: Groups
+
+dn: uid=sa108,ou=ejustice,dc=ejustice,dc=cz
+objectClass: top
+objectClass: user
+objectClass: person
+cn: Servis Account
+sn: Account
+givenName: Servis
+userPrincipalName: servis@ejustice.cz
+mail: servis@ejustice.cz
+# Password is "neeuq"
+userpassword: {SHA}v9ibNIx42giCH4tQnwUHJy6LeJg=
+uid: sa108
+
+dn: uid=mp927,ou=ejustice,dc=ejustice,dc=cz
+objectClass: top
+objectClass: user
+objectClass: person
+cn: Marek Plastiak
+sn: Plastiak
+givenName: Marek
+userPrincipalName: MPlastiak@ejustice.cz
+mail: MPlastiak@ejustice.cz
+uid: mp927
+
+dn: uid=oe954,ou=ejustice,dc=ejustice,dc=cz
+objectClass: top
+objectClass: customActiveDirectoryUser
+cn: Ondrej Ezr
+sn: Ezr
+givenName: Ondrej
+userPrincipalName: OEzr@ejustice.cz
+sAMAccountName: oezr
+sAMAccountType: 805306368
+objectSid: S-1-5-21-1698188384-1693678267-1543859470-6954
+mail: OEzr@ejustice.cz
+uid: oe954
+
+dn: uid=jt963,ou=ejustice,dc=ejustice,dc=cz
+objectClass: top
+objectClass: user
+objectClass: person
+cn: Jan Turon
+sn: Turon
+givenName: Jan
+userPrincipalName: JTuron@ejustice.cz
+mail: JTuron@ejustice.cz
+uid: jt963
+
+dn: cn=EgovUsers,ou=Groups,dc=ejustice,dc=cz
+objectClass: top
+objectClass: group
+objectClass: customActiveDirectoryGroup
+cn: EgovUsers
+sAMAccountName: EgovUsers
+sAMAccountType: 268435456
+groupType: 4
+objectSid: S-1-5-21-1698188384-1693678267-1543859470-6637
+member: uid=oe954,ou=ejustice,dc=ejustice,dc=cz
+member: uid=mp927,ou=ejustice,dc=ejustice,dc=cz

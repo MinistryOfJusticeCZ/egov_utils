@@ -1,11 +1,12 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
-require File.expand_path('../../config/environment', __FILE__)
+require File.expand_path('../test_app/config/environment', __FILE__)
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
+require 'support/controller_helpers'
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -25,6 +26,34 @@ require 'rspec/rails'
 # Checks for pending migration and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.maintain_test_schema!
+
+def ldap
+  require 'ladle'
+  @ldap_config ||= YAML.load_file(Rails.root.join('config', 'config.yml'))['ldap']['main']
+  @ldap ||= Ladle::Server.new(
+    :port   => @ldap_config['port'],
+    :custom_schemas => ['spec/support/microsoftattributetypestd.ldif', 'spec/support/microsoftattributetype.ldif', "spec/support/ad_schema.ldif"],
+    :ldif   => "spec/support/ejustice.ldif",
+    :domain => @ldap_config['base'],
+    :quiet => true
+  )
+end
+# def setup_ldap
+#   require 'fakeldap'
+#   @ldap_config ||= YAML.load_file(Rails.root.join('config', 'config.yml'))['ldap']['main']
+#   @ldap_server = FakeLDAP::Server.new(:port => @ldap_config['port'])
+#   @ldap_server.run_tcpserver
+#   domain = @ldap_config['base']
+#   @ldap_server.add_user("cn=toplevel_user,cn=TOPLEVEL,#{domain}", 'toplevel')
+#   member_user = "cn=oezr,ou=Users,#{@domain}"
+#   group_ou = "ou=Groups,#{domain}"
+#   regular_group_cn = "regular_group"
+#   @ldap_server.add_user(member_user, 'password', 'OEzr@ejustice.cz')
+#   @ldap_server.add_to_group("cn=#{regular_group_cn},#{group_ou}", member_user)
+# end
+
+FactoryGirl.definition_file_paths << File.expand_path('../factories', __FILE__)
+FactoryGirl.find_definitions
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
@@ -54,4 +83,21 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
+
+  config.include ControllerHelpers, :type => :controller
+
+  config.before(logged: true) do
+    sign_in
+  end
+  config.before(logged: :admin) do
+    sign_in admin_user
+  end
+
+  config.before(:suite) do
+    ldap.start
+  end
+  config.after(:suite) do
+    ldap.stop
+  end
+
 end

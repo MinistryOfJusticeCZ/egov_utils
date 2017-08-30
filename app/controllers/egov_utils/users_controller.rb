@@ -33,12 +33,14 @@ module EgovUtils
     def approve
       @user = User.find_by(id: params[:id])
       render_404 and return unless @user || @user.active?
-      authorize!(User, :manage)
+      authorize!(:manage, User)
       @user.update(active: true)
       redirect_back(fallback_location: @user)
     end
 
     def search
+      authorize!(:read, User)
+      authorize!(:read, Group)
       user_results = []; group_results = []
       providers.each do |provider|
         user_results.concat( provider.search_user(params[:q]) )

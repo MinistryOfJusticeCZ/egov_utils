@@ -76,7 +76,7 @@ module EgovUtils
     end
 
     def base_group_filter
-      Net::LDAP::Filter.eq("objectClass", "group")
+      options['active_directory'] ? Net::LDAP::Filter.eq("objectClass", "group") : Net::LDAP::Filter.eq('objectClass', 'groupOfNames')
     end
 
     # Check if a DN (user record) authenticates with the password
@@ -166,12 +166,20 @@ module EgovUtils
                     :port => self.port,
                     :encryption => encryption
                   }
-        options.merge!(:auth => { :method => :simple, :username => ldap_user, :password => ldap_password }) unless ldap_user.blank? && ldap_password.blank?
+        unless ldap_user.blank? && ldap_password.blank?
+          options.merge!(:auth => { :method => :simple, :username => ldap_user, :password => ldap_password })
+        else
+          options.merge!(:auth => { :method => :anonymous })
+        end
         Net::LDAP.new options
       end
 
       def onthefly_register?
-        false
+        !!options['onthefly_register']
+      end
+
+      def register_members_only?
+        options['onthefly_register'] == 'members'
       end
 
       def get_user_attributes_from_ldap_entry(entry)
@@ -265,6 +273,7 @@ module EgovUtils
 
       # converts hex representation of SID returned by AD to its string representation
       def get_sid_string(data)
+        return unless data.present?
         sid = data.unpack('b x nN V*')
         sid[1, 2] = Array[nil, b48_to_fixnum(sid[1], sid[2])]
         'S-' + sid.compact.join('-')

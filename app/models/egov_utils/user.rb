@@ -23,22 +23,19 @@ module EgovUtils
         # user is already in local database
         return nil unless user.password_check?(password)
         return nil if active_only && !user.active?
-      # else
-      #   # user is not yet registered, try to authenticate with available sources
-      #   attrs = AccreditedEntities::AuthSource.authenticate(login, password)
-      #   if attrs
-      #     user = new(attrs)
-      #     user.login = login
-      #     if user.save
-      #       user.reload
-      #       logger.info("User '#{user.login}' created from external auth source: #{user.auth_source.type} - #{user.auth_source.name}") if logger && user.auth_source
-      #     end
-      #   end
+      else
+        # user is not yet registered, try to authenticate with available sources
+        attrs = AccreditedEntities::AuthSource.authenticate(login, password)
+        if attrs
+          user = new(attrs)
+          if user.ldap_register_allowed? && user.save
+            user.reload
+            logger.info("User '#{user.login}' created from external auth source: #{user.auth_source.type} - #{user.auth_source.name}") if logger && user.auth_source
+          end
+        end
       end
       user.update_column(:last_login_at, Time.now) if user && !user.new_record? && user.active?
       user
-    rescue => err
-      raise err
     end
 
     def self.anonymous
@@ -53,9 +50,13 @@ module EgovUtils
       RequestLocals.fetch(:current_user) { User.anonymous }
     end
 
+    def ldap_register_allowed?
+      auth_source.register_members_only? && ldap_groups.any?
+    end
+
     def password_check?(password)
-      if provider
-        EgovUtils::AuthSource.new(provider).authenticate(login, password)
+      if provider.present?
+        auth_source.authenticate(login, password)
       else
         authenticate(password)
       end
@@ -72,7 +73,6 @@ module EgovUtils
     def fullname
       "#{firstname} #{lastname}"
     end
-
 
     def admin?
       has_role?('admin')
@@ -95,7 +95,7 @@ module EgovUtils
     end
 
     def ldap_groups
-      if provider
+      if provider.present?
         EgovUtils::Group.where(provider: provider).to_a.select{|g| g.ldap_member?(self) }
       end
     end

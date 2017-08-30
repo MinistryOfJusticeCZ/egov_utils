@@ -14,3 +14,8 @@ gemspec
 # gem 'byebug', group: [:development, :test]
 gem "rspec-rails"
 gem "factory_girl_rails"
+
+gem 'bootstrap3-datetimepicker-rails', github: 'ezrondre/bootstrap3-datetimepicker-rails'
+gem 'azahara_schema', path: '../azahara_schema'
+
+gem 'pry-rails'

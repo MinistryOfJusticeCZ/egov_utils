@@ -29,7 +29,7 @@ module EgovUtils
         AzaharaSchema::Outputs.register(Grid::ShieldGrid)
       end
       ActiveSupport.on_load(:action_controller) do
-        helper EgovUtils::GridHelper
+        ::ActionController::Base.helper EgovUtils::GridHelper
       end
     end
 
@@ -44,7 +44,7 @@ module EgovUtils
       require 'egov_utils/user_utils/role'
       ActiveSupport.on_load(:action_controller) do
         require 'egov_utils/user_utils/application_controller_patch'
-        include EgovUtils::UserUtils::ApplicationControllerPatch
+        ::ActionController::Base.include EgovUtils::UserUtils::ApplicationControllerPatch
       end
       # require 'omniauth'
       # require 'omniauth-kerberos'
@@ -54,6 +54,8 @@ module EgovUtils
     end
 
     initializer 'egov_utils.bootstrap_form' do
+      require 'bootstrap_form'
+
       require 'bootstrap_form/helpers/bootstrap4'
       require 'bootstrap_form/datetimepicker'
       BootstrapForm::Helpers::Bootstrap.__send__(:prepend, BootstrapForm::Helpers::Bootstrap4)

@@ -1,0 +1,18 @@
+ldap:
+  main:
+    label: 'LDAP'
+    host: 'localhost'
+    port: 3269
+    uid: 'userPrincipalName'
+    method: 'plain' # tls, ssl, plain
+    bind_dn: 'uid=admin,ou=system'
+    password: 'secret'
+    active_directory: true
+    base: 'DC=ejustice,DC=cz'
+    onthefly_register: members
+    attributes:
+      username: ['userPrincipalName']
+      email: ['mail', 'email']
+      name: 'cn'
+      first_name: 'givenName'
+      last_name: 'sn'

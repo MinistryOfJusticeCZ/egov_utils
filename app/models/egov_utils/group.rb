@@ -9,7 +9,6 @@ module EgovUtils
 
     def ldap_members
       @ldap_members ||= if provider.present?
-                          auth_source = EgovUtils::AuthSource.new(provider)
                           auth_source.group_members(ldap_uid)
                         else
                           []

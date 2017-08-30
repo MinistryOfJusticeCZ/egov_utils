@@ -30,5 +30,15 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'request_store_rails', '~> 1.0'
   s.add_dependency 'cancancan', '~> 2.0'
 
+  # s.add_runtime_dependency 'azahara_schema', '~> 1.0'
+
+  s.add_runtime_dependency 'bootstrap', '~> 4.0.0.beta'
+  s.add_runtime_dependency 'font-awesome-sass', '~> 4.7'
+  s.add_runtime_dependency 'bootstrap_form', '~> 2.7.0'
+  s.add_runtime_dependency 'momentjs-rails', '>= 2.9.0'
+
   s.add_development_dependency "sqlite3"
+  # s.add_development_dependency 'ruby-ldapserver', '~> 0.5.0'
+  # s.add_development_dependency "fakeldap"
+  s.add_development_dependency "ladle"
 end
