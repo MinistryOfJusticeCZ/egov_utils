@@ -42,7 +42,7 @@ module EgovUtils
 
     initializer 'egov_utils.user_setup' do
       require 'egov_utils/user_utils/role'
-      require_dependency 'models/ability'
+      require_dependency 'ability'
       ActiveSupport.on_load(:action_controller) do
         require 'egov_utils/user_utils/application_controller_patch'
         ::ActionController::Base.include EgovUtils::UserUtils::ApplicationControllerPatch
