@@ -30,7 +30,7 @@ module EgovUtils
 
       def user_setup
         # Find the current user
-        User.current = find_current_user || User.anonymous
+        User.current = find_current_user || find_kerberos_user || User.anonymous
         logger.info("  Current user: " + (User.current.logged? ? "#{User.current.login} (id=#{User.current.id})" : "anonymous")) if logger
         User.current
       end
@@ -48,6 +48,18 @@ module EgovUtils
           # existing session
           find_session_user if session[:user_id]
         end
+
+        def find_kerberos_user
+          return nil unless internal_network? && EgovUtils::AuthSource.kerberos_providers.any? && request.env['HTTP_REMOTE_USER'].present?
+          username = request.env['HTTP_REMOTE_USER'].split('@')[0]
+          logger.info("  Trying kerberos: #{username}") if logger
+          attrs = EgovUtils::AuthSource.find_kerberos_user(username)
+          if attrs
+            logger.info("  Found kerberos user: #{attrs[:login]}") if logger
+            User.active.find_by(login: attrs[:login])
+          end
+        end
+
 
         def find_session_user
           User.active.find(session[:user_id])

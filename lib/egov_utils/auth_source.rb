@@ -26,6 +26,14 @@ module EgovUtils
       providers.collect{|p| AuthSource.new(p).get_user_dn(login, password) }.compact.first
     end
 
+    def self.kerberos_providers
+      config.select{|provider, config| config['kerberos']}.keys
+    end
+
+    def self.find_kerberos_user(login)
+      kerberos_providers.collect{|p| AuthSource.new(p).get_kerberos_user_dn(login) }.compact.first
+    end
+
     attr_accessor :provider
 
     def initialize(provider)
@@ -66,6 +74,16 @@ module EgovUtils
           Rails.logger.debug "Authentication successful for '#{login}'" if Rails.logger && Rails.logger.debug?
           return attrs.except(:dn)
         end
+      end
+    rescue *NETWORK_EXCEPTIONS => e
+      raise AuthSourceException.new(e.message)
+    end
+
+    def get_kerberos_user_dn(login)
+      return nil if login.blank?
+
+      with_timeout do
+        search_user_dn(login)
       end
     rescue *NETWORK_EXCEPTIONS => e
       raise AuthSourceException.new(e.message)
