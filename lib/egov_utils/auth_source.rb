@@ -258,6 +258,24 @@ module EgovUtils
         attrs
       end
 
+      def search_user_dn(login, password=nil)
+        ldap_con = nil
+        if options['bind_dn'].include?("$login")
+          ldap_con = initialize_ldap_con(options['bind_dn'].sub("$login", Net::LDAP::DN.escape(login)), password)
+        else
+          ldap_con = initialize_ldap_con(options['bind_dn'], options['password'])
+        end
+        attrs = nil
+        search_filter = login_search_filters(login) #base_filter & Net::LDAP::Filter.eq(self.attr_login, login)
+        ldap_con.search( :base => options['base'],
+                         :filter => search_filter,
+                         :attributes=> search_attributes) do |entry|
+          attrs = get_user_attributes_from_ldap_entry(entry)
+          Rails.logger.debug "DN found for #{login}: #{attrs[:dn]}" if Rails.logger && Rails.logger.debug?
+        end
+        attrs
+      end
+
       def login_filters(login)
         filters = options['attributes']['username'].collect{|un| Net::LDAP::Filter.eq(un, login)}
         filters[1..-1].inject(filters.first){|filter, lf| filter | lf }
