@@ -21,7 +21,7 @@ module EgovUtils
       end
 
       def internal_network?
-        false
+        request.host.ends_with? 'servis.justice.cz'
       end
 
       def current_user
