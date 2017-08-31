@@ -269,7 +269,7 @@ module EgovUtils
         search_filter = login_search_filters(login) #base_filter & Net::LDAP::Filter.eq(self.attr_login, login)
         ldap_con.search( :base => options['base'],
                          :filter => search_filter,
-                         :attributes=> search_attributes) do |entry|
+                         :attributes=> user_search_attributes) do |entry|
           attrs = get_user_attributes_from_ldap_entry(entry)
           Rails.logger.debug "DN found for #{login}: #{attrs[:dn]}" if Rails.logger && Rails.logger.debug?
         end
