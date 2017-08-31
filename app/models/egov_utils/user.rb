@@ -87,7 +87,7 @@ module EgovUtils
     end
 
     def all_role_names
-      @all_role_names ||= roles + groups.collect{|g| g.roles}.reduce([], :concat)
+      @all_role_names ||= groups.collect{|g| g.roles}.reduce([], :concat) + roles
     end
 
     def all_roles
