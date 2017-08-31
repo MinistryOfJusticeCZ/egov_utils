@@ -273,7 +273,7 @@ module EgovUtils
 
       # converts hex representation of SID returned by AD to its string representation
       def get_sid_string(data)
-        return unless data.present?
+        return if data.nil?
         sid = data.unpack('b x nN V*')
         sid[1, 2] = Array[nil, b48_to_fixnum(sid[1], sid[2])]
         'S-' + sid.compact.join('-')

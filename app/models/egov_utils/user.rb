@@ -50,6 +50,10 @@ module EgovUtils
       RequestLocals.fetch(:current_user) { User.anonymous }
     end
 
+    def roles
+      logged? ? super : ['anonymous']
+    end
+
     def ldap_register_allowed?
       auth_source.register_members_only? && ldap_groups.any?
     end
@@ -87,7 +91,7 @@ module EgovUtils
     end
 
     def all_roles
-      all_role_names.map{|rn| EgovUtils::UserUtils::Role.find(rn).new }.compact
+      all_role_names.map{|rn| EgovUtils::UserUtils::Role.find(rn) }.compact.collect{|cls| cls.new }
     end
 
     def groups
