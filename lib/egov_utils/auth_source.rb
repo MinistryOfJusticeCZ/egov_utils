@@ -203,6 +203,7 @@ module EgovUtils
       def get_user_attributes_from_ldap_entry(entry)
         {
          :dn => entry.dn,
+         :login => get_attr(entry, options['attributes']['username']),
          :firstname => get_attr(entry, options['attributes']['first_name']),
          :lastname => get_attr(entry, options['attributes']['last_name']),
          :mail => get_attr(entry, options['attributes']['email']),
