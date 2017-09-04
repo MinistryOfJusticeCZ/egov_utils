@@ -157,7 +157,7 @@ module EgovUtils
       results = []
       if group_dn
         ldap_con.search(base: options['base'],
-                          filter: base_user_filter & Net::LDAP::Filter.eq("memberOf", group_dn),
+                          filter: base_user_filter & Net::LDAP::Filter.ex('memberOf:1.2.840.113556.1.4.1941', group_dn),
                           attributes: user_search_attributes) do |entry|
           attrs = get_user_attributes_from_ldap_entry(entry)
           if attrs
