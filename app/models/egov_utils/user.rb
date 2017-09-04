@@ -25,7 +25,7 @@ module EgovUtils
         return nil if active_only && !user.active?
       else
         # user is not yet registered, try to authenticate with available sources
-        attrs = AccreditedEntities::AuthSource.authenticate(login, password)
+        attrs = EgovUtils::AuthSource.authenticate(login, password)
         if attrs
           user = new(attrs)
           if user.ldap_register_allowed? && user.save
