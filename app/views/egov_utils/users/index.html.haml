@@ -41,11 +41,11 @@
         $.each(data[type], function(i, entity_data) {
           var str, data_key, path, req_data;
           if( type == 'users' ) {
-            str = '<td>'+entity_data.login+'</td><td>'+entity_data.firstname + ' ' + entity_data.lastname +'</td>';
+            str = '<td title="'+entity_data.dn.replace(/"/g, "&quot;")+'">'+entity_data.login+'</td><td>'+entity_data.firstname + ' ' + entity_data.lastname +'</td>';
             req_data = {user: entity_data};
             path = '#{users_path(format: :json)}';
           } else {
-            str = '<td>'+entity_data.name+'</td>';
+            str = '<td title="'+entity_data.dn.replace(/"/g, "&quot;")+'">'+entity_data.name+'</td>';
             req_data = {group: entity_data};
             path = '#{groups_path(format: :json)}';
           }
@@ -53,7 +53,6 @@
           $('<tr>' + str + '<td><button class="btn btn-primary add-button">Add</button></td></tr>').
             appendTo(tbl).on('click', '.add-button', function(evt){
               evt.preventDefault();
-              console.log(req_data);
               $.ajax(path, {method: 'POST', data: req_data});
             });
         });
