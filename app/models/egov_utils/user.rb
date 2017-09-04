@@ -55,7 +55,7 @@ module EgovUtils
     end
 
     def ldap_register_allowed?
-      auth_source.register_members_only? && ldap_groups.any?
+      auth_source && auth_source.register_members_only? && ldap_groups.any?
     end
 
     def password_check?(password)
