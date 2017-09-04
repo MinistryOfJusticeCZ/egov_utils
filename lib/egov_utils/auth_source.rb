@@ -23,7 +23,7 @@ module EgovUtils
     end
 
     def self.authenticate(login, password)
-      providers.collect{|p| AuthSource.new(p).get_user_dn(login, password) }.compact.first
+      providers.collect{|p| AuthSource.new(p).authenticate(login, password) }.compact.first
     end
 
     def self.kerberos_providers
