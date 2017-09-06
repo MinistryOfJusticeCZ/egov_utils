@@ -27,10 +27,10 @@ module EgovUtils
         # user is not yet registered, try to authenticate with available sources
         attrs = EgovUtils::AuthSource.authenticate(login, password)
         if attrs
-          user = new(attrs)
+          user = new(attrs.merge(active: true))
           if user.ldap_register_allowed? && user.save
             user.reload
-            logger.info("User '#{user.login}' created from external auth source: #{user.auth_source.type} - #{user.auth_source.name}") if logger && user.auth_source
+            logger.info("User '#{user.login}' created from external auth source: #{user.provider}") if logger && user.auth_source
           end
         end
       end

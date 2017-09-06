@@ -3,7 +3,16 @@ cs:
   ministery_justice_name: Ministerstvo spravedlnosti ČR
   label_no_records: Žádné záznamy k zobrazení
 
+  notice_account_invalid_credentials: Přihlašovací údaje jsou nesprávné
+  notice_onthefly_failure: Nemáte oprávnění k přístupu do aplikace
+  notice_account_pending: Váš přístup čeká na schválení správce aplikace
+  notice_account_locked: Váš účet byl uzamčen správcem aplikace
+  notice_logout: Byl/a jste úspěšně odhlášen/a
+
   label_approve: Schválit
+
+  common_labels:
+    new_record: "Nový %{model}"
 
 
 
@@ -63,11 +72,6 @@ cs:
   helpers:
     label:
       <<: *my_labels
-
-    submit:
-      create: Vytvořit %{model}
-      submit: Uložit %{model}
-      update: Aktualizovat %{model}
 
 
   errors:

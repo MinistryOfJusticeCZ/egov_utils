@@ -93,11 +93,11 @@ RSpec.configure do |config|
     sign_in admin_user
   end
 
-  config.before(:suite) do
-    ldap.start
-  end
-  config.after(:suite) do
-    ldap.stop
-  end
+  # config.before(:suite) do
+  #   ldap.start
+  # end
+  # config.after(:suite) do
+  #   ldap.stop
+  # end
 
 end
