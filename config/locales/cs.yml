@@ -10,9 +10,12 @@ cs:
   notice_logout: Byl/a jste úspěšně odhlášen/a
 
   label_approve: Schválit
+  label_new: Nový
+  label_edit: Upravit
 
   common_labels:
     new_record: "Nový %{model}"
+    notice_saved: "%{model} vytvořen"
 
 
 
