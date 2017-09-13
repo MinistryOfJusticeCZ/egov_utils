@@ -1,0 +1,28 @@
+image: ruby:2.3
+
+before_script:
+  - export http_proxy=http://194.213.41.2:8080
+  - export no_proxy="git.servis.justice.cz"
+
+stages:
+  - test
+  - deploy
+
+test:2.3:
+  before_script:
+    - export LANG=en_US.UTF-8
+    - export LANGUAGE=en_US.UTF-8
+    - export LC_ALL=en_US.UTF-8
+    - export RUBYOPT="-KU -E utf-8:utf-8"
+  script:
+    - rake db:migrate RAILS_ENV=test
+    - rspec
+
+deploy_gem:
+  stage: deploy
+  script:
+    - 'echo "---\n:rubygems_api_key: $RUBYGEMS_API_KEY"'
+    - gem build egov_utils.gemspec
+    - gem push egov_utils-*
+  only:
+    - master

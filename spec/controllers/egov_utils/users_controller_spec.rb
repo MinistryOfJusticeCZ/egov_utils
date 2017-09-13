@@ -14,7 +14,10 @@ module EgovUtils
 
 
       it 'finds ldap group' do
-        # expect(EgovUtils::AuthSource).to receive(:msg).with(*args)
+        source = EgovUtils::AuthSource.new('main')
+        allow(EgovUtils::AuthSource).to receive(:new).with('main').and_return(source)
+        expect(source).to receive(:search_user).with('Egov').and_return([])
+        expect(source).to receive(:search_group).with('Egov').and_return([ldap_attrs])
         get :search, params: { format: :json, q: 'Egov' }
         expect(response).to be_success
         json = JSON.parse(response.body)

@@ -40,5 +40,5 @@ Gem::Specification.new do |s|
   s.add_development_dependency "sqlite3"
   # s.add_development_dependency 'ruby-ldapserver', '~> 0.5.0'
   # s.add_development_dependency "fakeldap"
-  s.add_development_dependency "ladle"
+  # s.add_development_dependency "ladle"
 end
