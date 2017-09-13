@@ -2,6 +2,7 @@ $ ->
   <%
     grid ||= schema.outputs.grid
     additional_params ||= {}
+    create_attributes ||= {}
   %>
 
   $('body').off 'egov:submitted'
@@ -11,7 +12,7 @@ $ ->
 
   <%# would be a bit cleaner to give the filled form to the shield grid create method, then send the form by ajax %>
   createRecord = (evt)->
-    $.ajax('<%= new_polymorphic_path(schema.model, format: :js) %>')
+    $.ajax('<%= new_polymorphic_path(schema.model, create_attributes.merge(format: :js)) %>')
 
 
   editRecord = (index)->

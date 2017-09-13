@@ -1,5 +1,8 @@
 image: ruby:2.3
 
+variables:
+  GIT_SSL_NO_VERIFY: "true"
+
 before_script:
   - export http_proxy=http://194.213.41.2:8080
   - export no_proxy="git.servis.justice.cz"
