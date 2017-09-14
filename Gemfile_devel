@@ -1,0 +1,4 @@
+asch = dependencies.detect{|d| d.name == 'azahara_schema' }
+dependencies.delete(asch)
+
+gem 'azahara_schema', path: '../azahara_schema'
