@@ -1,3 +1,5 @@
+eval_gemfile File.expand_path("../Gemfile", __FILE__)
+
 asch = dependencies.detect{|d| d.name == 'azahara_schema' }
 dependencies.delete(asch)
 
