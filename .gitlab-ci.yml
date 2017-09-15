@@ -38,4 +38,4 @@ deploy_gem:
     - gem build egov_utils.gemspec
     - gem push egov_utils-*
   only:
-    - master
+    - tags
