@@ -169,6 +169,14 @@ module EgovUtils
       results
     end
 
+    def onthefly_register?
+      !!options['onthefly_register']
+    end
+
+    def register_members_only?
+      options['onthefly_register'] == 'members'
+    end
+
     private
       def with_timeout(&block)
         timeout = 20
@@ -190,14 +198,6 @@ module EgovUtils
           options.merge!(:auth => { :method => :anonymous })
         end
         Net::LDAP.new options
-      end
-
-      def onthefly_register?
-        !!options['onthefly_register']
-      end
-
-      def register_members_only?
-        options['onthefly_register'] == 'members'
       end
 
       def get_user_attributes_from_ldap_entry(entry)
