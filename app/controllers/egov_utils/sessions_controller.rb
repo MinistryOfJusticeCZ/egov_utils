@@ -66,7 +66,7 @@ module EgovUtils
       def onthefly_creation_failed(user, provider_info={})
         logger.warn "Failed onthefly_creation for '#{user.login}' (provider '#{user.provider}') from #{request.remote_ip} at #{Time.now.utc}"
         flash[:error] = t(:notice_onthefly_failure)
-        redirect_to redirect_path
+        redirect_to signin_path
       end
 
       def account_pending(user, redirect_path=signin_path)
