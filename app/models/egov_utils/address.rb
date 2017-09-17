@@ -5,6 +5,8 @@ module EgovUtils
 
     validates :street, :city, length: 3..255
     validates :postcode, numericality: { only_integer: true }
+    validates :district, inclusion: { in: :district_names }
+    validates :region, inclusion: { in: :region_names }
 
     District = Struct.new(:id, :name, :region_id)
     Region = Struct.new(:id, :name)
@@ -34,8 +36,16 @@ module EgovUtils
       regions.detect{|r| r[:id] == district[:region_id] } if district
     end
 
+    def district_names
+      self.class.districts.collect{|r| r[:name]}
+    end
+    def region_names
+      self.class.regions.collect{|r| r[:name]}
+    end
+
+
     def district=(value)
-      self.region = self.class.region_for_district(value)[:name]
+      self.region = self.class.region_for_district(value).try(:[], :name)
       super
     end
 

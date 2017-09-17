@@ -9,7 +9,7 @@
   .col-12
     = form.text_field :city
     = form.text_field :postcode
-    = form.text_field :district
+    = form.select :district, EgovUtils::Address.districts.collect{|r| [r[:name],r[:name]]}
     = form.select :region, EgovUtils::Address.regions.collect{|r| [r[:name],r[:name]]}
     -# form.text_field :country
     %div.validation-button
