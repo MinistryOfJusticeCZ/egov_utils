@@ -5,11 +5,16 @@ Short description and motivation.
 How to use my plugin.
 
 ## Installation
-Add this line to your application's Gemfile:
+Add this lines to your application's Gemfile:
 
 ```ruby
 gem 'egov_utils'
+
+source 'https://rails-assets.org' do
+  gem 'rails-assets-tether', '>= 1.3.3'
+end
 ```
+Because it is not possible to add a tether as a dependency (as long as it is from other source), you need to add it to your own Gemfile.
 
 And then execute:
 ```bash

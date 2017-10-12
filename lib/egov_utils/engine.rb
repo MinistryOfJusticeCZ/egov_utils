@@ -1,6 +1,7 @@
 require 'i18n-js'
 require 'cancancan'
 require 'audited'
+require 'azahara_schema'
 
 module EgovUtils
   class Engine < ::Rails::Engine
