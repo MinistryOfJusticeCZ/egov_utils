@@ -1,9 +1,10 @@
-require 'egon_gate/egsb/messages/e37_vyhledej_adresu'
 
 module EgovUtils
   class AddressesController < ApplicationController
 
     def validate_ruian
+      require 'egon_gate/egsb/messages/e37_vyhledej_adresu'
+
       # TODO: shoud be in some validator - external class
       addr_params = params.require(:address).permit(:city, :postcode, :street, :orientation_number, :house_number)
       address = Address.new(addr_params)
