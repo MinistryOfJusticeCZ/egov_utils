@@ -12,6 +12,8 @@ cs:
   label_approve: Schválit
   label_new: Nový
   label_edit: Upravit
+  label_profile: Profil
+  label_logout: Odhlásit
 
   common_labels:
     new_record: "Nový %{model}"
