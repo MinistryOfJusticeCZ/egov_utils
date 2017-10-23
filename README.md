@@ -42,7 +42,7 @@ ldap:
       first_name: 'givenName'
       last_name: 'sn'
 ```
-#### Authentication to reading ldap
+#### Authentication to reading ldap and security
 Authentication options are made trough `bind_dn` and `password` options.
 `bind_dn` id DN of user with read permissions for all ldap tree ( or the subtree wich relates to this application ) and `password` is a password for this user.
 
@@ -53,6 +53,16 @@ It can be done by defining option `domain` and `resolve_host: true`.
 Framework will let DNS resolve the servis record `_ldap._tcp.<domain>` and select the first record.
 It relies on resolution of this record to be sorted from less busy controller to most busy.
 It is prefered method for bigger ldaps with load balancing demands.
+
+Option `port` has to be defined if you are using `host` option.
+For `resolve_host` option, you can leave out the host option and framework will use the port returned by DNS server.
+But you can wish to define it anyway, if you have global catalog running on another port.
+
+Option `method` is for defining a security protocol, wich shoul be used for comunication with the ldap controller.
+* plain
+* ssl
+* tls
+You should always use encrypted connection, so please consider plain method to be just for testing purposes to connect to the test ldap controller.
 
 #### Base and attributes
 First you have to specify, where to look for records of users and groups related to the application.

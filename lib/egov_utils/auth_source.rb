@@ -46,23 +46,31 @@ module EgovUtils
       @options ||= self.class.config[provider].dup
     end
 
+    # Resolves host name - it is used only if option <tt>:resolve_host</tt> is set to true and expect <tt>:domain</tt> to be defined as well.
+    # ldap controller host is resolved by asking for the <tt>_ldap._tcp.<domain></tt> DNS record and takes first - solve the load balancing of ldap queries.
+    def host_dns
+      require 'resolv'
+      @host_dns = Resolv::DNS.open do |dns|
+                    dns.getresouce('_ldap._tcp.'+options['domain'], Resolv::DNS::Resource::IN::SRV)
+                  end
+    end
+
     # Get host of ldap controller from options.
     #
     # * <tt>:host</tt> - this just give one host and EgovUtils just asks that host
     # * <tt>:domain</tt> with <tt>:resolve_host</tt> set to true. Domain should be domain for your ldap users.
     #     in this configuration ldap controller host is resolved by asking for the <tt>_ldap._tcp.<domain></tt> DNS record and takes first - solve the load balancing of ldap queries.
     def host
-      if option['host']
+      if options['host']
         options['host']
       elsif options['resolve_host'] && options['domain']
-        @host = Resolv::DNS.open do |dns|
-                  dns.getresouce('_ldap._tcp.'+options['domain'], Resolv::DNS::Resource::IN::SRV).target.to_s
-                end
+        host_dns.target.to_s
       end
     end
 
+    # Returns ldap controller port. If <tt>:resolve_host</tt> is set to true and option for port is not defined, it uses port from DNS response.
     def port
-      options['port']
+      options['resolve_host'] ? (options['port'] || host_dns.port.to_i) : options['port']
     end
 
     def encryption
