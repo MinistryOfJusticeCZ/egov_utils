@@ -55,8 +55,10 @@ module EgovUtils
           logger.info("  Trying kerberos: #{username}") if logger
           attrs = EgovUtils::AuthSource.find_kerberos_user(username)
           if attrs
-            logger.info("  Found kerberos user: #{attrs[:login]}") if logger
-            User.active.find_by(login: attrs[:login])
+            user = User.active.find_by(login: attrs[:login])
+            logger.info("  Found kerberos user: #{attrs[:login]} and it is in database") if logger && user
+            logged_user = user
+            user
           end
         end
 

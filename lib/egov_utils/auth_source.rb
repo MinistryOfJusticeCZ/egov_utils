@@ -46,8 +46,19 @@ module EgovUtils
       @options ||= self.class.config[provider].dup
     end
 
+    # Get host of ldap controller from options.
+    #
+    # * <tt>:host</tt> - this just give one host and EgovUtils just asks that host
+    # * <tt>:domain</tt> with <tt>:resolve_host</tt> set to true. Domain should be domain for your ldap users.
+    #     in this configuration ldap controller host is resolved by asking for the <tt>_ldap._tcp.<domain></tt> DNS record and takes first - solve the load balancing of ldap queries.
     def host
-      options['host']
+      if option['host']
+        options['host']
+      elsif options['resolve_host'] && options['domain']
+        @host = Resolv::DNS.open do |dns|
+                  dns.getresouce('_ldap._tcp.'+options['domain'], Resolv::DNS::Resource::IN::SRV).target.to_s
+                end
+      end
     end
 
     def port
@@ -144,6 +155,25 @@ module EgovUtils
       results
     rescue *NETWORK_EXCEPTIONS => e
       raise AuthSourceException.new(e.message)
+    end
+
+    def member?(user_dn, group_sid)
+      ldap_con = initialize_ldap_con(options['bind_dn'], options['password'])
+      group_dn = nil
+      Rails.logger.debug("Membership in group for #{user_dn}")
+      ldap_con.search(base: options['base'],
+                      filter: base_group_filter & Net::LDAP::Filter.eq('objectSID', group_sid),
+                      attributes: ['dn']) do |entry|
+        group_dn = get_attr(entry, 'dn')
+      end
+      if group_dn
+        ldap_con.search(base: user_dn,
+                          filter: base_user_filter & Net::LDAP::Filter.ex('memberOf:1.2.840.113556.1.4.1941', group_dn),
+                          attributes: ['dn']) do |entry|
+          return true
+        end
+      end
+      return false
     end
 
     def group_members(group_sid)

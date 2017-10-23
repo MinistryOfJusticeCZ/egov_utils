@@ -87,7 +87,9 @@ module EgovUtils
     end
 
     def all_role_names
-      @all_role_names ||= groups.collect{|g| g.roles}.reduce([], :concat) + roles
+      @all_role_names ||= Rails.cache.fetch("#{cache_key}/all_role_names", expires_in: 1.hours) do
+                            groups.collect{|g| g.roles}.reduce([], :concat) + roles
+                          end
     end
 
     def all_roles
@@ -98,9 +100,13 @@ module EgovUtils
       ldap_groups || []
     end
 
+    def ldap_dn
+      @ldap_dn = auth_source.send(:get_user_dn, login)[:dn]
+    end
+
     def ldap_groups
       if provider.present?
-        EgovUtils::Group.where(provider: provider).to_a.select{|g| g.ldap_member?(self) }
+        EgovUtils::Group.where(provider: provider).to_a.select{|g| auth_source.member?(ldap_dn, g.ldap_uid) }
       end
     end
 
