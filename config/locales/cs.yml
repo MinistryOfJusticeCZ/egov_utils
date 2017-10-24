@@ -13,6 +13,7 @@ cs:
   label_new: Nový
   label_edit: Upravit
   label_profile: Profil
+  label_login: Přihlásit
   label_logout: Odhlásit
 
   common_labels:
@@ -43,6 +44,11 @@ cs:
       district: Okres
       region: Kraj
       country: Země
+    egov_utils/person:
+      fullname: Celé jméno
+      firstname: Jméno
+      lastname: Příjmení
+      birth_date: Datum narození
 
 
   models_errors: &my_model_errors
@@ -53,7 +59,7 @@ cs:
     user:
       password: Heslo
     session:
-      username: Přihlášení
+      username: Přihlašovací jméno
       password: Heslo
 
   activerecord:
