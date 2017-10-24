@@ -1,4 +1,4 @@
-[![pipeline status](https://git.servis.justice.cz/internal_apps/victims_compensation_fund/badges/master/pipeline.svg)](https://git.servis.justice.cz/internal_apps/victims_compensation_fund/commits/master)
+[![pipeline status](https://git.servis.justice.cz/libraries/egov_utils-rails/badges/master/pipeline.svg)](https://git.servis.justice.cz/libraries/egov_utils-rails/commits/master)
 # EgovUtils
 This gem is set of utilities commonly used in Czech egoverment for rails application.
 
