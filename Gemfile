@@ -21,3 +21,5 @@ gem 'bootstrap3-datetimepicker-rails', github: 'ezrondre/bootstrap3-datetimepick
 gem 'azahara_schema'
 
 gem 'pry-rails'
+
+gem 'database_cleaner', group: :test

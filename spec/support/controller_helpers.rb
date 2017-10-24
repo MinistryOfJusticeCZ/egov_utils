@@ -1,9 +1,7 @@
 module ControllerHelpers
 
   def default_user(params={})
-    user = EgovUtils::User.new(params)
-    allow(user).to receive(:id).and_return(params[:id] || 2)
-    allow(user).to receive(:persisted?).and_return(true)
+    user = FactoryGirl.create(:egov_utils_user, params)
     user
   end
 

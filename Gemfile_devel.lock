@@ -14,7 +14,7 @@ PATH
 PATH
   remote: .
   specs:
-    egov_utils (0.1.8)
+    egov_utils (0.1.9)
       audited (~> 4.4)
       azahara_schema (~> 0.1.0)
       bcrypt (~> 3.1.11)
@@ -79,19 +79,20 @@ GEM
     arel (8.0.0)
     audited (4.5.0)
       activerecord (>= 4.0, < 5.2)
-    autoprefixer-rails (7.1.5)
+    autoprefixer-rails (7.1.6)
       execjs
     bcrypt (3.1.11)
-    bootstrap (4.0.0.beta)
+    bootstrap (4.0.0.beta2.1)
       autoprefixer-rails (>= 6.0.3)
-      popper_js (~> 1.11.1)
-      sass (>= 3.4.19)
+      popper_js (>= 1.12.3, < 2)
+      sass (>= 3.5.2)
     bootstrap_form (2.7.0)
     builder (3.2.3)
     cancancan (2.0.0)
     coderay (1.1.2)
     concurrent-ruby (1.0.5)
     crass (1.0.2)
+    database_cleaner (1.6.1)
     diff-lcs (1.3)
     egon_gate (0.1.0)
       savon (~> 2.11.0)
@@ -144,7 +145,7 @@ GEM
     nokogiri (1.8.1)
       mini_portile2 (~> 2.3.0)
     nori (2.6.0)
-    popper_js (1.11.1)
+    popper_js (1.12.5)
     pry (0.11.2)
       coderay (~> 1.1.0)
       method_source (~> 0.9.0)
@@ -247,6 +248,7 @@ PLATFORMS
 DEPENDENCIES
   azahara_schema!
   bootstrap3-datetimepicker-rails!
+  database_cleaner
   egov_utils!
   factory_girl_rails
   pry-rails

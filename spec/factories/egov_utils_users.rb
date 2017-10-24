@@ -3,5 +3,7 @@ FactoryGirl.define do
     firstname "MyString"
     lastname "MyString2"
     sequence(:login) {|n| "user#{n}@example.com"}
+    active true
+    roles []
   end
 end

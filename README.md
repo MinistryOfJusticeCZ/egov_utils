@@ -30,6 +30,7 @@ ldap:
     port: 389
     uid: 'userPrincipalName'
     method: 'tls'
+    kerberos: true
     bind_dn: 'CN=Uzivatel LDAP aplikace ABC,OU=Servisni,DC=servis,DC=resort,DC=cz'
     password: 'heslo uzivatele LDAP aplikace'
     active_directory: true #enables specific Active Directory functions
@@ -89,6 +90,9 @@ You can add LDAP groups to the application groups and define roles and permissio
 Group membership is solved on the fly for the user, so it does´t depens on the order of making user a memmber of group and adding the group to the application.
 Group membership is looked for recursively, so you can add one big group, define permissions for that group, add other groups as members and end users to this groups.
 This ordering can be useful for more sub organizations, where every organization is managing its users permissions and then it is connected to the global AD catalog, where the application is queriing.
+
+#### Kerberos
+To be documented.
 
 ## Installation
 Add this lines to your application's Gemfile:
