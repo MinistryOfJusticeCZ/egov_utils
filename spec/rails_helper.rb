@@ -53,9 +53,6 @@ end
 #   @ldap_server.add_to_group("cn=#{regular_group_cn},#{group_ou}", member_user)
 # end
 
-FactoryBot.definition_file_paths << File.expand_path('../factories', __FILE__)
-FactoryBot.find_definitions
-
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
