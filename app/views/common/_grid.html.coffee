@@ -5,10 +5,12 @@ $ ->
     create_attributes ||= {}
   %>
 
-  $('body').off 'egov:submitted'
-  $('body').on 'egov:submitted', '#modal', (evt, data)->
+  after_modal_submit = (evt, data)->
     grid = $("#<%= grid_id %>").swidget()
     grid.dataSource.read()
+
+  $('body').off 'egov:submitted', after_modal_submit
+  $('body').on 'egov:submitted', '#modal', after_modal_submit
 
   <%# would be a bit cleaner to give the filled form to the shield grid create method, then send the form by ajax %>
   createRecord = (evt)->
