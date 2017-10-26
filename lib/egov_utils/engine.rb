@@ -81,5 +81,11 @@ module EgovUtils
     #   Rails.application.reload_routes!
     #   OmniAuth.config.path_prefix = "#{Rails.application.routes.named_routes[:egov_utils].path.spec.to_s}/auth"
     # end
+
+    initializer 'egov_utils.initialize_factory_paths', after: 'factory_bot.set_factory_paths' do
+      if bot_module = 'FactoryBot'.safe_constantize
+        FactoryBot.definition_file_paths << EgovUtils::Engine.root.join('spec', 'factories')
+      end
+    end
   end
 end

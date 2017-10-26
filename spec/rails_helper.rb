@@ -53,8 +53,8 @@ end
 #   @ldap_server.add_to_group("cn=#{regular_group_cn},#{group_ou}", member_user)
 # end
 
-FactoryGirl.definition_file_paths << File.expand_path('../factories', __FILE__)
-FactoryGirl.find_definitions
+FactoryBot.definition_file_paths << File.expand_path('../factories', __FILE__)
+FactoryBot.find_definitions
 
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures

@@ -15,7 +15,7 @@ gem 'therubyracer', platforms: :ruby
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
 gem "rspec-rails"
-gem "factory_girl_rails"
+gem "factory_bot_rails", '~> 4.0'
 
 gem 'bootstrap3-datetimepicker-rails', github: 'ezrondre/bootstrap3-datetimepicker-rails'
 gem 'azahara_schema'

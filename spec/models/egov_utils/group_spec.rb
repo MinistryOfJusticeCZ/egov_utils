@@ -11,7 +11,7 @@ module EgovUtils
 
     describe '#ldap_users' do
 
-      let(:group) { FactoryGirl.create(:egov_utils_group) }
+      let(:group) { FactoryBot.create(:egov_utils_group) }
 
       it 'finds ldap_members of the group' do
         expect( group.auth_source ).to receive(:group_members).and_return(user_attrs[1..-1])
@@ -20,8 +20,8 @@ module EgovUtils
     end
 
     describe 'roles' do
-      let(:group) { FactoryGirl.create(:egov_utils_group, roles: ['admin']) }
-      let(:user) { FactoryGirl.create(:egov_utils_user, user_attrs.last.except(:dn)) }
+      let(:group) { FactoryBot.create(:egov_utils_group, roles: ['admin']) }
+      let(:user) { FactoryBot.create(:egov_utils_user, user_attrs.last.except(:dn)) }
       it 'sets roles to user' do
         expect( user ).to receive(:ldap_groups).at_least(:once).and_return([group])
         expect( user.groups ).to include( group )

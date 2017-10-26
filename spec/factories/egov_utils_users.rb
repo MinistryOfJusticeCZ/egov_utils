@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :egov_utils_user, class: 'EgovUtils::User' do
     firstname "MyString"
     lastname "MyString2"

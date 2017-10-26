@@ -3,7 +3,7 @@ module EgovUtils
     module ControllerHelpers
 
       def default_user(params={})
-        user = FactoryGirl.create(:egov_utils_user, params)
+        user = FactoryBot.create(:egov_utils_user, params)
         user
       end
 

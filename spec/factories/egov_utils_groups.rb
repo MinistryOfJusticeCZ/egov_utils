@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :egov_utils_group, class: 'EgovUtils::Group' do
     name "EgovUsers"
     provider "main"
