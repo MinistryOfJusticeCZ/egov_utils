@@ -5,7 +5,7 @@ module EgovUtils
       case type
       when 'integer', 'float', 'decimal'
         'Number'
-      when 'string', 'list'
+      when 'string', 'list', 'love'
         'String'
       when 'date', 'datetime'
         'Date'
