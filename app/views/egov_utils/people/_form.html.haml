@@ -1,3 +1,3 @@
 = form.text_field(:firstname)
 = form.text_field(:lastname)
-= form.date_field(:birth_date, data: {'date-view-mode' => 'decades'})
+= form.date_field(:birth_date, data: {'date-view-mode' => 'decades', 'date-min-date' => Date.new(1920, 1, 1).to_s, 'date-max-date' => Date.today.to_s, 'date-use-current' => false, 'date-view-date' => Date.new(1950, 1, 1).to_s })

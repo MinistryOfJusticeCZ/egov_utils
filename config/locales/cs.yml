@@ -55,6 +55,7 @@ cs:
     profile:
       too_many_authors: Příliš mnoho autorů
 
+
   labels: &my_labels
     user:
       password: Heslo
@@ -89,3 +90,5 @@ cs:
     messages:
       ico_format: Není správný formát IČO
       email_format: není e-mail
+      in_past: Musí být v minulosti
+      after_1920: Musí být po roce 1920
