@@ -22,6 +22,11 @@ $.widget 'egov_utils.fileUid',
     if @element.val() != ''
       this.setValue( @element.val() )
 
+  _destroy: ()->
+    @element.attr('style', '')
+    @element.insertAfter(@container)
+    @container.remove()
+
 
   _create_file_uid_gui: (default_value)->
     container = $('<div></div>', class: 'court_file_uid input-group')
