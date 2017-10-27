@@ -28,7 +28,6 @@ module EgovUtils
             str << "  };"
             str << "  $(document).on('turbolinks:before-cache', destroy_evt_method);"
             str << "});"
-            pp str
             str
           end
 
