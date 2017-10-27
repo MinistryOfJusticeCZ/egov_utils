@@ -14,6 +14,9 @@ To be done:
 * ISDS SSO integration
 
 ## Usage
+
+Detailed developers documentation can be found at [Documentation](https://git.servis.justice.cz/libraries/egov_utils-rails/wikis/Documentation).
+
 Framework uses configuration in file config/config.yml
 
 ### LDAP
