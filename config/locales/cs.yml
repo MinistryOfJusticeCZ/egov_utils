@@ -92,3 +92,4 @@ cs:
       email_format: není e-mail
       in_past: Musí být v minulosti
       after_1920: Musí být po roce 1920
+      fileuid_format: Nesprávný tvar spisové značky

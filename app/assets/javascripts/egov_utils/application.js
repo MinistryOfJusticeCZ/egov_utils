@@ -21,3 +21,4 @@
 //= require i18n/translations
 //= require egov_utils/eGovUtilities
 //= require egov_utils/roles
+//= require egov_utils/file_uid
