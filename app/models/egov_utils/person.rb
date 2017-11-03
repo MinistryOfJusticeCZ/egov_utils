@@ -1,7 +1,7 @@
 module EgovUtils
   class Person < ApplicationRecord
 
-    belongs_to :residence, class_name: 'EgovUtils::Address'
+    belongs_to :residence, class_name: 'EgovUtils::Address', optional: true
 
     validates :firstname, :lastname, :birth_date, presence: true
     validates :birth_date, uniqueness: { scope: [:firstname, :lastname] }, birthday: true

@@ -10,14 +10,12 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
-//= require i18n
 //= require moment
 //= require moment/cs
 //= require popper
 //= require bootstrap-sprockets
 //= require bootstrap-datetimepicker
 //= require shieldui-all.min
-//= require egov_utils/setup_locale
 //= require i18n/translations
 //= require egov_utils/eGovUtilities
 //= require egov_utils/roles

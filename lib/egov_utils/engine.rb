@@ -30,6 +30,7 @@ module EgovUtils
         AzaharaSchema::Outputs.register(Grid::ShieldGrid)
       end
       ActiveSupport.on_load(:action_controller) do
+        ::ActionController::Base.helper EgovUtils::ApplicationHelper
         ::ActionController::Base.helper EgovUtils::GridHelper
       end
     end
