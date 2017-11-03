@@ -15,7 +15,7 @@ To be done:
 
 ## Usage
 
-Detailed developers documentation can be found at [Documentation](https://git.servis.justice.cz/libraries/egov_utils-rails/wikis/Documentation).
+Detailed developers documentation can be found at [Documentation](https://git.servis.justice.cz/libraries/egov_utils-rails/wikis/home).
 
 Framework uses configuration in file config/config.yml
 
