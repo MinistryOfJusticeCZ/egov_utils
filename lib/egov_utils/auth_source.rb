@@ -51,7 +51,7 @@ module EgovUtils
     def host_dns
       require 'resolv'
       @host_dns = Resolv::DNS.open do |dns|
-                    dns.getresouce('_ldap._tcp.'+options['domain'], Resolv::DNS::Resource::IN::SRV)
+                    dns.getresource('_ldap._tcp.'+options['domain'], Resolv::DNS::Resource::IN::SRV)
                   end
     end
 

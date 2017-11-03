@@ -35,6 +35,7 @@ cs:
 
   model_attributes: &my_attributes
     egov_utils/address:
+      full_address: Adresa
       street: Ulice
       number: "Č.p./Č.o."
       house_number: Č. popisné

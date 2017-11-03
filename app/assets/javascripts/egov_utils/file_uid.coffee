@@ -14,6 +14,7 @@ $.widget 'egov_utils.fileUid',
     @container.append(@element).append(@file_uid_gui)
 
     @element.css(position: 'absolute', top: 0, left: 0, 'background-color': 'transparent')
+    @element.attr('tabindex', -1)
 
     @form = @element.closest('form')
     @form.on 'submit', (evt)->

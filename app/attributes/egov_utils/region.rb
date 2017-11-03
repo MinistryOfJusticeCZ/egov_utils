@@ -2,7 +2,7 @@ module EgovUtils
   class Region < AzaharaSchema::Attribute
 
     def initialize
-      super(EgovUtils::Address, 'region', 'list')
+      super(EgovUtils::Address, 'region', 'love')
     end
 
     def available_values
