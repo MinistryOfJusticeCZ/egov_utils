@@ -5,7 +5,7 @@ module EgovUtils
 
         def render
           res = super
-          res << @template_object.javascript_tag(javascript_str(@options))
+          res << @template_object.javascript_tag(javascript_str(@options.stringify_keys))
           res
         end
 
@@ -16,9 +16,9 @@ module EgovUtils
 
           def javascript_str(options)
             agendas = all_agendas
-            agendas &= @options.delete('agendas') if @options['agendas']
+            agendas &= options.delete('agendas') if options['agendas']
             index = name_and_id_index(options)
-            tag_id = @options.fetch("id") { tag_id(index) }
+            tag_id = options.fetch("id") { tag_id(index) }
 
             str = "$(function(){"
             str << "  $('##{tag_id}').fileUid({ available_agendas: #{ agendas.to_json } });"
