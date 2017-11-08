@@ -1,19 +1,23 @@
 .row.address-fields
   = form.hidden_field :egov_identifier
-  .col-6
+  .col-12.col-sm-6
     = form.text_field :street
-  .col-3
+  .col-6.col-sm-3
     = form.text_field :house_number
-  .col-3
+  .col-6.col-sm-3
     = form.text_field :orientation_number
-  .col-12
+  .col-12.col-sm-9
     = form.text_field :city
+  .col-12.col-sm-3
     = form.text_field :postcode
+  .col-12.col-sm-6
     = form.select :district, EgovUtils::Address.districts.collect{|r| [r[:name],r[:name]]}
+  .col-12.col-sm-6
     = form.select :region, EgovUtils::Address.regions.collect{|r| [r[:name],r[:name]]}
     -# form.text_field :country
+  .col-12
     %div.validation-button
-      = link_to t('label_find'), 'javascript:void(0)', class: 'btn btn-secondary address-validator-btn'
+      = link_to t('label_validate_address'), 'javascript:void(0)', class: 'btn btn-secondary address-validator-btn'
 
 :javascript
   $(function(){

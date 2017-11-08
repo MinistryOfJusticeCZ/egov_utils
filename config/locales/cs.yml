@@ -15,6 +15,7 @@ cs:
   label_profile: Profil
   label_login: Přihlásit
   label_logout: Odhlásit
+  label_validate_address: Zvalidovat
 
   common_labels:
     new_record: "Nový %{model}"
