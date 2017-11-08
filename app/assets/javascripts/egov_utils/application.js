@@ -16,6 +16,8 @@
 //= require bootstrap-sprockets
 //= require bootstrap-datetimepicker
 //= require shieldui-all.min
+//= require select2/select2
+//= require select2/i18n/cs
 //= require i18n/translations
 //= require egov_utils/eGovUtilities
 //= require egov_utils/roles

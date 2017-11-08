@@ -17,6 +17,8 @@ cs:
   label_logout: Odhlásit
   label_validate_address: Zvalidovat
 
+  text_born_on_at: "Narozen %{date} v %{place}"
+
   common_labels:
     new_record: "Nový %{model}"
     notice_saved: "%{model} vytvořen"

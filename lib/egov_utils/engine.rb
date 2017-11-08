@@ -69,6 +69,7 @@ module EgovUtils
       require 'bootstrap_form/helpers/bootstrap4'
       require 'bootstrap_form/datetimepicker'
       require 'bootstrap_form/fileuid'
+      require 'bootstrap_form/select2'
       BootstrapForm::Helpers::Bootstrap.__send__(:prepend, BootstrapForm::Helpers::Bootstrap4)
 
       BootstrapForm::DATE_FORMAT = 'DD/MM/YYYY'
@@ -76,6 +77,7 @@ module EgovUtils
 
       BootstrapForm::FormBuilder.__send__(:prepend, BootstrapForm::Datetimepicker)
       BootstrapForm::FormBuilder.__send__(:prepend, BootstrapForm::Fileuid)
+      BootstrapForm::FormBuilder.__send__(:prepend, BootstrapForm::Select2)
 
       ActionView::Helpers::Tags::DateField.redefine_method(:format_date) do |value|
         value.try(:strftime, ruby_format_string)

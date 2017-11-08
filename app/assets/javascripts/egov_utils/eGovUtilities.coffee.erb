@@ -1,6 +1,10 @@
 
 window.eGovUtilities =
   setup: ()->
+    # select2 defaults
+    $.fn.select2.defaults.set( "theme", "bootstrap" )
+
+    # datepicker defaults
     $.extend $.fn.datetimepicker.defaults.icons, {
       time: 'fa fa-clock-o',
       date: 'fa fa-calendar',
@@ -13,13 +17,21 @@ window.eGovUtilities =
       close: 'fa fa-close'
     }
 
+
   initPage: ()->
     eGovUtilities.initDatepickers()
+    eGovUtilities.initSelect2()
 
   initDatepickers: ($container)->
     $container ||= $(document)
     pickers = $('[data-provide="datepicker"]', $container)
     pickers.datetimepicker()
+
+  initSelect2: ($container)->
+    $container ||= $(document)
+    $('[data-provide="select2"]', $container).each (i, el)->
+      $(el).select2()
+
 
   initModal: (modalId, options)->
     options = options || {}
