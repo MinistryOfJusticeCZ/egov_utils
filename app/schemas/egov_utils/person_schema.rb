@@ -7,7 +7,7 @@ module EgovUtils
 
     def initialize_available_attributes
       @available_attributes ||= []
-      @available_attributes << Fullname.new(model, 'fullname', 'string')
+      @available_attributes << AzaharaSchema::DerivedAttribute.new(model, 'fullname', :concat, 'firstname', 'lastname', schema: self)
       super
     end
 

@@ -18,9 +18,10 @@ window.eGovUtilities =
     }
 
 
-  initPage: ()->
-    eGovUtilities.initDatepickers()
-    eGovUtilities.initSelect2()
+  initPage: ($container)->
+    $container ||= $(document)
+    eGovUtilities.initDatepickers($container)
+    eGovUtilities.initSelect2($container)
 
   initDatepickers: ($container)->
     $container ||= $(document)
@@ -75,6 +76,9 @@ window.eGovUtilities =
     delete options['title']
     eGovUtilities.setModalContent($modal, body, title)
     $modal.modal(options)
+    window.setTimeout(()->
+      eGovUtilities.initPage($modal)
+    , 1000)
     $modal
 
 $(eGovUtilities.setup)
