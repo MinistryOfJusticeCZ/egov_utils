@@ -106,7 +106,14 @@ module EgovUtils
 
     def ldap_groups
       if provider.present?
-        EgovUtils::Group.where(provider: provider).to_a.select{|g| auth_source.member?(ldap_dn, g.ldap_uid) }
+        group_ids = Rails.cache.read("#{cache_key}/ldap_group_ids", expires_in: 30.minutes)
+        if group_ids
+          groups = EgovUtils::Group.where(id: group_ids).to_a
+        else
+          groups = EgovUtils::Group.where(provider: provider).to_a.select{|g| auth_source.member?(ldap_dn, g.external_uid) }
+          Rails.cache.write("#{cache_key}/ldap_group_ids", groups.collect(&:id), expires_in: 30.minutes)
+        end
+        groups
       end
     end
 

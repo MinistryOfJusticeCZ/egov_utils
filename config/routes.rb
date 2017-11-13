@@ -10,6 +10,8 @@ EgovUtils::Engine.routes.draw do
     post :approve, on: :member
   end
 
+  resources :people
+
   resources :groups
   resources :roles
 

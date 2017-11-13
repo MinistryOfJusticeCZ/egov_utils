@@ -20,7 +20,7 @@ module EgovUtils
     private
 
       def create_params
-        params.require(:group).permit(:name, :provider, :ldap_uid)
+        params.require(:group).permit(:name, :provider, :ldap_uid, :external_uid)
       end
 
   end

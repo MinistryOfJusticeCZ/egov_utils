@@ -165,33 +165,19 @@ module EgovUtils
       raise AuthSourceException.new(e.message)
     end
 
-    def member?(user_dn, group_sid)
+    def member?(user_dn, group_dn)
       ldap_con = initialize_ldap_con(options['bind_dn'], options['password'])
-      group_dn = nil
-      Rails.logger.debug("Membership in group for #{user_dn}")
-      ldap_con.search(base: options['base'],
-                      filter: base_group_filter & Net::LDAP::Filter.eq('objectSID', group_sid),
-                      attributes: ['dn']) do |entry|
-        group_dn = get_attr(entry, 'dn')
-      end
-      if group_dn
-        ldap_con.search(base: user_dn,
-                          filter: base_user_filter & Net::LDAP::Filter.ex('memberOf:1.2.840.113556.1.4.1941', group_dn),
-                          attributes: ['dn']) do |entry|
-          return true
-        end
+      Rails.logger.debug("Membership in group (#{group_dn}) for (#{user_dn})")
+      ldap_con.search(base: user_dn,
+                        filter: base_user_filter & Net::LDAP::Filter.ex('memberOf:1.2.840.113556.1.4.1941', group_dn),
+                        attributes: ['dn']) do |entry|
+        return true
       end
       return false
     end
 
-    def group_members(group_sid)
+    def group_members(group_dn)
       ldap_con = initialize_ldap_con(options['bind_dn'], options['password'])
-      group_dn = nil
-      ldap_con.search(base: options['base'],
-                      filter: base_group_filter & Net::LDAP::Filter.eq('objectSID', group_sid),
-                      attributes: ['dn']) do |entry|
-        group_dn = get_attr(entry, 'dn')
-      end
       results = []
       if group_dn
         ldap_con.search(base: options['base'],
@@ -254,7 +240,8 @@ module EgovUtils
          :dn => entry.dn,
          :name => get_attr(entry, 'cn'),
          :provider => provider,
-         :ldap_uid => get_sid_string( get_attr(entry, 'objectSID') )
+         :ldap_uid => get_sid_string( get_attr(entry, 'objectSID') ),
+         :external_uid => entry.dn
         }
       end
 
@@ -295,6 +282,15 @@ module EgovUtils
           Rails.logger.debug "DN found for #{login}: #{attrs[:dn]}" if Rails.logger && Rails.logger.debug?
         end
         attrs
+      end
+
+      def get_group_dn(**options)
+        ldap_con = initialize_ldap_con(options['bind_dn'], options['password'])
+        ldap_con.search(base: options['base'],
+                        filter: base_group_filter & ( options[:sid] ? Net::LDAP::Filter.eq('objectSID', options[:sid]) : group_search_filters(options[:name]) ),
+                        attributes: ['dn']) do |entry|
+          return get_attr(entry, 'dn')
+        end
       end
 
       def search_user_dn(login, password=nil)

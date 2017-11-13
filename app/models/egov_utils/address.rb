@@ -3,7 +3,7 @@ module EgovUtils
 
     # before_safe :identify_address , if: :changed?
 
-    validates :street, :city, length: 3..255
+    validates :street, :city, length: 2..255
     validates :postcode, numericality: { only_integer: true }
     validates :district, inclusion: { in: :district_names }
     validates :region, inclusion: { in: :region_names }

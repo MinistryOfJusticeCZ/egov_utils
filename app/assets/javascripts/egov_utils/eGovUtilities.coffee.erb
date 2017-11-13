@@ -65,7 +65,7 @@ window.eGovUtilities =
   setModalContent: ($modal, body, title) ->
     $modal.find('.modal-title').text(title)
     $modal.find('.modal-body').html(body)
-    eGovUtilities.initDatepickers($modal)
+    eGovUtilities.initPage($modal)
 
   showModal: (body, options) ->
     options = options || {}
@@ -78,7 +78,7 @@ window.eGovUtilities =
     $modal.modal(options)
     window.setTimeout(()->
       eGovUtilities.initPage($modal)
-    , 1000)
+    , 750)
     $modal
 
 $(eGovUtilities.setup)

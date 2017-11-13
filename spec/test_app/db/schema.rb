@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170824111701) do
+ActiveRecord::Schema.define(version: 20171109172909) do
 
   create_table "audits", force: :cascade do |t|
     t.integer "auditable_id"
@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(version: 20170824111701) do
     t.string "ldap_uid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "external_uid"
   end
 
   create_table "egov_utils_people", force: :cascade do |t|
@@ -65,6 +66,9 @@ ActiveRecord::Schema.define(version: 20170824111701) do
     t.string "external_uid"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "birth_place"
+    t.integer "residence_id"
+    t.index ["residence_id"], name: "index_egov_utils_people_on_residence_id"
   end
 
   create_table "egov_utils_users", force: :cascade do |t|

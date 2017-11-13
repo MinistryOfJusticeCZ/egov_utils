@@ -22,5 +22,9 @@ module EgovUtils
       ldap_members.detect{|mem| mem[:login] == user.login }
     end
 
+    def external_uid
+      super || auth_source.send(:get_group_dn, sid: ldap_uid)
+    end
+
   end
 end
