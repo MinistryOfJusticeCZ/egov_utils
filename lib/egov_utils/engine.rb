@@ -32,6 +32,7 @@ module EgovUtils
       ActiveSupport.on_load(:action_controller) do
         ::ActionController::Base.helper EgovUtils::ApplicationHelper
         ::ActionController::Base.helper EgovUtils::GridHelper
+        ::ActionController::Base.helper EgovUtils::EnumHelper
       end
     end
 
