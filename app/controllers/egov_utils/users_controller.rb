@@ -4,6 +4,8 @@ require_dependency "egov_utils/auth_source"
 module EgovUtils
   class UsersController < ApplicationController
 
+    skip_before_action :require_login, only: [:new, :create, :confirm]
+
     load_and_authorize_resource only: :index
 
     def index
@@ -16,9 +18,11 @@ module EgovUtils
 
     def create
       @user = User.new(create_params)
+      @user.mail ||= @user.login
       respond_to do |format|
         if @user.save
-          format.html{ redirect_to main_app.root_path, notice: t('activerecord.successful.messages.created', model: Group.model_name.human) }
+          UserMailer.confirmation_email(@user).deliver_later unless current_user.logged?
+          format.html{ redirect_to main_app.root_path, notice: t('activerecord.successful.messages.created', model: User.model_name.human) }
           format.json{ render json: @user, status: :created }
         else
           format.html{ render 'new' }
@@ -36,6 +40,14 @@ module EgovUtils
       authorize!(:manage, User)
       @user.update(active: true)
       redirect_back(fallback_location: @user)
+    end
+
+    def confirm
+      @user = User.find_by(confirmation_code: params[:id])
+      render_404 and return unless @user || @user.active? || @user.updated_at < (Time.now - 24.hours)
+      @user.update(active: true)
+      logged_user = @user
+      redirect_to('/')
     end
 
     def search

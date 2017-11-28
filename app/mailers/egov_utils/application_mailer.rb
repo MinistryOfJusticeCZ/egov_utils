@@ -1,6 +1,6 @@
 module EgovUtils
   class ApplicationMailer < ActionMailer::Base
-    default from: 'from@example.com'
+    default from: 'noreply@justice.cz'
     layout 'mailer'
   end
 end

@@ -3,14 +3,22 @@ require 'request_store_rails'
 
 module EgovUtils
   class User < Principal
-    has_secure_password validations: false
 
     serialize :roles, Array
 
-    validates :login, uniqueness: true
+    has_secure_password validations: false
+
+    validates_confirmation_of :password, if: lambda { |m| m.password.present? }
+    validates_presence_of     :password, on: :create, unless: :provider?
+    validates                 :login, uniqueness: true
+
+    before_validation :generate_confirmation_code, unless: :provider?
 
     scope :active, -> { where(active: true) }
     scope :inactive, -> { where(active: false) }
+
+    cattr_accessor :default_role
+    self.default_role = nil
 
     def self.authenticate(login, password, active_only=true)
       login = login.to_s
@@ -90,6 +98,8 @@ module EgovUtils
       @all_role_names ||= Rails.cache.fetch("#{cache_key}/all_role_names", expires_in: 1.hours) do
                             groups.collect{|g| g.roles}.reduce([], :concat) + roles
                           end
+      @all_role_names << self.class.default_role if self.class.default_role && !@all_role_names.any?
+      @all_role_names
     end
 
     def all_roles
@@ -116,6 +126,12 @@ module EgovUtils
         groups
       end
     end
+
+    private
+
+      def generate_confirmation_code
+        self.confirmation_code ||= SecureRandom.hex
+      end
 
   end
 end

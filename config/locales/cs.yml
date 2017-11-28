@@ -1,11 +1,15 @@
 ---
 cs:
+  time:
+    formats:
+      default: "%a %d. %B %Y %H:%M"
+
   ministery_justice_name: Ministerstvo spravedlnosti ČR
   label_no_records: Žádné záznamy k zobrazení
 
   notice_account_invalid_credentials: Přihlašovací údaje jsou nesprávné
   notice_onthefly_failure: Nemáte oprávnění k přístupu do aplikace
-  notice_account_pending: Váš přístup čeká na schválení správce aplikace
+  notice_account_pending: Váš účet čeká na schválení/ověření
   notice_account_locked: Váš účet byl uzamčen správcem aplikace
   notice_logout: Byl/a jste úspěšně odhlášen/a
 
@@ -15,14 +19,14 @@ cs:
   label_profile: Profil
   label_login: Přihlásit
   label_logout: Odhlásit
+  label_signup: Registrovat
   label_validate_address: Zvalidovat
 
   text_born_on_at: "Narozen %{date} v %{place}"
 
   common_labels:
     new_record: "Nový %{model}"
-    notice_saved: "%{model} vytvořen"
-
+    notice_saved: "%{model} uložen"
 
 
   models: &my_models
@@ -37,6 +41,11 @@ cs:
       other: Adresy
 
   model_attributes: &my_attributes
+    egov_utils/user:
+      login: Přihlašovací email
+      password_confirmation: Potvrzení hesla
+      firstname: Jméno
+      lastname: Příjmení
     egov_utils/address:
       full_address: Adresa
       street: Ulice

@@ -2,6 +2,7 @@ module EgovUtils
   class SessionsController < ApplicationController
 
     skip_before_action :verify_authenticity_token, only: [:create]
+    skip_before_action :require_login, only: [:new, :create]
 
     def new
       if current_user.logged?
@@ -51,7 +52,7 @@ module EgovUtils
         if params[:autologin]
           set_autologin_cookie(user)
         end
-        redirect_to main_app.root_path
+        redirect_to '/'
         # redirect_back(fallback_location: root_path)
       end
 

@@ -37,5 +37,8 @@ module EgovUtils
       end
       s << "}"
     end
+
+    def additional_grid_edit_buttons(schema)
+    end
   end
 end

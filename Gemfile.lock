@@ -8,7 +8,7 @@ GIT
 PATH
   remote: .
   specs:
-    egov_utils (0.1.15)
+    egov_utils (0.1.17)
       audited (~> 4.4)
       azahara_schema (~> 0.1.0)
       bcrypt (~> 3.1.11)
@@ -84,7 +84,7 @@ GEM
       sass (>= 3.5.2)
     bootstrap_form (2.7.0)
     builder (3.2.3)
-    cancancan (2.0.0)
+    cancancan (2.1.1)
     coderay (1.1.2)
     concurrent-ruby (1.0.5)
     crass (1.0.2)

@@ -1,0 +1,5 @@
+- grid_id ||= grid.schema.model.model_name.plural.to_s+'_grid'
+%div{id: grid_id}
+
+:javascript
+  #{raw render 'common/grid', grid_id: grid_id, schema: grid.schema}

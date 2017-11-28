@@ -25,8 +25,15 @@ window.eGovUtilities =
 
   initDatepickers: ($container)->
     $container ||= $(document)
-    pickers = $('[data-provide="datepicker"]', $container)
-    pickers.datetimepicker()
+    if !Modernizr.inputtypes.date
+      pickers = $('[type="date"][data-provide="datepicker"]', $container)
+      pickers.parent().datetimepicker()
+    if !Modernizr.inputtypes.datetime
+      pickers = $('[type="datetime"][data-provide="datepicker"]', $container)
+      pickers.parent().datetimepicker()
+    if !Modernizr.inputtypes['datetime-local']
+      pickers = $('[type="datetime-local"][data-provide="datepicker"]', $container)
+      pickers.parent().datetimepicker()
 
   initSelect2: ($container)->
     $container ||= $(document)

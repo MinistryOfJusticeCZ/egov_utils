@@ -97,8 +97,9 @@ $ ->
         title: " "
         buttons: [
           <% if can?(:update, schema.model) %>
-          {cls: 'btn btn-sm btn-primary', caption: '<%= t('label_edit') %>', click: editRecord}
+          {cls: 'btn btn-sm btn-primary', caption: '<%= t('label_edit') %>', click: editRecord},
           <% end %>
+         <%= additional_grid_edit_buttons(schema) %>
           # <% if can?(:destroy, schema.model) %>
           # {commandName: 'delete', caption: '<%= t('label_delete') %>'}
           # <% end %>

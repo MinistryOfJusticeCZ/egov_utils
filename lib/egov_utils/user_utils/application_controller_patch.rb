@@ -31,7 +31,7 @@ module EgovUtils
       def user_setup
         # Find the current user
         User.current = find_current_user || find_kerberos_user || User.anonymous
-        logger.info("  Current user: " + (User.current.logged? ? "#{User.current.login} (id=#{User.current.id})" : "anonymous")) if logger
+        logger.info("  Current user: " + (User.current.logged? ? "#{User.current.login} (id=#{User.current.id})(roles=#{User.current.all_role_names.join(',')})" : "anonymous")) if logger
         User.current
       end
 
@@ -72,7 +72,7 @@ module EgovUtils
         # Sets the logged in user
         def logged_user=(user)
           reset_session
-          if user && user.is_a?(EgovUtils::User)
+          if user && user.is_a?(EgovUtils::User) && user.active?
             User.current = user
             start_user_session(user)
           else
@@ -83,6 +83,36 @@ module EgovUtils
         def start_user_session(user)
           session[:user_id] = user.id
         end
+
+        def require_login
+          if !current_user.logged?
+            # Extract only the basic url parameters on non-GET requests
+            if request.get?
+              url = request.original_url
+            else
+              url = url_for(:controller => params[:controller], :action => params[:action], :id => params[:id], :project_id => params[:project_id])
+            end
+            respond_to do |format|
+              format.html {
+                if request.xhr?
+                  head :unauthorized
+                else
+                  redirect_to egov_utils.login_path(:back_url => url)
+                end
+              }
+              format.any(:atom, :pdf, :csv) {
+                redirect_to egov_utils.login_path(:back_url => url)
+              }
+              format.xml  { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="'+t(:app_name)+'"' }
+              format.js   { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="'+t(:app_name)+'"' }
+              format.json { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="'+t(:app_name)+'"' }
+              format.any  { head :unauthorized }
+            end
+            return false
+          end
+          true
+        end
+
 
       private
         def set_locale

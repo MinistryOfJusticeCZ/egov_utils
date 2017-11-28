@@ -3,6 +3,8 @@ require 'cancancan'
 require 'audited'
 require 'azahara_schema'
 
+require 'modernizr-rails'
+
 module EgovUtils
   class Engine < ::Rails::Engine
     isolate_namespace EgovUtils
