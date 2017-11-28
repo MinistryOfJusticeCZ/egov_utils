@@ -7,6 +7,7 @@ module EgovUtils
       included do
 
         before_action :user_setup, :set_locale
+        before_action :require_login
 
         rescue_from CanCan::AccessDenied do |exception|
             respond_to do |format|
@@ -85,7 +86,7 @@ module EgovUtils
         end
 
         def require_login
-          if !current_user.logged?
+          if require_login? && !current_user.logged?
             # Extract only the basic url parameters on non-GET requests
             if request.get?
               url = request.original_url
@@ -103,9 +104,9 @@ module EgovUtils
               format.any(:atom, :pdf, :csv) {
                 redirect_to egov_utils.login_path(:back_url => url)
               }
-              format.xml  { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="'+t(:app_name)+'"' }
-              format.js   { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="'+t(:app_name)+'"' }
-              format.json { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="'+t(:app_name)+'"' }
+              format.xml  { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="'+t(:app_abbrev)+'"' }
+              format.js   { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="'+t(:app_abbrev)+'"' }
+              format.json { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="'+t(:app_abbrev)+'"' }
               format.any  { head :unauthorized }
             end
             return false
@@ -113,6 +114,9 @@ module EgovUtils
           true
         end
 
+        def require_login?
+          false
+        end
 
       private
         def set_locale

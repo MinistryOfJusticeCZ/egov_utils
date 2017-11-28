@@ -1,8 +1,10 @@
 FactoryBot.define do
   factory :egov_utils_user, class: 'EgovUtils::User' do
-    firstname "MyString"
-    lastname "MyString2"
+    firstname "John"
+    lastname "Doe"
     sequence(:login) {|n| "user#{n}@example.com"}
+    password 'abcdef123456'
+    password_confirmation 'abcdef123456'
     active true
     roles []
   end
