@@ -36,6 +36,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'jquery-rails', '~> 4.3'
   s.add_runtime_dependency 'jquery-ui-rails', '~> 6.0'
   s.add_runtime_dependency 'bootstrap', '~> 4.0.0.beta'
+  s.add_runtime_dependency 'sass-rails', '~> 5.0'
   s.add_runtime_dependency 'font-awesome-sass', '~> 4.7'
   s.add_runtime_dependency 'bootstrap_form', '~> 2.7'
   s.add_runtime_dependency 'momentjs-rails', '~> 2.17'

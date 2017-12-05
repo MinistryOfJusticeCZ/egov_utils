@@ -3,6 +3,7 @@ require 'cancancan'
 require 'audited'
 require 'azahara_schema'
 
+require 'font-awesome-sass'
 require 'modernizr-rails'
 
 module EgovUtils
