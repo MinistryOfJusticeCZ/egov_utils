@@ -3,6 +3,12 @@ cs:
   time:
     formats:
       default: "%a %d. %B %Y %H:%M"
+      time: "%H:%M"
+
+  bootstrap:
+    file_input:
+      placeholder: 'Vyberte soubor...'
+      button_label: Procházet
 
   ministery_justice_name: Ministerstvo spravedlnosti ČR
   label_no_records: Žádné záznamy k zobrazení
@@ -21,6 +27,7 @@ cs:
   label_logout: Odhlásit
   label_signup: Registrovat
   label_validate_address: Zvalidovat
+  label_save: Uložit
 
   text_born_on_at: "Narozen %{date} v %{place}"
 
@@ -46,6 +53,7 @@ cs:
       password_confirmation: Potvrzení hesla
       firstname: Jméno
       lastname: Příjmení
+      fullname: Jméno a příjmení
     egov_utils/address:
       full_address: Adresa
       street: Ulice

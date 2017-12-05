@@ -23,6 +23,10 @@ window.eGovUtilities =
     eGovUtilities.initDatepickers($container)
     eGovUtilities.initSelect2($container)
 
+  clearBeforeCache: ($container)->
+    $container ||= $(document)
+    eGovUtilities.destroySelect2($container)
+
   initDatepickers: ($container)->
     $container ||= $(document)
     if !Modernizr.inputtypes.date
@@ -37,8 +41,11 @@ window.eGovUtilities =
 
   initSelect2: ($container)->
     $container ||= $(document)
-    $('[data-provide="select2"]', $container).each (i, el)->
-      $(el).select2()
+    $('[data-provide="select2"]', $container).select2()
+
+  destroySelect2: ($container)->
+    $container ||= $(document)
+    $('[data-provide="select2"]', $container).select2('destroy')
 
 
   initModal: (modalId, options)->
@@ -91,3 +98,7 @@ window.eGovUtilities =
 $(eGovUtilities.setup)
 $(document).on 'turbolinks:load', (evt)->
   eGovUtilities.initPage()
+
+$(document).on 'turbolinks:before-cache', (evt)->
+  eGovUtilities.clearBeforeCache()
+

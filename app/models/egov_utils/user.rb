@@ -111,7 +111,7 @@ module EgovUtils
     end
 
     def ldap_dn
-      @ldap_dn = auth_source.send(:get_user_dn, login)[:dn]
+      @ldap_dn ||= auth_source.send(:get_user_dn, login)[:dn]
     end
 
     def ldap_groups

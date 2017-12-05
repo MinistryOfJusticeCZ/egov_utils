@@ -4,6 +4,10 @@ module EgovUtils
     validates :name, presence: true, uniqueness: true
     validates :ldap_uid, uniqueness: true, allow_nil: true
 
+    def self.organizations_by_domains(domains)
+      EgovUtils::Organization.where(domain: domains)
+    end
+
     def members
 
     end
@@ -23,7 +27,11 @@ module EgovUtils
     end
 
     def external_uid
-      super || auth_source.send(:get_group_dn, sid: ldap_uid)
+      super || ( ldap? && ldap_uid && auth_source.send(:get_group_dn, sid: ldap_uid) )
+    end
+
+    def ldap_dn
+      ldap? && external_uid
     end
 
   end

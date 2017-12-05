@@ -3,6 +3,7 @@ require 'jquery-ui-rails'
 require 'bootstrap'
 require 'bootstrap_form'
 require 'momentjs-rails'
+require 'font-awesome-sass'
 
 require "egov_utils/engine"
 
