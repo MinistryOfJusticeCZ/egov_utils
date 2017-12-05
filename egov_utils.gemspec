@@ -33,6 +33,8 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'request_store_rails', '~> 1.0'
   s.add_dependency 'cancancan', '~> 2.0'
 
+  s.add_dependency 'activeresource', '~> 5.0'
+
   s.add_runtime_dependency 'jquery-rails', '~> 4.3'
   s.add_runtime_dependency 'jquery-ui-rails', '~> 6.0'
   s.add_runtime_dependency 'bootstrap', '~> 4.0.0.beta'

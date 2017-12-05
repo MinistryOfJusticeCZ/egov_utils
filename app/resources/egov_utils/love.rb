@@ -1,5 +1,7 @@
+require 'activeresource'
+
 module EgovUtils
-  class Love < ActiveResource::Base
+  class Love < ::ActiveResource::Base
 
     def self.config
       YAML.load_file(Rails.root.join('config', 'config.yml'))
