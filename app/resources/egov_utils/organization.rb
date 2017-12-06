@@ -5,7 +5,7 @@ module EgovUtils
       where(key: key).first
     end
 
-    def self.courts(organization_keys)
+    def self.courts(organization_keys=nil)
       filters = {category_abbrev: ['OS','KS']}
       filters.merge!(key: organization_keys) if organization_keys.present?
       all(params: {f: filters, sort: {'0' => {path: 'category_abbrev'} }})

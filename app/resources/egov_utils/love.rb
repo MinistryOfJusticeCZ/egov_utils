@@ -4,7 +4,8 @@ module EgovUtils
   class Love < ::ActiveResource::Base
 
     def self.config
-      YAML.load_file(Rails.root.join('config', 'config.yml'))
+      file = Rails.root.join('config', 'config.yml')
+      File.exists?(file) ? YAML.load_file(file) : {}
     end
 
     self.site = "#{config['love_url'] || Rails.configuration.try(:love_url)}/api/v1/"
