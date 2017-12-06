@@ -7,7 +7,7 @@ module EgovUtils
   end
 
   class Settings < ::Settingslogic
-    source EgovUtils.config_file if File.exists? EgovUtils.config_file
+    source (File.exists?(EgovUtils.config_file) ? EgovUtils.config_file : {})
 
     # namespace Rails.env
 
