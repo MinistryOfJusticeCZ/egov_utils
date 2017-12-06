@@ -2,4 +2,5 @@
   = f.text_field(:username)
   = f.password_field(:password)
   = f.submit t(:label_login)
-= link_to t('label_signup'), new_user_path, class: 'btn btn-secondary'
+- if EgovUtils::Settings.allow_register?
+  = link_to t('label_signup'), new_user_path, class: 'btn btn-secondary'

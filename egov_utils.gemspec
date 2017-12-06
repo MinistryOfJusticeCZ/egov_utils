@@ -33,6 +33,8 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'request_store_rails', '~> 1.0'
   s.add_dependency 'cancancan', '~> 2.0'
 
+  s.add_dependency 'settingslogic', '~> 2.0'
+
   s.add_dependency 'activeresource', '~> 5.0'
 
   s.add_runtime_dependency 'jquery-rails', '~> 4.3'
@@ -44,8 +46,8 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'momentjs-rails', '~> 2.17'
   s.add_runtime_dependency 'modernizr-rails', '~> 2.7'
 
-  s.add_runtime_dependency 'azahara_schema', '~> 0.1.0'
-  s.add_runtime_dependency 'egon_gate', '~> 0.1.0'
+  s.add_runtime_dependency 'azahara_schema', '~> 0.1'
+  s.add_runtime_dependency 'egon_gate', '~> 0.1'
 
 
   s.add_development_dependency "sqlite3"

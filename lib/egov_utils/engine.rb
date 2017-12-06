@@ -23,6 +23,10 @@ module EgovUtils
       end
     end
 
+    initializer 'egov_utils.initialize_settings' do
+      require 'egov_utils/settings'
+    end
+
     initializer 'egov_utils.set_locales' do
       config.middleware.use I18n::JS::Middleware
     end

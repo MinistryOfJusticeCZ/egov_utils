@@ -12,6 +12,8 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
+    can :create, User if EgovUtils::Settings.allow_register?
+
     user.all_roles.each do |role|
       role.define_abilities(self, user)
     end
