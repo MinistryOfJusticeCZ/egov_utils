@@ -4,6 +4,7 @@ require 'bootstrap'
 require 'bootstrap_form'
 require 'momentjs-rails'
 
+require 'egov_utils/fileuid'
 
 require "egov_utils/engine"
 
