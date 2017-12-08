@@ -89,13 +89,21 @@ module EgovUtils
     }
 
     # Used for `serialize` method in ActiveRecord
-    class << self
+    class Coder
+
+      def initialize(attr_name, type)
+        @attr_name = attr_name
+        @type = type
+      end
+
       def dump(obj)
-        unless obj.is_a?(self)
+        return if obj.nil?
+        obj = Fileuid.new(obj, type: @type) if obj.is_a?(String)
+        unless obj.is_a?(Fileuid)
           raise ::ActiveRecord::SerializationTypeMismatch,
             "Attribute was supposed to be a #{self}, but was a #{obj.class}. -- #{obj.inspect}"
         end
-        obj.invalid? ? nil : to_s
+        obj.invalid? ? nil : obj.to_s
       end
 
       def load(source)
@@ -103,8 +111,13 @@ module EgovUtils
       end
     end
 
-    attr_accessor :bc, :agenda, :senat, :year, :document_number
+    AVAILABLE_ATTRIBUTES = [:bc, :agenda, :senat, :year, :document_number]
 
+    attr_accessor *AVAILABLE_ATTRIBUTES
+
+    def ==(other)
+      other.is_a?(Fileuid) && AVAILABLE_ATTRIBUTES.all?{|a| self.public_send(a) == other.public_send(a) }
+    end
 
     def type
       @type ||= @options['type']
@@ -115,18 +128,18 @@ module EgovUtils
     end
 
     def invalid?
-      @invalid
+      !type || @invalid
     end
 
     def initialize(str_val, **options)
       @options = options.stringify_keys
+      @str_val = str_val
       parse_str!(str_val) if str_val.is_a?(String)
     end
 
     def parse_str!(str_val, type=self.type)
       type ||= determine_type(str_val)
       @type = type
-      @invalid = true unless type
       return if invalid?
       match_data = str_val.match(type_definition.to_regex)
       if match_data
@@ -140,7 +153,7 @@ module EgovUtils
       TYPES.each do |k, type|
         return k if str_val =~ type.to_regex
       end
-      @invalid = true
+      nil
     end
 
     def as_json(**options)
