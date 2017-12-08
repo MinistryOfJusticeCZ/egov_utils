@@ -90,12 +90,12 @@ module EgovUtils
 
     # Used for `serialize` method in ActiveRecord
     class << self
-      def dump(fileuid)
+      def dump(obj)
         unless obj.is_a?(self)
           raise ::ActiveRecord::SerializationTypeMismatch,
             "Attribute was supposed to be a #{self}, but was a #{obj.class}. -- #{obj.inspect}"
         end
-        fileuid.invalid? ? nil : to_s
+        obj.invalid? ? nil : to_s
       end
 
       def load(source)
