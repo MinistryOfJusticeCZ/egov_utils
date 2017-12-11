@@ -26,7 +26,10 @@ module EgovUtils
 
       # Make sure no one can sign in with an empty login or password
       return nil if login.empty? || password.empty?
-      user = find_by(login: login) || find_by(mail: login)
+
+      # Fail over to case-insensitive if none was found
+      user = find_by(login: login) || where( arel_table[:login].lower.eq(login.downcase) ).first
+
       if user
         # user is already in local database
         return nil unless user.password_check?(password)

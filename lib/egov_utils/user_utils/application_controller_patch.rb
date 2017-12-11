@@ -91,7 +91,7 @@ module EgovUtils
             if request.get?
               url = request.original_url
             else
-              url = url_for(:controller => params[:controller], :action => params[:action], :id => params[:id], :project_id => params[:project_id])
+              url = url_for(:controller => params[:controller], :action => params[:action], :id => params[:id], only_path: true)
             end
             respond_to do |format|
               format.html {
