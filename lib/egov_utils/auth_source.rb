@@ -90,7 +90,7 @@ module EgovUtils
       with_timeout do
         attrs = get_user_dn(login, password)
         if attrs && attrs[:dn] && authenticate_dn(attrs[:dn], password)
-          Rails.logger.debug "Authentication successful for '#{login}'" if Rails.logger && Rails.logger.debug?
+          Rails.logger.info "AuthSource#authenticate successful for '#{login}' on provider #{provider} - user found" if Rails.logger
           return attrs.except(:dn)
         end
       end

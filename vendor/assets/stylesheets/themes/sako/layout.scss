@@ -2,7 +2,7 @@ html, body {
   height: 100%;
 }
 main {
-  min-height: calc( 100% - #{$navbar-height + 16rem});
+  min-height: calc( 100% - #{$navbar-height + $footer_height});
 }
 
 nav {

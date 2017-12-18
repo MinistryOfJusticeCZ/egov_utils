@@ -22,3 +22,4 @@
 //= require egov_utils/eGovUtilities
 //= require egov_utils/roles
 //= require egov_utils/file_uid
+//= require cookies_eu

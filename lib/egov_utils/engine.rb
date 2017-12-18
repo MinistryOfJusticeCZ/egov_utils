@@ -6,9 +6,15 @@ require 'azahara_schema'
 require 'font-awesome-sass'
 require 'modernizr-rails'
 
+require 'cookies_eu'
+
 module EgovUtils
   class Engine < ::Rails::Engine
     isolate_namespace EgovUtils
+
+    config.assets.paths << config.root.join('vendor', 'assets', 'fonts')
+    config.assets.precompile << /\.(?:svg|eot|woff|ttf)$/
+    config.assets.precompile += %w(egov_utils/justice_logo.png)
 
     config.generators do |g|
       g.test_framework :rspec
@@ -81,20 +87,23 @@ module EgovUtils
       require 'bootstrap_form/custom_file_field'
       BootstrapForm::Helpers::Bootstrap.__send__(:prepend, BootstrapForm::Helpers::Bootstrap4)
 
-      BootstrapForm::DATE_FORMAT = 'DD/MM/YYYY'
-      ruby_format_string = BootstrapForm::DATE_FORMAT.gsub('YYYY', "%Y").gsub('MM', "%m").gsub('DD', "%d")
+      BootstrapForm::DATE_FORMAT_JS = 'YYYY-MM-DD'
+      BootstrapForm::DATE_FORMAT_RUBY = BootstrapForm::DATE_FORMAT_JS.gsub('YYYY', "%Y").gsub('MM', "%m").gsub('DD', "%d")
 
       BootstrapForm::FormBuilder.__send__(:prepend, BootstrapForm::Datetimepicker)
       BootstrapForm::FormBuilder.__send__(:prepend, BootstrapForm::Fileuid)
       BootstrapForm::FormBuilder.__send__(:prepend, BootstrapForm::Select2)
       BootstrapForm::FormBuilder.__send__(:prepend, BootstrapForm::CustomFileField)
 
+      require 'egov_utils/helpers/tags/datetime_field_patch'
+      ActionView::Helpers::Tags::DatetimeField.prepend(EgovUtils::Helpers::Tags::DatetimeFieldPatch)
+
       ActionView::Helpers::Tags::DateField.redefine_method(:format_date) do |value|
-        value.try(:strftime, ruby_format_string)
+        value.try(:strftime, BootstrapForm::DATE_FORMAT_RUBY)
       end
 
       ActionView::Helpers::Tags::DatetimeLocalField.redefine_method(:format_date) do |value|
-        value.try(:strftime, ruby_format_string+"T%T")
+        value.try(:strftime, BootstrapForm::DATE_FORMAT_RUBY+"T%T")
       end
     end
 

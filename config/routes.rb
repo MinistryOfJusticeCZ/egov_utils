@@ -20,6 +20,7 @@ EgovUtils::Engine.routes.draw do
   # post '/auth/:provider/callback', to: 'sessions#create'
 
   get '/address/validate_ruian' => 'addresses#validate_ruian', as: :validate_ruian
+  get '/organizations/district_courts' => 'organizations#district_courts', as: :district_courts_organizations
 
 
 end

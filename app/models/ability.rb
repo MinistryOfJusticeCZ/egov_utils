@@ -12,7 +12,7 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    can :create, User if EgovUtils::Settings.allow_register?
+    can :create, EgovUtils::User if user.has_role?('anonymous') && EgovUtils::Settings.allow_register?
 
     user.all_roles.each do |role|
       role.define_abilities(self, user)

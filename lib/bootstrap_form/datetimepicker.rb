@@ -2,7 +2,8 @@ module BootstrapForm
   module Datetimepicker
     def date_field(name, *args)
       options = args.extract_options!.symbolize_keys!
-      options[:data] = {provide: 'datepicker', 'date-format' => 'L'}.merge(options[:data] || {})
+      options[:datetimepicker] = true
+      options[:data] = {'date-format' => 'L', 'date-extra-formats' => [BootstrapForm::DATE_FORMAT_JS]}.merge(options[:data] || {})
       options[:append] = calendar_addon
       args << options
       super
@@ -10,7 +11,7 @@ module BootstrapForm
 
     def datetime_field(name, *args)
       options = args.extract_options!.symbolize_keys!
-      options[:data] = {provide: 'datepicker'}.merge(options[:data] || {})
+      options[:datetimepicker] = true
       options[:append] = calendar_addon
       args << options
       super
@@ -18,7 +19,7 @@ module BootstrapForm
 
     def datetime_local_field(name, *args)
       options = args.extract_options!.symbolize_keys!
-      options[:data] = {provide: 'datepicker'}.merge(options[:data] || {})
+      options[:datetimepicker] = true
       options[:append] = calendar_addon
       args << options
       super

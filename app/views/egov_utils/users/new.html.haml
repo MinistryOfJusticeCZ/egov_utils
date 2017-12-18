@@ -1,3 +1,7 @@
 = bootstrap_form_for(@user) do |f|
   = render 'form', form: f
-  = f.submit
+  .form-actions
+    - if curent_user.logged?
+      = f.submit
+    - else
+      = f.submit t('label_signup')

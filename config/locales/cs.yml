@@ -9,6 +9,9 @@ cs:
     file_input:
       placeholder: 'Vyberte soubor...'
       button_label: Procházet
+  cookies_eu:
+    cookies_text: K ukládání nastavení a správnému fungování využíváme soubory cookies. Používáním webu s jejich používáním souhlasíte.
+    ok: Rozumím
 
   ministery_justice_name: Ministerstvo spravedlnosti ČR
   label_no_records: Žádné záznamy k zobrazení
@@ -50,6 +53,7 @@ cs:
   model_attributes: &my_attributes
     egov_utils/user:
       login: Přihlašovací email
+      mail: E-mail
       password_confirmation: Potvrzení hesla
       firstname: Jméno
       lastname: Příjmení

@@ -49,6 +49,8 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'azahara_schema', '~> 0.1'
   s.add_runtime_dependency 'egon_gate', '~> 0.1'
 
+  s.add_runtime_dependency 'cookies_eu', '~> 1.6'
+
 
   s.add_development_dependency "sqlite3"
   # s.add_development_dependency 'ruby-ldapserver', '~> 0.5.0'
