@@ -12,7 +12,7 @@ module EgovUtils
 
           def pickerize_options!
             options = @options.stringify_keys
-            picker_data = {'provide' => 'datepicker', 'date-min-date' => format_date(datetime_value(options["min"])), 'date-max-date' => format_date(datetime_value(options["min"])) }
+            picker_data = {'provide' => 'datepicker', 'date-min-date' => format_date(datetime_value(options["min"])), 'date-max-date' => format_date(datetime_value(options["max"])) }
             @options[:data] = picker_data.merge(options['data'] || {})
           end
 
