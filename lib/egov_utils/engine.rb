@@ -78,14 +78,18 @@ module EgovUtils
     end
 
     initializer 'egov_utils.bootstrap_form' do
+
       require 'bootstrap_form'
 
       require 'bootstrap_form/helpers/bootstrap4'
+
+      BootstrapForm::FormBuilder.__send__(:prepend, BootstrapForm::Helpers::Bootstrap4)
+      
+      
       require 'bootstrap_form/datetimepicker'
       require 'bootstrap_form/fileuid'
       require 'bootstrap_form/select2'
       require 'bootstrap_form/custom_file_field'
-      BootstrapForm::Helpers::Bootstrap.__send__(:prepend, BootstrapForm::Helpers::Bootstrap4)
 
       BootstrapForm::DATE_FORMAT_JS = 'YYYY-MM-DD'
       BootstrapForm::DATE_FORMAT_RUBY = BootstrapForm::DATE_FORMAT_JS.gsub('YYYY', "%Y").gsub('MM', "%m").gsub('DD', "%d")

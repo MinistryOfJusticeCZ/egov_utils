@@ -4,6 +4,7 @@ module BootstrapForm
 
       def submit(name = nil, options = {})
         options.reverse_merge! class: 'btn btn-secondary'
+        pp options
         super(name, options)
       end
 
