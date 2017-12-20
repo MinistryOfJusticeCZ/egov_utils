@@ -21,6 +21,8 @@ cs:
   notice_account_pending: Váš účet čeká na schválení/ověření
   notice_account_locked: Váš účet byl uzamčen správcem aplikace
   notice_logout: Byl/a jste úspěšně odhlášen/a
+  notice_signeup_with_mail: Registrace proběhla úspěšně, byl Vám odeslán potvrovací e-mail, prosím zkontrolujte svou poštu.
+  success_user_confirm: Váše e-mailová adresa byla potvrzena. Nyní se již můžete přihlásit.
 
   label_approve: Schválit
   label_new: Nový
@@ -40,7 +42,7 @@ cs:
 
 
   models: &my_models
-    egov_utils::user:
+    egov_utils/user:
       one: Uživatel
       others: Uživatelé
     egov_utils::group:

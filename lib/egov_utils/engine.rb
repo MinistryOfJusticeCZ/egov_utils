@@ -82,10 +82,9 @@ module EgovUtils
       require 'bootstrap_form'
 
       require 'bootstrap_form/helpers/bootstrap4'
-
+      # TODO: should be included in Helper, to support every submit tag
       BootstrapForm::FormBuilder.__send__(:prepend, BootstrapForm::Helpers::Bootstrap4)
-      
-      
+
       require 'bootstrap_form/datetimepicker'
       require 'bootstrap_form/fileuid'
       require 'bootstrap_form/select2'

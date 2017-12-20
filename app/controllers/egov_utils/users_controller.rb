@@ -21,8 +21,13 @@ module EgovUtils
       @user.mail ||= @user.login
       respond_to do |format|
         if @user.save
-          UserMailer.confirmation_email(@user).deliver_later if EgovUtils::Settings.allow_register? && !current_user.logged?
-          format.html{ redirect_to main_app.root_path, notice: t('activerecord.successful.messages.created', model: User.model_name.human) }
+          if EgovUtils::Settings.allow_register? && !current_user.logged?
+            UserMailer.confirmation_email(@user).deliver_later
+            flash[:notice] = t('notice_signeup_with_mail')
+          else
+            flash[:notice] = t('activerecord.successful.messages.created', model: User.model_name.human)
+          end
+          format.html{ redirect_to main_app.root_path }
           format.json{ render json: @user, status: :created }
         else
           format.html{ render 'new' }
@@ -47,6 +52,7 @@ module EgovUtils
       render_404 and return unless @user || @user.active? || @user.updated_at < (Time.now - 24.hours)
       @user.update(active: true)
       logged_user = @user
+      flash[:notice] = t('success_user_confirm')
       redirect_to('/')
     end
 
