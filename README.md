@@ -1,4 +1,5 @@
 [![pipeline status](https://git.servis.justice.cz/libraries/egov_utils-rails/badges/master/pipeline.svg)](https://git.servis.justice.cz/libraries/egov_utils-rails/commits/master)
+[![Gem Version](https://badge.fury.io/rb/egov_utils.svg)](https://badge.fury.io/rb/egov_utils)
 # EgovUtils
 This gem is set of utilities commonly used in Czech egoverment for rails application.
 
