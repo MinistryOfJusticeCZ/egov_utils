@@ -98,6 +98,9 @@ module EgovUtils
       BootstrapForm::FormBuilder.__send__(:prepend, BootstrapForm::Select2)
       BootstrapForm::FormBuilder.__send__(:prepend, BootstrapForm::CustomFileField)
 
+      require 'bootstrap_form/check_box_patch'
+      BootstrapForm::FormBuilder.__send__(:prepend, BootstrapForm::CheckBoxPatch)
+
       require 'egov_utils/helpers/tags/datetime_field_patch'
       ActionView::Helpers::Tags::DatetimeField.prepend(EgovUtils::Helpers::Tags::DatetimeFieldPatch)
 

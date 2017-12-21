@@ -17,15 +17,29 @@ window.eGovUtilities =
       close: 'fa fa-close'
     }
 
+    $(document).on 'change', '.custom-file-input:file', ()->
+      $input = $(this)
+      numFiles = if this.files then this.files.length else 1
+      label = $input.val().replace(/\\/g, '/').replace(/.*\//, '')
+      $input.trigger('fileselect', [numFiles, label])
+      $input.parent().find('.custom-file-control').text(label);
+
 
   initPage: ($container)->
     $container ||= $(document)
     eGovUtilities.initDatepickers($container)
     eGovUtilities.initSelect2($container)
+    eGovUtilities.initFileFields($container)
 
   clearBeforeCache: ($container)->
     $container ||= $(document)
     eGovUtilities.destroySelect2($container)
+
+  initFileFields: ($container)->
+    $('.custom-file-input:file').each ()->
+      $input = $(this)
+      label = $input.val().replace(/\\/g, '/').replace(/.*\//, '')
+      $input.parent().find('.custom-file-control').text(label);
 
   initDatepickers: ($container)->
     $container ||= $(document)
