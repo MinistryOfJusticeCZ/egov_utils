@@ -1,0 +1,21 @@
+%ul.nav.nav-tabs{role: 'tablist'}
+  %li.nav-item
+    = link_to(EgovUtils::User.model_name.human(count: :other), users_path, id: 'users_tab', class: 'nav-link', 'data-toggle'=>'tab', 'aria-controls'=>'users_container')
+  %li.nav-item
+    = link_to(EgovUtils::Group.model_name.human(count: :other), groups_path, id: 'groups_tab', class: 'nav-link active', 'data-toggle'=>'tab', 'aria-controls'=>'groups_container')
+
+.tab-content
+  #users_container.tab-pane.fade{role: 'tabpanel', 'aria-labelledby'=>'users_tab'}
+    = render 'egov_utils/users/users_tab', users: @users
+  #groups_container.tab-pane.fade.show.active{role: 'tabpanel', 'aria-labelledby'=>'groups_tab'}
+    = render 'egov_utils/groups/groups_tab', groups: @groups
+  #create_container.tab-pane.fade{role: 'tabpanel', 'aria-labelledby'=>'create_tab'}
+    %h3= t('label_ldap')
+    = render 'egov_utils/users/ldap_search'
+    %h3= t('label_new')
+    = bootstrap_form_for(EgovUtils::User.new) do |f|
+      = render 'egov_utils/users/form', form: f
+
+$.ajax('url').done(function(response){
+  $('#cast-2-rizeni-pred-soudem-prvniho-stupne').html(response);
+});

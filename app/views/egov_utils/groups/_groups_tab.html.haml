@@ -1,0 +1,20 @@
+%table#groups.table
+  %thead
+    %tr
+      %th= EgovUtils::Group.human_attribute_name('name')
+      %th= EgovUtils::Group.human_attribute_name('provider')
+      %th= EgovUtils::Group.human_attribute_name('roles')
+  %tbody
+    - groups.each do |group|
+      %tr
+        %td= group.name
+        %td= group.provider
+        - if can?(:manage, group)
+          %td.roles{data: {roles: group.roles, id: group.id}}= group.roles.join(', ')
+        - else
+          %td
+
+:javascript
+  $(function(){
+    $('#groups tbody').roles({ url: '#{roles_path(entity_class: 'EgovUtils::Group')}' });
+  });

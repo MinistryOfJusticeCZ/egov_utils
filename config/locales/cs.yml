@@ -21,7 +21,7 @@ cs:
   notice_account_pending: Váš účet čeká na schválení/ověření
   notice_account_locked: Váš účet byl uzamčen správcem aplikace
   notice_logout: Byl/a jste úspěšně odhlášen/a
-  notice_signeup_with_mail: Registrace proběhla úspěšně, byl Vám odeslán potvrovací e-mail, prosím zkontrolujte svou poštu.
+  notice_signeup_with_mail: Registrace proběhla úspěšně, byl Vám odeslán potvrzovací e-mail, prosím zkontrolujte svou poštu.
   success_user_confirm: Váše e-mailová adresa byla potvrzena. Nyní se již můžete přihlásit.
 
   label_approve: Schválit
@@ -33,6 +33,10 @@ cs:
   label_signup: Registrovat
   label_validate_address: Zvalidovat
   label_save: Uložit
+  label_ldap: LDAP
+  label_search: Vyhledat
+  label_delete: Smazat
+  label_actions: Akce
 
   text_born_on_at: "Narozen %{date} v %{place}"
 
@@ -60,6 +64,9 @@ cs:
       firstname: Jméno
       lastname: Příjmení
       fullname: Jméno a příjmení
+      roles: Role
+    egov_utils/group:
+      roles: Role
     egov_utils/address:
       full_address: Adresa
       street: Ulice
@@ -109,6 +116,7 @@ cs:
       messages:
         created: "%{model} úspěšně vytvořen"
         updated: "%{model} úspěšně aktualizován"
+        destroyed: "%{model} úspěšně smazán"
 
   helpers:
     label:

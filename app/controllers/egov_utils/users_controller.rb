@@ -6,10 +6,13 @@ module EgovUtils
 
     skip_before_action :require_login, only: [:new, :create, :confirm]
 
-    load_and_authorize_resource only: :index
+    authorize_resource only: :index
+    load_and_authorize_resource only: :destroy
 
     def index
       providers
+      @users = EgovUtils::User.accessible_by(current_ability).order(:provider)
+      @groups = EgovUtils::Group.accessible_by(current_ability).order(:provider)
     end
 
     def new
@@ -37,6 +40,11 @@ module EgovUtils
     end
 
     def show
+    end
+
+    def destroy
+      @user.destroy
+      redirect_to users_path, notice: t('activerecord.successful.messages.destroyed', model: User.model_name.human)
     end
 
     def approve

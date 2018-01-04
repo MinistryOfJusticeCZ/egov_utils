@@ -5,6 +5,10 @@ module EgovUtils
 
     load_and_authorize_resource
 
+    def index
+      @groups = EgovUtils::Group.accessible_by(current_ability)
+    end
+
     def create
       respond_to do |format|
         if @group.save
