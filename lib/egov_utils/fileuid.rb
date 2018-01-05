@@ -103,7 +103,7 @@ module EgovUtils
           raise ::ActiveRecord::SerializationTypeMismatch,
             "Attribute was supposed to be a #{self}, but was a #{obj.class}. -- #{obj.inspect}"
         end
-        obj.invalid? ? nil : obj.to_s
+        obj.to_s
       end
 
       def load(source)
@@ -162,7 +162,7 @@ module EgovUtils
 
     def to_s
       if invalid?
-        ''
+        @str_val.to_s
       else
         type_definition.file_uid_to_s(self)
       end

@@ -17,11 +17,16 @@ $.widget 'egov_utils.fileUid',
     @element.attr('tabindex', -1)
 
     @form = @element.closest('form')
-    @form.on 'submit', (evt)->
-      that.element.val(that.getValue())
+    # @form.on 'submit', (evt)->
+    #   that.element.val(that.getValue())
 
     if @element.val() != ''
       this.setValue( @element.val() )
+
+    @file_uid_gui.on 'change', ':input', (evt)->
+      evt.stopPropagation();
+      that.element.val( that.getValue() )
+      that.element.trigger('change')
 
   _destroy: ()->
     @element.attr('style', '')
