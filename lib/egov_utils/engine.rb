@@ -42,10 +42,10 @@ module EgovUtils
       ActiveSupport::Reloader.to_prepare do
         AzaharaSchema::Outputs.register(Grid::ShieldGrid)
       end
-      ActiveSupport.on_load(:action_controller) do
-        ::ActionController::Base.helper EgovUtils::ApplicationHelper
-        ::ActionController::Base.helper EgovUtils::GridHelper
-        ::ActionController::Base.helper EgovUtils::EnumHelper
+      ActiveSupport.on_load(:action_controller_base) do
+        helper EgovUtils::ApplicationHelper
+        helper EgovUtils::GridHelper
+        helper EgovUtils::EnumHelper
       end
     end
 
@@ -59,9 +59,9 @@ module EgovUtils
     initializer 'egov_utils.user_setup' do
       require 'egov_utils/user_utils/role'
       require_dependency 'ability'
-      ActiveSupport.on_load(:action_controller) do
+      ActiveSupport.on_load(:action_controller_base) do
         require 'egov_utils/user_utils/application_controller_patch'
-        ::ActionController::Base.include EgovUtils::UserUtils::ApplicationControllerPatch
+        include EgovUtils::UserUtils::ApplicationControllerPatch
       end
       # require 'omniauth'
       # require 'omniauth-kerberos'
