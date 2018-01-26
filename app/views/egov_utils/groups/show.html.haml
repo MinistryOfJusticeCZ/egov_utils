@@ -1,0 +1,8 @@
+%h2= @group.name
+
+= link_to(new_users_group_path(@group), remote: true) do
+  %i.fa.fa-plus-circle{'aria-hidden' => 'true'}
+  = t('label_add_group_member')
+%ul
+  - @group.users.each do |user|
+    %li= user.fullname

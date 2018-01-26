@@ -1,0 +1,6 @@
+= bootstrap_form_for(:password_change, url: password_path, method: :patch) do |f|
+  = f.password_field(:current_password)
+  = f.password_field(:password)
+  = f.password_field(:password_confirmation)
+  .form-actions
+    = f.submit

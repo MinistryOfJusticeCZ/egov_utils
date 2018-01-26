@@ -20,7 +20,7 @@
     = render 'egov_utils/users/ldap_search'
   #create.tab-pane.fade{role: 'tabpanel', 'aria-labelledby'=>'create_tab'}
     %h3= t('label_new')
-    = bootstrap_form_for(EgovUtils::User.new) do |f|
+    = bootstrap_form_for(@new_user) do |f|
       = render 'egov_utils/users/form', form: f
       .form-actions
         = f.submit

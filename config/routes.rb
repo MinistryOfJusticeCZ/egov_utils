@@ -14,8 +14,15 @@ EgovUtils::Engine.routes.draw do
 
   resources :people
 
-  resources :groups
+  resources :groups do
+    member do
+      get '/users/new', to: 'groups#new_users', as: 'new_users'
+      post '/users', to: 'groups#add_users', as: 'users'
+    end
+  end
   resources :roles
+
+  resources :passwords
 
   # post '/auth/:provider/callback', to: 'sessions#create'
 

@@ -4,21 +4,38 @@ require 'request_store_rails'
 module EgovUtils
   class User < Principal
 
+    has_and_belongs_to_many :groups
+
     serialize :roles, Array
 
     has_secure_password validations: false
 
     validates_confirmation_of :password, if: lambda { |m| m.password.present? }
     validates_presence_of     :password, on: :create, unless: :provider?
+    validates_presence_of     :password_confirmation, if: lambda { |m| m.password.present? }
     validates                 :login, uniqueness: true
 
     before_validation :generate_confirmation_code, unless: :provider?
+    before_validation :generate_password_if_needed
 
-    scope :active, -> { where(active: true) }
+    scope :active,   -> { where(active: true) }
     scope :inactive, -> { where(active: false) }
+
+    scope :in_group, ->(group){
+      group_id = group.is_a?(EgovUtils::Group) ? group.id : group.to_i
+      at = Arel::Table.new('egov_utils_groups_users', as: 'gu')
+      where( arel_table[:id].in( at.project(at[:user_id]).where(at[:group_id].eq(group_id)) ) )
+    }
+    scope :not_in_group, ->(group){
+      group_id = group.is_a?(EgovUtils::Group) ? group.id : group.to_i
+      at = Arel::Table.new('egov_utils_groups_users', as: 'gu')
+      where(arel_table[:id].not_in( at.project(at[:user_id]).where(at[:group_id].eq(group_id)) ))
+    }
 
     cattr_accessor :default_role
     self.default_role = nil
+
+    attribute :generate_password, :boolean, default: false
 
     def self.authenticate(login, password, active_only=true)
       login = login.to_s
@@ -61,6 +78,10 @@ module EgovUtils
       RequestLocals.fetch(:current_user) { User.anonymous }
     end
 
+    def to_s
+      fullname
+    end
+
     def roles
       logged? ? super : ['anonymous']
     end
@@ -75,6 +96,10 @@ module EgovUtils
       else
         authenticate(password)
       end
+    end
+
+    def password_change_possible?
+      !provider.present?
     end
 
     def logged?
@@ -110,7 +135,7 @@ module EgovUtils
     end
 
     def groups
-      ldap_groups || []
+      super.to_a.concat( Array.wrap(ldap_groups) )
     end
 
     def ldap_dn
@@ -130,10 +155,36 @@ module EgovUtils
       end
     end
 
+    def must_change_password?
+      (super || password_expired?) && !provider?
+    end
+
+    def password_expired?
+      false
+    end
+
     private
 
       def generate_confirmation_code
         self.confirmation_code ||= SecureRandom.hex
+      end
+
+      def generate_password_if_needed
+        if generate_password? && !provider?
+          set_random_password(10)
+        end
+      end
+
+      def set_random_password(length=40)
+        chars = ("a".."z").to_a + ("A".."Z").to_a + ("0".."9").to_a
+        chars -= %w(0 O 1 l)
+        password = ''
+        length.times {|i| password << chars[SecureRandom.random_number(chars.size)] }
+        self.password = password
+        self.password_confirmation = password
+        self.must_change_password = true
+        self.password_changed_at = Time.now
+        self
       end
 
   end

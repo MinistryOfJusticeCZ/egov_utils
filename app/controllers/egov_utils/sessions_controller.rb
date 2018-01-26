@@ -3,6 +3,7 @@ module EgovUtils
 
     skip_before_action :verify_authenticity_token, only: [:create]
     skip_before_action :require_login, only: [:new, :create]
+    skip_before_action :check_password_change, only: [:destroy]
 
     def new
       if current_user.logged?

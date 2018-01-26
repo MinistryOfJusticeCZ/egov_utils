@@ -31,7 +31,7 @@ module BootstrapForm
     private
 
       def calendar_addon
-        content_tag('i', '', class: 'fa fa-calendar')
+        content_tag('i', '', class: 'input-group-text fa fa-calendar')
       end
   end
 end

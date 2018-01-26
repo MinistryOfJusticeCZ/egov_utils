@@ -1,3 +1,8 @@
+= bootstrap_form_for(EgovUtils::Group.new) do |f|
+  = render 'egov_utils/groups/form', form: f
+  .form-actions
+    = f.submit
+
 %table#groups.table
   %thead
     %tr
@@ -7,7 +12,7 @@
   %tbody
     - groups.each do |group|
       %tr
-        %td= group.name
+        %td= link_to(group.name, group)
         %td= group.provider
         - if can?(:manage, group)
           %td.roles{data: {roles: group.roles, id: group.id}}= group.roles.join(', ')

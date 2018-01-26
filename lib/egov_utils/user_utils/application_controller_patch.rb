@@ -7,7 +7,7 @@ module EgovUtils
       included do
 
         before_action :user_setup, :set_locale
-        before_action :require_login
+        before_action :require_login, :check_password_change
 
         rescue_from CanCan::AccessDenied do |exception|
             respond_to do |format|
@@ -42,6 +42,12 @@ module EgovUtils
         else
           super
         end
+      end
+
+      def render_modal_js(**options)
+        @partial_scope = options[:scope] || params[:controller]
+        @action = options[:action] || params[:action]
+        render 'common/modal_action'
       end
 
       protected
@@ -112,6 +118,18 @@ module EgovUtils
             return false
           end
           true
+        end
+
+        def check_password_change
+          if current_user.logged? && current_user.must_change_password?
+            respond_to do |format|
+              format.html {
+                flash[:error] = t(:error_password_expired)
+                redirect_to egov_utils.edit_password_path(current_user)
+              }
+              format.json { render json: { error: t(:error_password_expired) }, status: :unauthorized }
+            end
+          end
         end
 
         def require_login?

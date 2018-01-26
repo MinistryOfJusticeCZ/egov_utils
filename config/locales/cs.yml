@@ -13,6 +13,8 @@ cs:
     cookies_text: K ukládání nastavení a správnému fungování využíváme soubory cookies. Používáním webu s jejich používáním souhlasíte.
     ok: Rozumím
 
+  button_add: Přidat
+
   ministery_justice_name: Ministerstvo spravedlnosti ČR
   label_no_records: Žádné záznamy k zobrazení
 
@@ -22,7 +24,10 @@ cs:
   notice_account_locked: Váš účet byl uzamčen správcem aplikace
   notice_logout: Byl/a jste úspěšně odhlášen/a
   notice_signeup_with_mail: Registrace proběhla úspěšně, byl Vám odeslán potvrzovací e-mail, prosím zkontrolujte svou poštu.
+  notice_password_changed: Vaše heslo bylo úspěšně změněno
   success_user_confirm: Váše e-mailová adresa byla potvrzena. Nyní se již můžete přihlásit.
+  error_password_expired: Platnost vašeho hesla vypršela. Prosím změňte ho.
+  warning_password_not_changed: Heslo nebylo změněno, zadali jste všechna hesla správně?
 
   label_approve: Schválit
   label_new: Nový
@@ -37,6 +42,7 @@ cs:
   label_search: Vyhledat
   label_delete: Smazat
   label_actions: Akce
+  label_add_group_member: Přidat uživatele
 
   text_born_on_at: "Narozen %{date} v %{place}"
 
@@ -65,6 +71,7 @@ cs:
       lastname: Příjmení
       fullname: Jméno a příjmení
       roles: Role
+      generate_password: Generovat heslo
     egov_utils/group:
       roles: Role
     egov_utils/address:
@@ -91,6 +98,10 @@ cs:
     profile:
       too_many_authors: Příliš mnoho autorů
 
+  model_help_messages: &my_help_messages
+    egov_utils/user:
+      generate_password: Heslo bude vygenerováno a posláno uživateli na e-mail, při prvním přihlášení bude heslo muset změnit.
+
 
   labels: &my_labels
     user:
@@ -98,12 +109,22 @@ cs:
     session:
       username: Přihlašovací jméno
       password: Heslo
+    password_change:
+      current_password: Současné heslo
+      password: Heslo
+      password_confirmation: Potvrzení hesla
+
+  submits: &my_submits
+    password_change:
+      submit: Změnit heslo
 
   activerecord:
     models:
       <<: *my_models
     attributes:
       <<: *my_attributes
+    help:
+      <<: *my_help_messages
     errors:
       models:
         <<: *my_model_errors
@@ -121,6 +142,8 @@ cs:
   helpers:
     label:
       <<: *my_labels
+    submit:
+      <<: *my_submits
 
 
   errors:

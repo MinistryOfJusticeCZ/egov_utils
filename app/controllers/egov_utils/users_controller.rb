@@ -13,6 +13,7 @@ module EgovUtils
       providers
       @users = EgovUtils::User.accessible_by(current_ability).order(:provider)
       @groups = EgovUtils::Group.accessible_by(current_ability).order(:provider)
+      @new_user = EgovUtils::User.new(generate_password: true)
     end
 
     def new
@@ -28,6 +29,7 @@ module EgovUtils
             UserMailer.confirmation_email(@user).deliver_later
             flash[:notice] = t('notice_signeup_with_mail')
           else
+            UserMailer.account_information(@user, @user.password).deliver_later if @user.auth_source.nil?
             flash[:notice] = t('activerecord.successful.messages.created', model: User.model_name.human)
           end
           format.html{ redirect_to main_app.root_path }
@@ -84,7 +86,9 @@ module EgovUtils
       end
 
       def create_params
-        params.require(:user).permit(:login, :mail, :password, :password_confirmation, :provider, :firstname, :lastname)
+        params_to_permit = [:login, :mail, :password, :password_confirmation, :provider, :firstname, :lastname]
+        params_to_permit << :generate_password if current_user.logged?
+        params.require(:user).permit(*params_to_permit)
       end
   end
 end

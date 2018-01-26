@@ -1,6 +1,24 @@
-= form.text_field :login
-/= form.text_field :mail
-= form.password_field :password
-= form.password_field :password_confirmation
-= form.text_field :firstname
-= form.text_field :lastname
+- box_id = "user_#{form.object.id || 'new'}"
+%div{id: box_id}
+  = form.text_field :login
+  /= form.text_field :mail
+  - if current_user.logged?
+    = form.check_box :generate_password, class: 'generate_password'
+  .passwords
+    = form.password_field :password
+    = form.password_field :password_confirmation
+  = form.text_field :firstname
+  = form.text_field :lastname
+
+:javascript
+  $(function(){
+    function toggle_paswords(state){
+      var $passwd = $('##{box_id} .passwords');
+      $passwd.find(':input').prop('disabled', !state);
+      $passwd.toggle(state);
+    }
+
+    var $generate_check = $('##{box_id} .generate_password');
+    toggle_paswords(!$generate_check.is(':checked'))
+    $generate_check.on('change', function(evt){ toggle_paswords(!$(this).is(':checked')) });
+  });

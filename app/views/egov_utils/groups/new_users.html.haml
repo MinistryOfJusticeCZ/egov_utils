@@ -1,0 +1,8 @@
+%h2= t('common_labels.new_record', model: EgovUtils::User.model_name.human)
+
+= bootstrap_form_for(@group, url: users_group_path(@group), method: :post) do |f|
+  .objects-selection
+    #new_group_users
+      = principals_check_box_tags('user_ids[]', @principals)
+  .form-actions
+    = f.submit t('button_add')
