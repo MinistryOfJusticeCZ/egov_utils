@@ -41,6 +41,7 @@ cs:
   label_ldap: LDAP
   label_search: Vyhledat
   label_delete: Smazat
+  label_ok: OK
   label_actions: Akce
   label_add_group_member: Přidat uživatele
 
@@ -49,6 +50,7 @@ cs:
   common_labels:
     new_record: "Nový %{model}"
     notice_saved: "%{model} uložen"
+    notice_destroyed: "%{model} smazán"
 
 
   models: &my_models

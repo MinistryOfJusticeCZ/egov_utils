@@ -1,6 +1,10 @@
+require 'haml'
+require 'rails-i18n'
+
 require 'i18n-js'
 require 'cancancan'
 require 'audited'
+require 'paranoia'
 require 'azahara_schema'
 
 require 'font-awesome-sass'

@@ -1,7 +1,7 @@
 module BootstrapForm
   module CheckBoxPatch
 
-    # TODO: post to upstream
+    # TODO: check upstream - it is on master on 29-1-2018 - only required is not there
     def check_box(name, options = {}, checked_value = "1", unchecked_value = "0", &block)
       options = options.symbolize_keys!
       check_box_options = options.except(:label, :label_class, :wrapper_class, :help, :inline)
@@ -36,7 +36,7 @@ module BootstrapForm
         label_class = " #{label_class}" if label_class
         label(label_name, html, class: "checkbox-inline#{disabled_class}#{label_class}")
       else
-        wrapper_class = ['form-checkbox', options[:wrapper_class]]
+        wrapper_class = ['form-check', options[:wrapper_class]]
         wrapper_class << error_class if has_error?(name)
         wrapper_class = wrapper_class.compact.join(' ')
         content_tag(:div, class: "#{wrapper_class}#{disabled_class}") do

@@ -1,12 +1,5 @@
 $custom-file-text: (
-  placeholder: (
-    <% I18n.available_locales.each do |locale| %>
-    '<%= locale %>': "<%= I18n.t('bootstrap.file_input.placeholder', locale: locale, default: 'Choose file...') %>",
-    <% end %>
-  ),
-  button-label: (
-    <% I18n.available_locales.each do |locale| %>
-    '<%= locale %>': "<%= I18n.t('bootstrap.file_input.button_label', locale: locale, default: 'Browse') %>",
-    <% end %>
-  )
+  <% I18n.available_locales.each do |locale| %>
+  '<%= locale %>': "<%= I18n.t('bootstrap.file_input.button_label', locale: locale, default: 'Browse') %>",
+  <% end %>
 );
