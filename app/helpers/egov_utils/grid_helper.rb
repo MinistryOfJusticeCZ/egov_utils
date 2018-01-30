@@ -34,6 +34,10 @@ module EgovUtils
       s << ", columnTemplate: '<a href=\"#{polymorphic_path(grid.schema.model)}/{id}\">{#{attribute.name}}</div>'" if attribute.name == grid.schema.main_attribute_name
       if attribute.type == 'list'
         s << ", format: ( (value) -> I18n.t('#{attribute.attribute_name.i18n_scoped_list_prefix}'+'.'+value, {defaults: $.map( #{attribute.attribute_name.i18n_list_fallback_prefixes.to_json}, (pref, i)-> {scope: (pref + '.' + value)} )}) ) "
+      elsif attribute.type == 'date'
+        s << ", format: ( (value)-> I18n.l('date.formats.default', value) )"
+      elsif attribute.type == 'datetime'
+        s << ", format: ( (value)-> I18n.l('time.formats.default', value) )"
       end
       s << "}"
     end
