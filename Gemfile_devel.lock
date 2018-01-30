@@ -8,17 +8,17 @@ GIT
 PATH
   remote: ../azahara_schema
   specs:
-    azahara_schema (0.2.0)
+    azahara_schema (0.2.1)
       rails (~> 5.1)
 
 PATH
   remote: .
   specs:
-    egov_utils (0.2.0)
+    egov_utils (0.2.3)
       activeresource (~> 5.0)
       audited (~> 4.4)
       azahara_schema (~> 0.2)
-      bcrypt (~> 3.1.11)
+      bcrypt (~> 3.1)
       bootstrap (~> 4.0.0.beta)
       bootstrap_form (~> 2.7)
       cancancan (~> 2.0)
@@ -32,6 +32,7 @@ PATH
       modernizr-rails (~> 2.7)
       momentjs-rails (~> 2.17)
       net-ldap (~> 0.16)
+      paranoia (= 2.4)
       rails (~> 5.1)
       rails-i18n (~> 5.0)
       request_store_rails (~> 1.0)
@@ -152,15 +153,17 @@ GEM
     method_source (0.9.0)
     mini_mime (1.0.0)
     mini_portile2 (2.3.0)
-    minitest (5.11.2)
+    minitest (5.11.3)
     modernizr-rails (2.7.1)
     momentjs-rails (2.17.1)
       railties (>= 3.1)
     net-ldap (0.16.1)
     nio4r (2.2.0)
-    nokogiri (1.8.1)
+    nokogiri (1.8.2)
       mini_portile2 (~> 2.3.0)
     nori (2.6.0)
+    paranoia (2.4.0)
+      activerecord (>= 4.0, < 5.2)
     popper_js (1.12.9)
     pry (0.11.3)
       coderay (~> 1.1.0)
@@ -219,7 +222,7 @@ GEM
       rspec-expectations (~> 3.7.0)
       rspec-mocks (~> 3.7.0)
       rspec-support (~> 3.7.0)
-    rspec-support (3.7.0)
+    rspec-support (3.7.1)
     sass (3.5.5)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)

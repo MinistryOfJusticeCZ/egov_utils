@@ -33,7 +33,7 @@ module EgovUtils
       s << ", title: '#{attribute.attribute_name.human}'"
       s << ", columnTemplate: '<a href=\"#{polymorphic_path(grid.schema.model)}/{id}\">{#{attribute.name}}</div>'" if attribute.name == grid.schema.main_attribute_name
       if attribute.type == 'list'
-        s << ", format: ( (value) -> I18n.t(value, {scope: 'activerecord.attributes.#{attribute.model.model_name.i18n_key}.#{attribute.name.to_s.pluralize}'}) ) "
+        s << ", format: ( (value) -> I18n.t('#{attribute.attribute_name.i18n_scoped_list_prefix}'+'.'+value, {defaults: $.map( #{attribute.attribute_name.i18n_list_fallback_prefixes.to_json}, (pref, i)-> {scope: (pref + '.' + value)} )}) ) "
       end
       s << "}"
     end
