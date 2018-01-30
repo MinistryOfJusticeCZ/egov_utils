@@ -1,6 +1,7 @@
 $ ->
   <%
     grid ||= schema.outputs.grid
+    page_size ||= 50
     additional_params ||= {}
     create_attributes ||= {}
   %>
@@ -45,6 +46,8 @@ $ ->
     noRecordsText: '<%= t('label_no_records') %>'
     dataSource: {
       schema:
+        data: 'entities'
+        total: 'count'
         fields:
           <% schema.available_columns.each do |column| %>
           <%= raw field_for_grid(column) %>
@@ -62,6 +65,13 @@ $ ->
           type: 'GET'
           url: '<%= polymorphic_path(schema.model, schema.to_param.merge(additional_params).merge(format: :json)) %>'
           dataType: 'json'
+          data: (params)->
+            dataObject = $.extend({}, params)
+            dataObject.offset = params.skip if params.skip
+            dataObject.limit = params.take if params.take
+            delete dataObject.skip
+            delete dataObject.take
+            dataObject
         }
         modify: {
           create: (items, success, error) ->
@@ -84,9 +94,17 @@ $ ->
           #     dataType: 'json'
           #   ).then(success, error)
         }
-        operations: ['sort']
+        operations: ['sort', 'skip', 'take']
       }
     },
+    paging:
+      pageSize: <%= page_size %>
+      messages:
+        infoBarTemplate: "<%= t('schema_outputs.shield_grid.paging.info_bar') %>"
+        firstTooltip: "<%= t('schema_outputs.shield_grid.paging.tooltips.first') %>"
+        previousTooltip: "<%= t('schema_outputs.shield_grid.paging.tooltips.previous') %>"
+        nextTooltip: "<%= t('schema_outputs.shield_grid.paging.tooltips.next') %>"
+        lastTooltip: "<%= t('schema_outputs.shield_grid.paging.tooltips.last') %>"
     columns: [
       <% schema.columns.each do |col| %>
       <%= raw column_for_grid(grid, col) %>

@@ -9,6 +9,15 @@ cs:
     file_input:
       placeholder: 'Vyberte soubor...'
       button_label: Procházet
+  schema_outputs:
+    shield_grid:
+      paging:
+        info_bar: "{0}-{1} položek z {2}"
+        tooltips:
+          previous: Předchozí
+          next: Následující
+          first: První stránka
+          last: Poslední stránka
   cookies_eu:
     cookies_text: K ukládání nastavení a správnému fungování využíváme soubory cookies. Používáním webu s jejich používáním souhlasíte.
     ok: Rozumím
