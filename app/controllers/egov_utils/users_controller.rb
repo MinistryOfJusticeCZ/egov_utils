@@ -29,7 +29,10 @@ module EgovUtils
             UserMailer.confirmation_email(@user).deliver_later
             flash[:notice] = t('notice_signeup_with_mail')
           else
-            UserMailer.account_information(@user, @user.password).deliver_later if @user.auth_source.nil?
+            if @user.auth_source.nil?
+              @user.update(active: true)
+              UserMailer.account_information(@user, @user.password).deliver_later
+            end
             flash[:notice] = t('activerecord.successful.messages.created', model: User.model_name.human)
           end
           format.html{ redirect_to main_app.root_path }
