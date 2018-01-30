@@ -8,7 +8,7 @@ GIT
 PATH
   remote: .
   specs:
-    egov_utils (0.2.2)
+    egov_utils (0.2.3)
       activeresource (~> 5.0)
       audited (~> 4.4)
       azahara_schema (~> 0.2)

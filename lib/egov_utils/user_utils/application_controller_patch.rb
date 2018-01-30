@@ -12,7 +12,7 @@ module EgovUtils
         rescue_from CanCan::AccessDenied do |exception|
             respond_to do |format|
               format.json { head :forbidden, content_type: 'text/html' }
-              format.html { render template: "errors/error_403", error: exception.message }
+              format.html { render template: "errors/error_403", error: exception.message, status: 403 }
               format.js   { head :forbidden, content_type: 'text/html' }
             end
           end
