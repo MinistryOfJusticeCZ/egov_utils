@@ -5,7 +5,7 @@ module EgovUtils
       case type
       when 'integer', 'float', 'decimal'
         'Number'
-      when 'string', 'list', 'love'
+      when 'string', 'text', 'list', 'love'
         'String'
       when 'date', 'datetime'
         'Date'
@@ -17,6 +17,7 @@ module EgovUtils
     end
 
     def field_for_grid(attribute)
+      binding.pry if attribute.type.nil?
       s = "\'"
       s << attribute.name
       s << '\': {path: "'

@@ -42,61 +42,59 @@ $ ->
       ]
 <% end %>
 
+  dataSource = new shield.DataSource
+    schema:
+      data: 'entities'
+      total: 'count'
+      fields:
+        <% schema.available_columns.each do |column| %>
+        <%= raw field_for_grid(column) %>
+        <% end %>
+    events:
+      error: (event) ->
+        if event.errorType == 'transport'
+          alert("Write error: " + event.error.statusText )
+          if event.operation == 'save'
+            this.read()
+        else
+          alert( event.errorType + " error: " + event.error )
+    remote:
+      read:
+        type: 'GET'
+        url: '<%= polymorphic_path(schema.model, schema.to_param.merge(additional_params).merge(format: :json)) %>'
+        dataType: 'json'
+        data: (params)->
+          dataObject = $.extend({}, params)
+          dataObject.offset = params.skip if params.skip
+          dataObject.limit = params.take if params.take
+          delete dataObject.skip
+          delete dataObject.take
+          dataObject
+      modify:
+        create: (items, success, error) ->
+          newItem = items[0]
+          $.ajax
+            url: '<%= polymorphic_path(schema.model, format: :json) %>'
+            type: 'POST'
+            dataType: 'json'
+            data: { <%= grid.model_name.name.underscore %>: newItem.data }
+            complete: (xhr) ->
+              if xhr.readyState == 4 and xhr.status == 201
+                newItem.data.id = xhr.responseJSON.id
+                success()
+                return
+              error(xhr)
+        # remove: (items, success, error) ->
+        #   $.ajax(
+        #     type: "DELETE"
+        #     url: "<%= polymorphic_path(schema.model) %>/" + items[0].data.id + '.json'
+        #     dataType: 'json'
+        #   ).then(success, error)
+      operations: ['sort', 'skip', 'take']
+
   $('#<%= grid_id %>').shieldGrid({
     noRecordsText: '<%= t('label_no_records') %>'
-    dataSource: {
-      schema:
-        data: 'entities'
-        total: 'count'
-        fields:
-          <% schema.available_columns.each do |column| %>
-          <%= raw field_for_grid(column) %>
-          <% end %>
-      events:
-        error: (event) ->
-          if event.errorType == 'transport'
-            alert("Write error: " + event.error.statusText )
-            if event.operation == 'save'
-              this.read()
-          else
-            alert( event.errorType + " error: " + event.error )
-      remote: {
-        read: {
-          type: 'GET'
-          url: '<%= polymorphic_path(schema.model, schema.to_param.merge(additional_params).merge(format: :json)) %>'
-          dataType: 'json'
-          data: (params)->
-            dataObject = $.extend({}, params)
-            dataObject.offset = params.skip if params.skip
-            dataObject.limit = params.take if params.take
-            delete dataObject.skip
-            delete dataObject.take
-            dataObject
-        }
-        modify: {
-          create: (items, success, error) ->
-            newItem = items[0]
-            $.ajax
-              url: '<%= polymorphic_path(schema.model, format: :json) %>'
-              type: 'POST'
-              dataType: 'json'
-              data: { <%= grid.model_name.name.underscore %>: newItem.data }
-              complete: (xhr) ->
-                if xhr.readyState == 4 and xhr.status == 201
-                  newItem.data.id = xhr.responseJSON.id
-                  success()
-                  return
-                error(xhr)
-          # remove: (items, success, error) ->
-          #   $.ajax(
-          #     type: "DELETE"
-          #     url: "<%= polymorphic_path(schema.model) %>/" + items[0].data.id + '.json'
-          #     dataType: 'json'
-          #   ).then(success, error)
-        }
-        operations: ['sort', 'skip', 'take']
-      }
-    },
+    dataSource: dataSource,
     paging:
       pageSize: <%= page_size %>
       messages:
@@ -112,12 +110,12 @@ $ ->
       <% if can?(:update, schema.model) || can?(:destroy, schema.model) %>
       {
         width: 150
-        title: " "
+        title: "<%= t('label_actions') %>"
         buttons: [
           <% if can?(:update, schema.model) %>
           {cls: 'btn btn-sm btn-primary', caption: '<%= t('label_edit') %>', click: editRecord},
           <% end %>
-         <%= additional_grid_edit_buttons(schema) %>
+          <%= additional_grid_edit_buttons(schema) %>
           # <% if can?(:destroy, schema.model) %>
           # {commandName: 'delete', caption: '<%= t('label_delete') %>'}
           # <% end %>
