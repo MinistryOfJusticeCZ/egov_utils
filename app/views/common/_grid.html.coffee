@@ -4,6 +4,7 @@ $ ->
     page_size ||= 50
     additional_params ||= {}
     create_attributes ||= {}
+    create_model ||= schema.model
   %>
 
   after_modal_submit = (evt, data)->
@@ -15,7 +16,7 @@ $ ->
 
   <%# would be a bit cleaner to give the filled form to the shield grid create method, then send the form by ajax %>
   createRecord = (evt)->
-    $.ajax('<%= new_polymorphic_path(schema.model, create_attributes.merge(format: :js)) %>')
+    $.ajax('<%= new_polymorphic_path(create_model, create_attributes.merge(format: :js)) %>')
 
 
   editRecord = (index)->
@@ -74,10 +75,10 @@ $ ->
         create: (items, success, error) ->
           newItem = items[0]
           $.ajax
-            url: '<%= polymorphic_path(schema.model, format: :json) %>'
+            url: '<%= polymorphic_path(create_model, format: :json) %>'
             type: 'POST'
             dataType: 'json'
-            data: { <%= grid.model_name.name.underscore %>: newItem.data }
+            data: { <%= create_model.model_name.name.underscore %>: newItem.data }
             complete: (xhr) ->
               if xhr.readyState == 4 and xhr.status == 201
                 newItem.data.id = xhr.responseJSON.id
@@ -136,7 +137,7 @@ $ ->
     toolbar: [
       {
         buttons: [
-          { cls: 'btn btn-primary', caption: '<%= t('helpers.submit.create', model: grid.model_name.human) %>', click: createRecord }
+          { cls: 'btn btn-primary', caption: '<%= t('helpers.submit.create', model: create_model.model_name.human) %>', click: createRecord }
         ],
         position: 'top'
       }
