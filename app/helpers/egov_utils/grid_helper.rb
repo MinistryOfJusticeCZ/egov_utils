@@ -17,7 +17,6 @@ module EgovUtils
     end
 
     def field_for_grid(attribute)
-      binding.pry if attribute.type.nil?
       s = "\'"
       s << attribute.name
       s << '\': {path: "'

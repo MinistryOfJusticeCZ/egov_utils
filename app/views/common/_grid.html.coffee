@@ -9,6 +9,7 @@ $ ->
 
   after_modal_submit = (evt, data)->
     grid = $("#<%= grid_id %>").swidget()
+    $("#<%= grid_id %>").trigger('grid:inserted', [data]);
     grid.dataSource.read()
 
   $('body').off 'egov:submitted', after_modal_submit

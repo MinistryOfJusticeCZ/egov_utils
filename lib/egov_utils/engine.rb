@@ -9,6 +9,7 @@ require 'azahara_schema'
 
 require 'font-awesome-sass'
 require 'modernizr-rails'
+require 'clipboard/rails'
 
 require 'cookies_eu'
 
