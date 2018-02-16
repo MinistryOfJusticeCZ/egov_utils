@@ -3,6 +3,7 @@ module EgovUtils
   class AddressesController < ApplicationController
 
     def validate_ruian
+      require 'egon_gate'
       require 'egon_gate/egsb/messages/e37_vyhledej_adresu'
 
       # TODO: shoud be in some validator - external class

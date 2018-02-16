@@ -5,11 +5,31 @@ module EgovUtils
 
     validates :street, :city, length: 2..255
     validates :postcode, numericality: { only_integer: true }
-    validates :district, inclusion: { in: :district_names }
-    validates :region, inclusion: { in: :region_names }
+    with_options if: :in_czech_republic? do
+      validates :district, inclusion: { in: :district_names }
+      validates :region, inclusion: { in: :region_names }
+    end
+    with_options unless: :in_czech_republic? do
+      validates :district, inclusion: { in: :district_names }, allow_nil: true
+      validates :region, inclusion: { in: :region_names }, allow_nil: true
+    end
+    validates :country, inclusion: { in: :country_ids }, allow_nil: true
 
     District = Struct.new(:id, :name, :region_id)
     Region = Struct.new(:id, :name)
+    Country = Struct.new(:iso_id, :code2, :code3, :name)
+
+    CZ_ISO_CODE = '203'
+
+    def self.countries
+      return @countries if @countries
+      require 'csv'
+      @countries = []
+      CSV.foreach(EgovUtils::Engine.root.join('config', 'countries.csv'), col_sep: ';', headers: true) do |row|
+        @countries << Country.new( row[0], row[1], row[2], row[3]) if row[1]
+      end
+      @countries
+    end
 
     def self.districts
       return @districts if @districts
@@ -36,11 +56,18 @@ module EgovUtils
       regions.detect{|r| r[:id] == district[:region_id] } if district
     end
 
+    def in_czech_republic?
+      country == CZ_ISO_CODE || country.nil?
+    end
+
     def district_names
       self.class.districts.collect{|r| r[:name]}
     end
     def region_names
       self.class.regions.collect{|r| r[:name]}
+    end
+    def country_ids
+      self.class.countries.collect{|r| r[:iso_id]}
     end
 
 

@@ -10,46 +10,70 @@
     = form.text_field :city
   .col-12.col-sm-3
     = form.text_field :postcode
-  .col-12.col-sm-6
-    = form.select2 :district, EgovUtils::Address.districts.collect{|r| [r[:name],r[:name]]}
-  .col-12.col-sm-6
-    = form.select2 :region, EgovUtils::Address.regions.collect{|r| [r[:name],r[:name]]}
-    -# form.text_field :country
+  .col-12.col-sm-6.district-fields
+    = form.select2 :district, EgovUtils::Address.districts.collect{|r| [r[:name],r[:name]]}, {}, class: 'district-select'
+  .col-12.col-sm-6.region-fields
+    = form.select2 :region, EgovUtils::Address.regions.collect{|r| [r[:name],r[:name]]}, {}, class: 'region-select'
+  .col-12
+    - form.object.country ||= EgovUtils::Address::CZ_ISO_CODE
+    = form.select2 :country, EgovUtils::Address.countries.collect{|c| [c[:name],c[:iso_id]]}, {}, class: 'country-select'
   .col-12
     %div.validation-button
       = link_to t('label_validate_address'), 'javascript:void(0)', class: 'btn btn-secondary address-validator-btn'
 
 :javascript
   $(function(){
-    $('.address-validator-btn').not('.validator-initialized').on('click', function(evt) {
-      var values = {},
-          $fields = $(this).closest('.address-fields');
 
-      $fields.find(':input').each(function(i){
-        var name,
-            name_m = $(this).attr('name').match(/\[([^\[]*)\]$/);
-        name = name_m[1];
-        values[name] = $(this).val();
-      });
-      $.ajax('#{egov_utils.validate_ruian_path}', {
-        method: 'GET',
-        dataType: 'json',
-        data: {
-          address: values
+    $('.address-fields').not('.inlinejs-initialized').each(function(){
+      var $fields = $(this);
+
+      $('.country-select', $fields).on('change', function(evt){
+        if($(this).val().toString() == '#{EgovUtils::Address::CZ_ISO_CODE}') {
+          $('.district-select', $fields).select2('enable');
+          $('.district-fields', $fields).show();
+          $('.region-select', $fields).select2('enable');
+          $('.region-fields', $fields).show();
+        } else {
+          $('.district-select', $fields).select2('enable', false);
+          $('.district-fields', $fields).hide();
+          $('.region-select', $fields).select2('enable', false);
+          $('.region-fields', $fields).hide();
         }
-      }).done(function(json){
-        var field;
-        for( var key in json ) {
-          field = $fields.find("[name$='["+key+"]']");
-          if( field.length !== 1 || !json[key] )
-            continue;
-          field.val(json[key]);
-        }
-      }).fail(function(xhr, status, errorMsg){
-        $('#modal').modal('hide');
-        eGovUtilities.showModal(xhr.responseJSON.error, {modalId: 'modalAlert', backdrop: 'static'}).on('hidden.bs.modal', function(){
-          $('#modal').modal('show');
+      })
+      window.setTimeout(function(){
+        $('.country-select', $fields).change();
+      }, 1500);
+
+      $('.address-validator-btn', $fields).on('click', function(evt) {
+        var values = {};
+
+        $fields.find(':input').each(function(i){
+          var name,
+              name_m = $(this).attr('name').match(/\[([^\[]*)\]$/);
+          name = name_m[1];
+          values[name] = $(this).val();
+        });
+        $.ajax('#{egov_utils.validate_ruian_path}', {
+          method: 'GET',
+          dataType: 'json',
+          data: {
+            address: values
+          }
+        }).done(function(json){
+          var field;
+          for( var key in json ) {
+            field = $fields.find("[name$='["+key+"]']");
+            if( field.length !== 1 || !json[key] )
+              continue;
+            field.val(json[key]);
+          }
+        }).fail(function(xhr, status, errorMsg){
+          $('#modal').modal('hide');
+          console.log(xhr);
+          eGovUtilities.showModal(errorMsg, {modalId: 'modalAlert', backdrop: 'static'}).on('hidden.bs.modal', function(){
+            $('#modal').modal('show');
+          });
         });
       });
-    }).addClass('.validator-initialized');
+    }).addClass('.inlinejs-initialized');
   });
