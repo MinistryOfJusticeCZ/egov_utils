@@ -19,4 +19,7 @@ module EgovUtils
 
   Settings['allow_register'] ||= false
 
+  Settings['redmine'] ||= Settingslogic.new({})
+  Settings['redmine']['enabled'] ||= false
+
 end

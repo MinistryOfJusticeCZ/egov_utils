@@ -1,0 +1,5 @@
+- @issues.group_by{|i| i.tracker}.each do |tracker, issues|
+  %h4= tracker.name + '('+t('label_done')+')'
+  %ul
+    - issues.each do |issue|
+      %li= issue.subject

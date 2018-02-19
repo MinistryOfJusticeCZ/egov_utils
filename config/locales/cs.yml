@@ -52,6 +52,7 @@ cs:
   label_delete: Smazat
   label_ok: OK
   label_actions: Akce
+  label_done: hotovo
   label_add_group_member: Přidat uživatele
 
   text_born_on_at: "Narozen %{date} v %{place}"
