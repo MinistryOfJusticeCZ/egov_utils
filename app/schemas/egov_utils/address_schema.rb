@@ -22,7 +22,7 @@ module EgovUtils
 
     def initialize_available_attributes
       @available_attributes ||= []
-      @available_attributes << FullAddress.new(model, 'full_address', 'string')
+      @available_attributes << EgovUtils::FullAddress.new(model, 'full_address', schema: self)
       super
     end
 

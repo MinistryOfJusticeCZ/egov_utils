@@ -1,13 +1,13 @@
 module EgovUtils
-  class FullAddress < AzaharaSchema::Attribute
+  class FullAddress < AzaharaSchema::DerivedAttribute
 
-    def arel_field
-      Arel::Nodes::NamedFunction.new 'CONCAT', [EgovUtils::Address.arel_table[:city], Arel::Nodes::SqlLiteral.new('\' \'') , EgovUtils::Address.arel_table[:street]]
+    def initialize(model, name, **options)
+      super(model, name, :concat, 'city', 'street', options)
     end
 
     def build_json_options!(options)
       options[:methods] ||= []
-      options[:methods] << 'full_address'
+      options[:methods] << name
       options
     end
 
