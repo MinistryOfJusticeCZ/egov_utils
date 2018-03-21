@@ -1,0 +1,7 @@
+%h2= t('label_reset_password')
+
+= bootstrap_form_for(:password_change, url: egov_utils.create_password_path(@token), method: :post) do |f|
+  = f.password_field(:password)
+  = f.password_field(:password_confirmation)
+  .form-actions
+    = f.submit

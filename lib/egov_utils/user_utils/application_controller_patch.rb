@@ -50,6 +50,15 @@ module EgovUtils
         render 'common/modal_action'
       end
 
+      def render_404(exception = nil)
+        respond_to do |format|
+          format.json { head :not_found, content_type: 'text/html' }
+          format.html { render template: "errors/error_404", error: exception.try('message'), status: 404 }
+          format.js   { head :not_found, content_type: 'text/html' }
+        end
+        return false
+      end
+
       protected
         def find_current_user
           # existing session

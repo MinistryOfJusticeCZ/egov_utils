@@ -22,6 +22,9 @@ cs:
     cookies_text: K ukládání nastavení a správnému fungování využíváme soubory cookies. Používáním webu s jejich používáním souhlasíte.
     ok: Rozumím
 
+  error_forbidden: Přístup odepřen
+  error_not_found: Nenalezeno
+
   button_add: Přidat
 
   ministery_justice_name: Ministerstvo spravedlnosti ČR
@@ -34,6 +37,7 @@ cs:
   notice_logout: Byl/a jste úspěšně odhlášen/a
   notice_signeup_with_mail: Registrace proběhla úspěšně, byl Vám odeslán potvrzovací e-mail, prosím zkontrolujte svou poštu.
   notice_password_changed: Vaše heslo bylo úspěšně změněno
+  notice_reset_email_sent: E-mail s instrukcemi pro změnu hesla byl odeslán na zadanou e-mailovou adresu.
   success_user_confirm: Váše e-mailová adresa byla potvrzena. Nyní se již můžete přihlásit.
   error_password_expired: Platnost vašeho hesla vypršela. Prosím změňte ho.
   warning_password_not_changed: Heslo nebylo změněno, zadali jste všechna hesla správně?
@@ -54,6 +58,8 @@ cs:
   label_actions: Akce
   label_done: hotovo
   label_add_group_member: Přidat uživatele
+  label_forgotten_password: Zapomněli jste heslo?
+  label_reset_password: Obnova hesla
 
   text_born_on_at: "Narozen %{date} v %{place}"
 
@@ -123,8 +129,10 @@ cs:
       password: Heslo
     password_change:
       current_password: Současné heslo
-      password: Heslo
+      password: Nové heslo
       password_confirmation: Potvrzení hesla
+    reset_password:
+      mail: E-mailová adresa
 
   submits: &my_submits
     password_change:

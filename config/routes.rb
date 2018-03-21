@@ -22,7 +22,14 @@ EgovUtils::Engine.routes.draw do
   end
   resources :roles
 
-  resources :passwords
+  resources :passwords, only: [:index, :edit, :update] do
+    collection do
+      get 'reset'
+      post 'send_reset_token'
+    end
+  end
+  get 'passwords/new/:token', to: 'passwords#new', as: 'new_password'
+  post 'passwords/:token', to: 'passwords#create', as: 'create_password'
 
   # post '/auth/:provider/callback', to: 'sessions#create'
 

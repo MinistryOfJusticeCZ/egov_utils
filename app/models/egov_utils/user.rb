@@ -163,6 +163,11 @@ module EgovUtils
       false
     end
 
+    def generate_reset_password_token
+      self.confirmation_code = nil
+      generate_confirmation_code
+    end
+
     private
 
       def generate_confirmation_code

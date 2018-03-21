@@ -15,9 +15,14 @@ module EgovUtils
       allow_register
     end
 
+    def allow_password_reset?
+      allow_register? && allow_password_reset
+    end
+
   end
 
   Settings['allow_register'] ||= false
+  Settings['allow_password_reset'] ||= true
 
   Settings['redmine'] ||= Settingslogic.new({})
   Settings['redmine']['enabled'] ||= false

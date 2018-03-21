@@ -1,0 +1,6 @@
+%h2= t('label_reset_password')
+
+= bootstrap_form_for(:reset_password, url: send_reset_token_passwords_path, method: :post) do |f|
+  = f.text_field(:mail)
+  .form-actions
+    = f.submit t('label_send')
