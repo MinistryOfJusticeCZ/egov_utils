@@ -59,6 +59,14 @@ module EgovUtils
         return false
       end
 
+      def editable_attributes(model, action=:update)
+        EgovUtils::ModelPermissions.build(model, current_user).editable_attributes(action)
+      end
+
+      def editable_attributes_for(entity, action=:update)
+        EgovUtils::ModelPermissions.build(entity.type, current_user).editable_attributes_for(entity, action)
+      end
+
       protected
         def find_current_user
           # existing session

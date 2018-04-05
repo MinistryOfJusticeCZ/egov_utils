@@ -2,18 +2,28 @@ module EgovUtils
   class Person < ApplicationRecord
 
     belongs_to :residence, class_name: 'EgovUtils::Address', optional: true
+    has_one :natural_person
+    has_one :legal_person
 
-    validates :firstname, :lastname, :birth_date, presence: true
-    validates :birth_date, uniqueness: { scope: [:firstname, :lastname] }, birthday: true
+    enum person_type: { natural: 1, legal: 16 }
 
-    accepts_nested_attributes_for :residence
+    validates :person_entity, presence: true
 
-    def fullname
-      firstname.to_s + ' ' + lastname.to_s
+    accepts_nested_attributes_for :residence, :natural_person, :legal_person
+
+    delegate :fullname, :fullname=, to: :person_entity
+
+    def person_entity
+      case person_type
+      when 'natural'
+        natural_person
+      when 'legal'
+        legal_person
+      end
     end
 
     def to_s
-      "#{fullname} (#{I18n.t(:text_born_on_at, place: birth_place, date: I18n.l(birth_date.to_date))})"
+      person_entity.to_s
     end
 
   end

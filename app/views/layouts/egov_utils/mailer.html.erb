@@ -8,7 +8,13 @@
   </head>
 
   <body>
-    Dobrý den,<br />
+    <p>
+      <% if content_for?(:greeting) %>
+      <%= yield :greeting %>
+      <% else %>
+      Dobrý den,
+      <% end %>
+    </p>
     <br />
     <%= yield %>
     <br />

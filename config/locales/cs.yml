@@ -46,6 +46,7 @@ cs:
   label_new: Nový
   label_edit: Upravit
   label_profile: Profil
+  label_change_password: Změnit heslo
   label_login: Přihlásit
   label_logout: Odhlásit
   label_signup: Registrovat
@@ -104,13 +105,22 @@ cs:
       region: Kraj
       country: Země
     egov_utils/person:
+      person_type: Typ osoby
+      person_types:
+        natural: Fyzická
+        legal: Právnická
+    egov_utils/abstract_person:
       fullname: Celé jméno
+    egov_utils/natural_person:
       firstname: Jméno
       lastname: Příjmení
       birth_date: Datum narození
       birth_place: Místo narození
       residence: Bydliště
-
+    egov_utils/legal_person:
+      name: Název
+      ico: IČO
+      legal_form: Právní forma
 
   models_errors: &my_model_errors
     profile:

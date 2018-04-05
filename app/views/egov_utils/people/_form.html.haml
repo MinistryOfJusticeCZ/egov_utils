@@ -1,8 +1,18 @@
-.row
-  .col-12.col-sm-6= form.text_field(:firstname)
-  .col-12.col-sm-6= form.text_field(:lastname)
-  .col-12.col-sm-6= form.date_field(:birth_date, data: {'date-view-mode' => 'decades', 'date-min-date' => Date.new(1920, 1, 1).to_s, 'date-max-date' => Date.today.to_s, 'date-use-current' => false, 'date-view-date' => Date.new(1950, 1, 1).to_s })
-  .col-12.col-sm-6= form.text_field(:birth_place)
-  .col-12
-    = form.fields_for(:residence, person.residence || EgovUtils::Address.new) do |fields|
-      = render 'egov_utils/addresses/form', form: fields, address: fields.object
+.person-form
+  .row
+    .col-12= form.select :person_type, enum_values_for_select(person.class, :person_type), {}, class: 'person-type-toggle'
+  .natural_person.row
+    = form.fields_for(:natural_person, person.natural_person || EgovUtils::NaturalPerson.new) do |fields|
+      .col-12.col-sm-6= fields.text_field(:firstname)
+      .col-12.col-sm-6= fields.text_field(:lastname)
+      .col-12.col-sm-6= fields.date_field(:birth_date, data: {'date-view-mode' => 'decades', 'date-min-date' => Date.new(1920, 1, 1).to_s, 'date-max-date' => Date.today.to_s, 'date-use-current' => false, 'date-view-date' => Date.new(1950, 1, 1).to_s })
+      .col-12.col-sm-6= fields.text_field(:birth_place)
+  .legal_person.row
+    = form.fields_for(:legal_person, person.legal_person || EgovUtils::LegalPerson.new) do |fields|
+      .col-12= fields.text_field(:name)
+      .col-12.col-sm-6= fields.text_field(:ico)
+      .col-12.col-sm-6= fields.select2 :legal_form, list_values_for_select(azahara_attribute_for(EgovUtils::LegalPerson, 'legal_form'))
+  .row
+    .col-12
+      = form.fields_for(:residence, person.residence || EgovUtils::Address.new) do |fields|
+        = render 'egov_utils/addresses/form', form: fields, address: fields.object

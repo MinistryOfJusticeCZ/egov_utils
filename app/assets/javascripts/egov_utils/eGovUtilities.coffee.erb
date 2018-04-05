@@ -30,6 +30,7 @@ window.eGovUtilities =
     eGovUtilities.initDatepickers($container)
     eGovUtilities.initSelect2($container)
     eGovUtilities.initFileFields($container)
+    eGovUtilities.initPeople($container)
 
   clearBeforeCache: ($container)->
     $container ||= $(document)
@@ -52,6 +53,15 @@ window.eGovUtilities =
     if !Modernizr.inputtypes['datetime-local']
       pickers = $('[type="datetime-local"][data-provide="datepicker"]', $container)
       pickers.parent().datetimepicker()
+
+  initPeople: ($container)->
+    $container ||= $(document)
+    $('.person-form .person-type-toggle', $container).on('change', (evt)->
+      val = $(this).val();
+      $form = $(this).closest('.person-form');
+      $form.find('.natural_person').toggle( val == 'natural').find(':input').prop('disabled', val != 'natural');
+      $form.find('.legal_person').toggle( val == 'legal').find(':input').prop('disabled', val != 'legal');
+    ).change()
 
   initSelect2: ($container)->
     $container ||= $(document)

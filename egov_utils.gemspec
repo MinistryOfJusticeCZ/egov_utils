@@ -48,7 +48,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'modernizr-rails', '~> 2.7'
   s.add_runtime_dependency 'clipboard-rails', '~> 1.7'
 
-  s.add_runtime_dependency 'azahara_schema', '~> 0.2'
+  s.add_runtime_dependency 'azahara_schema', '~> 0.3'
   s.add_runtime_dependency 'egon_gate', '~> 0.1'
 
   s.add_runtime_dependency 'cookies_eu', '~> 1.6'
