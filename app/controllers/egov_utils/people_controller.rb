@@ -19,5 +19,8 @@ module EgovUtils
       end
     end
 
+    def show
+    end
+
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180126131416) do
+ActiveRecord::Schema.define(version: 20180403150556) do
 
   create_table "audits", force: :cascade do |t|
     t.integer "auditable_id"
@@ -66,7 +66,15 @@ ActiveRecord::Schema.define(version: 20180126131416) do
     t.index ["user_id"], name: "index_egov_utils_groups_users_on_user_id"
   end
 
-  create_table "egov_utils_people", force: :cascade do |t|
+  create_table "egov_utils_legal_people", force: :cascade do |t|
+    t.integer "person_id"
+    t.string "name"
+    t.string "ico"
+    t.integer "legal_form"
+    t.index ["person_id"], name: "index_egov_utils_legal_people_on_person_id"
+  end
+
+  create_table "egov_utils_natural_people", force: :cascade do |t|
     t.string "firstname"
     t.string "lastname"
     t.date "birth_date"
@@ -74,6 +82,15 @@ ActiveRecord::Schema.define(version: 20180126131416) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "birth_place"
+    t.integer "residence_id"
+    t.integer "person_id"
+    t.index ["person_id"], name: "index_egov_utils_natural_people_on_person_id"
+    t.index ["residence_id"], name: "index_egov_utils_natural_people_on_residence_id"
+  end
+
+  create_table "egov_utils_people", force: :cascade do |t|
+    t.integer "person_type"
+    t.string "joid"
     t.integer "residence_id"
     t.index ["residence_id"], name: "index_egov_utils_people_on_residence_id"
   end

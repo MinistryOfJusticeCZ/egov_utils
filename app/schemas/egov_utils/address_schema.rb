@@ -1,5 +1,5 @@
 module EgovUtils
-  class AddressSchema < AzaharaSchema::ModelSchema
+  class AddressSchema < EgovUtils::EngineSchema
 
     def attribute_for_column(col)
       case col.name

@@ -1,5 +1,5 @@
 module EgovUtils
-  class UserSchema < AzaharaSchema::ModelSchema
+  class UserSchema < EgovUtils::EngineSchema
 
     def main_attribute_name
       'fullname'
