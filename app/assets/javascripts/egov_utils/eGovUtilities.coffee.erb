@@ -1,4 +1,12 @@
 
+window.set_disabled_observer = (element, trigger) ->
+  observer = new MutationObserver (mutations) ->
+    mutations.forEach (mutation)->
+      if mutation.attributeName == "disabled"
+        trigger();
+  observer.observe(element, {attributes: true})
+  observer
+
 window.eGovUtilities =
   setup: ()->
     # select2 defaults
@@ -56,16 +64,20 @@ window.eGovUtilities =
 
   initPeople: ($container)->
     $container ||= $(document)
-    $('.person-form .person-type-toggle', $container).on('change', (evt)->
+    $type_toggles = $('.person-form .person-type-toggle', $container)
+    $type_toggles.on('change', (evt)->
       val = $(this).val();
       $form = $(this).closest('.person-form');
       $form.find('.natural_person').toggle( val == 'natural').find(':input').prop('disabled', val != 'natural');
       $form.find('.legal_person').toggle( val == 'legal').find(':input').prop('disabled', val != 'legal');
-    ).change()
+    )
+    $type_toggles.each (index)->
+      $el = $(this)
+      $el.change() if $el.is(':visible')
 
   initSelect2: ($container)->
     $container ||= $(document)
-    $('[data-provide="select2"]', $container).select2()
+    $('[data-provide="select2"]', $container).select2(width: null)
 
   destroySelect2: ($container)->
     $container ||= $(document)
@@ -84,6 +96,27 @@ window.eGovUtilities =
     #   console.error('Trigger:', e.trigger);
     # )
     $cpyBtn
+
+  toggleContainerForm: ($container, toggle_state) ->
+    $container.toggle(toggle_state)
+    $container.find(':input').prop('disabled', !toggle_state)
+
+  toggableForm: ($toggler, attr_names, get_state) ->
+    get_state ||= ($toggler)->
+      input_type = $toggler.attr('type')
+      state = !$toggler.prop('disabled')
+      if input_type == 'checkbox'
+        state = state && $toggler.is(':checked')
+      else
+        state = state && !$toggler.val() && $toggler.val() != ''
+      return state
+
+    $attributes = $toggler.closest('.'+attr_names).find('.'+attr_names+'-attributes')
+
+    eGovUtilities.toggleContainerForm($attributes, get_state($toggler))
+    $toggler.on 'change', (evt) ->
+      eGovUtilities.toggleContainerForm($attributes, get_state($toggler))
+
 
   initModal: (modalId, options)->
     options = options || {}

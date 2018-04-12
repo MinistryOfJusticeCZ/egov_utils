@@ -5,7 +5,7 @@
     = form.fields_for(:natural_person, person.natural_person || EgovUtils::NaturalPerson.new) do |fields|
       .col-12.col-sm-6= fields.text_field(:firstname)
       .col-12.col-sm-6= fields.text_field(:lastname)
-      .col-12.col-sm-6= fields.date_field(:birth_date, data: {'date-view-mode' => 'decades', 'date-min-date' => Date.new(1920, 1, 1).to_s, 'date-max-date' => Date.today.to_s, 'date-use-current' => false, 'date-view-date' => Date.new(1950, 1, 1).to_s })
+      .col-12.col-sm-6= fields.date_field(:birth_date, min: Date.new(1920, 1, 1), max: Date.today, data: {'date-view-mode' => 'decades', 'date-use-current' => false, 'date-view-date' => Date.new(1950, 1, 1).to_s })
       .col-12.col-sm-6= fields.text_field(:birth_place)
   .legal_person.row
     = form.fields_for(:legal_person, person.legal_person || EgovUtils::LegalPerson.new) do |fields|

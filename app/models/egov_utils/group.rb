@@ -16,16 +16,20 @@ module EgovUtils
     end
 
     def members
-
+      if ldap?
+        EgovUtils::User.where(login: ldap_members.collect{|m| m[:login] })
+      else
+        users
+      end
     end
 
     def ldap_members
-      Rails.cache.fetch("#{cache_key}/ldap_members", expires_in: 2.hours) do
-        if provider.present?
+      if provider.present?
+        Rails.cache.fetch("#{cache_key}/ldap_members", expires_in: 2.hours) do
           auth_source.group_members(ldap_uid)
-        else
-          []
         end
+      else
+        []
       end
     end
 

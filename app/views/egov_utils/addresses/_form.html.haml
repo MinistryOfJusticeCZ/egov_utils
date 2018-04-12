@@ -41,7 +41,9 @@
         }
       })
       window.setTimeout(function(){
-        $('.country-select', $fields).change();
+        var $country_select = $('.country-select', $fields);
+        if( $country_select.is(':visible') )
+          $country_select.change();
       }, 1500);
 
       $('.address-validator-btn', $fields).on('click', function(evt) {
