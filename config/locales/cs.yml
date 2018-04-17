@@ -44,18 +44,19 @@ cs:
 
   label_approve: Schválit
   label_new: Nový
+  label_create: Vytvořit
   label_edit: Upravit
+  label_save: Uložit
+  label_delete: Smazat
+  label_ok: OK
   label_profile: Profil
   label_change_password: Změnit heslo
   label_login: Přihlásit
   label_logout: Odhlásit
   label_signup: Registrovat
   label_validate_address: Zvalidovat
-  label_save: Uložit
   label_ldap: LDAP
   label_search: Vyhledat
-  label_delete: Smazat
-  label_ok: OK
   label_actions: Akce
   label_done: hotovo
   label_add_group_member: Přidat uživatele

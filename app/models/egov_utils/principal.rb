@@ -37,14 +37,24 @@ module EgovUtils
       organization_by_domain.try(:key)
     end
 
-    def organization_id(organization_key=self.organization_key)
+    def organization_id
+      organization_by_domain.try(:id)
+    end
+
+    def organization_id_by_key(organization_key=self.organization_key)
       EgovUtils::Organization.find_by_key(organization_key).try(:id)
     end
 
     def organization_with_suborganizations_keys(organization_key=self.organization_key)
       return [] unless organization_key
       Rails.cache.fetch("organizations/#{organization_key}/org_with_suborgs_keys") do
-        [organization_key] + ( organization_key && EgovUtils::Organization.where(superior_id: organization_id(organization_key)).collect(&:key) || [] )
+        [organization_key] + ( organization_key && EgovUtils::Organization.where(superior_id: organization_id_by_key(organization_key)).collect(&:key) || [] )
+      end
+    end
+
+    def organization_with_suborganizations_ids(organization_id=self.organization_id)
+      Rails.cache.fetch("organizations/#{organization_key}/org_with_suborgs_ids") do
+        [organization_id] + ( organization_id && EgovUtils::Organization.where(superior_id: organization_id).collect(&:id) || [] )
       end
     end
   end

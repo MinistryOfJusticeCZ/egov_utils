@@ -108,6 +108,7 @@ module EgovUtils
 
       require 'egov_utils/helpers/tags/datetime_field_patch'
       ActionView::Helpers::Tags::DatetimeField.prepend(EgovUtils::Helpers::Tags::DatetimeFieldPatch)
+      ActionView::Helpers::Tags::DatetimeLocalField.prepend(EgovUtils::Helpers::Tags::DatetimeLocalFieldPatch)
 
       ActionView::Helpers::Tags::DateField.redefine_method(:format_date) do |value|
         value.try(:strftime, BootstrapForm::DATE_FORMAT_RUBY)

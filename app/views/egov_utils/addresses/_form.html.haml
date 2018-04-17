@@ -17,9 +17,9 @@
   .col-12
     - form.object.country ||= EgovUtils::Address::CZ_ISO_CODE
     = form.select2 :country, EgovUtils::Address.countries.collect{|c| [c[:name],c[:iso_id]]}, {}, class: 'country-select'
-  .col-12
-    %div.validation-button
-      = link_to t('label_validate_address'), 'javascript:void(0)', class: 'btn btn-secondary address-validator-btn'
+  /.col-12
+  /  %div.validation-button
+  /    = link_to t('label_validate_address'), 'javascript:void(0)', class: 'btn btn-secondary address-validator-btn'
 
 :javascript
   $(function(){

@@ -20,7 +20,7 @@ module BootstrapForm
     def datetime_local_field(name, *args)
       options = args.extract_options!.symbolize_keys!
       options[:datetimepicker] = true
-      options[:data] = {'date-extra-formats' => [BootstrapForm::DATE_FORMAT_JS+"THH:mm:ss"]}.merge(options[:data] || {})
+      options[:data] = {'date-extra-formats' => [BootstrapForm::DATE_FORMAT_JS+"THH:mm"+(options[:include_seconds] ? ':ss' : '')]}.merge(options[:data] || {})
       options[:append] = calendar_addon
       args << options
       super
