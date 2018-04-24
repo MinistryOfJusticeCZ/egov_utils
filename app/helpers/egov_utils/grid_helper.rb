@@ -3,7 +3,7 @@ module EgovUtils
 
     def type_for_grid(type)
       case type
-      when 'integer', 'float', 'decimal'
+      when 'integer', 'float', 'decimal', 'currency'
         'Number'
       when 'string', 'text', 'list', 'love'
         'String'
@@ -57,10 +57,10 @@ module EgovUtils
 
       if attribute.type == 'list'
         s << ", format: ( (value) -> I18n.t('#{attribute.attribute_name.i18n_scoped_list_prefix}'+'.'+value, {defaults: $.map( #{attribute.attribute_name.i18n_list_fallback_prefixes.to_json}, (pref, i)-> {scope: (pref + '.' + value)} )}) ) "
-      elsif attribute.type == 'date'
+      elsif %w(date datetime).include?(attribute.type)
         s << ", format: ( (value)-> I18n.l('date.formats.default', value) )"
-      elsif attribute.type == 'datetime'
-        s << ", format: ( (value)-> I18n.l('time.formats.default', value) )"
+      elsif attribute.type == 'currency'
+        s << ", columnTemplate: ( (cell, item, index)-> $('<div></div>').appendTo(cell).html( I18n.toCurrency(item['#{attribute.name}'], { unit: window.currency_symbols[item['#{attribute.try(:currency_code_col)}']]}) ) )"
       end
       s << "}"
     end

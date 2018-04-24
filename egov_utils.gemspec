@@ -33,6 +33,7 @@ Gem::Specification.new do |s|
   s.add_dependency "audited", "~> 4.4"
   s.add_dependency 'paranoia', '2.4'
   s.add_dependency 'cancancan', '~> 2.0'
+  s.add_dependency 'money', '~> 6.11'
 
 
   s.add_runtime_dependency 'request_store_rails', '~> 1.0'
@@ -40,7 +41,7 @@ Gem::Specification.new do |s|
 
   s.add_runtime_dependency 'jquery-rails', '~> 4.3'
   s.add_runtime_dependency 'jquery-ui-rails', '~> 6.0'
-  s.add_runtime_dependency 'bootstrap', '~> 4.0.0.beta'
+  s.add_runtime_dependency 'bootstrap', '~> 4.0.0'
   s.add_runtime_dependency 'sass-rails', '~> 5.0'
   s.add_runtime_dependency 'font-awesome-sass', '~> 4.7'
   s.add_runtime_dependency 'bootstrap_form', '~> 2.7'
