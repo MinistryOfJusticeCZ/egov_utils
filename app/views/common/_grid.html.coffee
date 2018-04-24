@@ -86,12 +86,12 @@ $ ->
                 success()
                 return
               error(xhr)
-        # remove: (items, success, error) ->
-        #   $.ajax(
-        #     type: "DELETE"
-        #     url: "<%= polymorphic_path(schema.model) %>/" + items[0].data.id + '.json'
-        #     dataType: 'json'
-        #   ).then(success, error)
+        remove: (items, success, error) ->
+          $.ajax(
+            type: "DELETE"
+            url: "<%= polymorphic_path(schema.model) %>/" + items[0].data.id + '.json'
+            dataType: 'json'
+          ).then(success, error)
       operations: ['sort', 'skip', 'take']
 
   $('#<%= grid_id %>').shieldGrid({
@@ -118,9 +118,9 @@ $ ->
           {cls: 'btn btn-sm btn-primary', caption: '<%= t('label_edit') %>', click: editRecord},
           <% end %>
           <%= additional_grid_edit_buttons(schema) %>
-          # <% if can?(:destroy, schema.model) %>
-          # {commandName: 'delete', caption: '<%= t('label_delete') %>'}
-          # <% end %>
+          <% if local_assigns.fetch(:allow_delete, false) && can?(:destroy, schema.model) %>
+          {commandName: 'delete', caption: '<%= t('label_delete') %>'}
+          <% end %>
         ]
       }
       <% end %>
@@ -129,7 +129,11 @@ $ ->
       multiple: false
     editing:
       enabled: <%= can?(:update, schema.model) || can?(:destroy, schema.model) %>
-      type: 'row'
+      type: 'row',
+      confirmation:
+        "delete":
+          enabled: true
+          template: "<%= t('confirm_destroy', subject: '{'+schema.main_attribute_name+'}') %>"
     <% if local_assigns[:detail_for] %>
     events:
       detailCreated: detailCreated

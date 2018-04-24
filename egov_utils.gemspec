@@ -48,6 +48,7 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'momentjs-rails', '~> 2.17'
   s.add_runtime_dependency 'modernizr-rails', '~> 2.7'
   s.add_runtime_dependency 'clipboard-rails', '~> 1.7'
+  s.add_runtime_dependency 'vuejs-rails', '~> 2.5'
 
   s.add_runtime_dependency 'azahara_schema', '~> 0.3'
   s.add_runtime_dependency 'egon_gate', '~> 0.1'

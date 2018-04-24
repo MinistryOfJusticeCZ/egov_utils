@@ -23,4 +23,5 @@
 //= require egov_utils/roles
 //= require egov_utils/file_uid
 //= require clipboard
+//= require vue
 //= require cookies_eu

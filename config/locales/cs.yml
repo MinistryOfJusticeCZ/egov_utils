@@ -30,6 +30,8 @@ cs:
   ministery_justice_name: Ministerstvo spravedlnosti ČR
   label_no_records: Žádné záznamy k zobrazení
 
+  confirm_destroy: "Opravdu chcete smazat %{subject}?"
+
   notice_account_invalid_credentials: Přihlašovací údaje jsou nesprávné
   notice_onthefly_failure: Nemáte oprávnění k přístupu do aplikace
   notice_account_pending: Váš účet čeká na schválení/ověření
@@ -41,6 +43,7 @@ cs:
   success_user_confirm: Váše e-mailová adresa byla potvrzena. Nyní se již můžete přihlásit.
   error_password_expired: Platnost vašeho hesla vypršela. Prosím změňte ho.
   warning_password_not_changed: Heslo nebylo změněno, zadali jste všechna hesla správně?
+
 
   label_approve: Schválit
   label_new: Nový

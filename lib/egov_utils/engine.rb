@@ -11,6 +11,7 @@ require 'azahara_schema_currency'
 require 'font-awesome-sass'
 require 'modernizr-rails'
 require 'clipboard/rails'
+require 'vuejs-rails'
 
 require 'cookies_eu'
 
