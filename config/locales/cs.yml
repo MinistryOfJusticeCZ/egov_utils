@@ -121,6 +121,8 @@ cs:
       birth_date: Datum narození
       birth_place: Místo narození
       residence: Bydliště
+      title: Tituly před
+      higher_title: Tituly za
     egov_utils/legal_person:
       name: Název
       ico: IČO
