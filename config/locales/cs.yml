@@ -32,6 +32,7 @@ cs:
 
   confirm_destroy: "Opravdu chcete smazat %{subject}?"
 
+  warning_staging_version: Toto je testovací verze aplikace.
   notice_account_invalid_credentials: Přihlašovací údaje jsou nesprávné
   notice_onthefly_failure: Nemáte oprávnění k přístupu do aplikace
   notice_account_pending: Váš účet čeká na schválení/ověření
