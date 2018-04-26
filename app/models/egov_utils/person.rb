@@ -2,8 +2,8 @@ module EgovUtils
   class Person < ApplicationRecord
 
     belongs_to :residence, class_name: 'EgovUtils::Address', optional: true
-    has_one :natural_person
-    has_one :legal_person
+    has_one :natural_person, dependent: :destroy
+    has_one :legal_person, dependent: :destroy
 
     enum person_type: { natural: 1, legal: 16 }
 
