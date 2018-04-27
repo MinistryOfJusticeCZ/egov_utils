@@ -31,7 +31,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'settingslogic', '~> 2.0'
   s.add_dependency "audited", "~> 4.4"
-  s.add_dependency 'paranoia', '2.4'
+  s.add_dependency 'paranoia', '~> 2.4'
   s.add_dependency 'cancancan', '~> 2.0'
   s.add_dependency 'money', '~> 6.11'
 
