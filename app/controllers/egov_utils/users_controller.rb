@@ -7,7 +7,7 @@ module EgovUtils
     skip_before_action :require_login, only: [:new, :create, :confirm]
 
     authorize_resource only: :index
-    load_and_authorize_resource only: [:new, :create, :destroy]
+    load_and_authorize_resource only: [:new, :create, :show, :destroy]
 
     def index
       providers

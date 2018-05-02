@@ -1,2 +1,7 @@
-%h3= current_user.fullname
-= current_user.mail || current_user.login
+%h3= @user.fullname
+= @user.mail || @user.login
+
+%h5= EgovUtils::Group.model_name.human(count: :other)
+%ul
+  - @user.groups.each do |group|
+    %li= group.name
