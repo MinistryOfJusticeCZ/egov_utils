@@ -37,5 +37,21 @@ module EgovUtils
       END_JS
     end
 
+    def egov_breadcrumbs
+      if block_given?
+        links = []
+        yield(links)
+      end
+      content_tag('nav', 'aria-label' => 'breadcrumb') do
+        content_tag('ol', class: 'breadcrumb') do
+          s = links[0..-2].collect do |link|
+            content_tag(:li, link, class: 'breadcrumb-item' )
+          end.join(' ').html_safe
+          s << content_tag(:li, links.last, class: 'breadcrumb-item active')
+          s
+        end
+      end
+    end
+
   end
 end
