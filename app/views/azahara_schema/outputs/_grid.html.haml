@@ -2,4 +2,4 @@
 %div{id: grid_id}
 
 :javascript
-  #{raw render 'common/grid', grid_id: grid_id, schema: grid.schema}
+  #{raw render 'common/grid', local_assigns.merge(grid_id: grid_id, schema: grid.schema)}

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180403150556) do
+ActiveRecord::Schema.define(version: 20180424143207) do
 
   create_table "audits", force: :cascade do |t|
     t.integer "auditable_id"
@@ -84,6 +84,8 @@ ActiveRecord::Schema.define(version: 20180403150556) do
     t.string "birth_place"
     t.integer "residence_id"
     t.integer "person_id"
+    t.string "title"
+    t.string "higher_title"
     t.index ["person_id"], name: "index_egov_utils_natural_people_on_person_id"
     t.index ["residence_id"], name: "index_egov_utils_natural_people_on_residence_id"
   end
