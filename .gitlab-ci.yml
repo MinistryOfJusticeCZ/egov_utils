@@ -36,8 +36,8 @@ test:2.3:
     - "sed -i \"s|gem 'azahara_schema', path: '.*'|gem 'azahara_schema', path: '$REPO_DIR'|g\" Gemfile_devel"
     - git config --global url."https://github.com".insteadOf git://github.com
     - RAILS_ENV=test bundle install --path=cache/bundler --without production --jobs $(nproc)  "${FLAGS[@]}"
-    - rake db:migrate RAILS_ENV=test
-    - rspec
+    - bundle exec db:migrate RAILS_ENV=test
+    - bundle exec rspec
 
 deploy_gem:
   stage: deploy
