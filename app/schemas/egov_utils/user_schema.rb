@@ -5,6 +5,10 @@ module EgovUtils
       'fullname'
     end
 
+    def default_columns
+      ['fullname', 'provider', 'roles', 'groups']
+    end
+
     def initialize_available_attributes
       @available_attributes ||= []
       @available_attributes << AzaharaSchema::DerivedAttribute.new(model, 'fullname', :concat, 'lastname', 'firstname', schema: self)

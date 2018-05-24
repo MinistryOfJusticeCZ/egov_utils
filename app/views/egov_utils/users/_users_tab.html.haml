@@ -7,9 +7,9 @@
       %th= EgovUtils::User.human_attribute_name('groups')
       %th= t('label_actions')
   %tbody
-    - users.each do |user|
+    - users.entities.each do |user|
       %tr
-        %td= user.fullname
+        %td{title: user.login}= user.fullname
         %td= user.provider
         - if can?(:manage, user)
           %td.roles{data: {roles: user.roles, id: user.id}}= user.roles.join(', ')
@@ -19,7 +19,8 @@
           - user.groups.each do |g|
             %span= g.name
         %td
-          = button_to(t('label_delete'), user_path(user), method: :delete, class: 'btn btn-warning btn-sm')
+          - if can?(:delete, user)
+            = button_to(t('label_delete'), user_path(user), method: :delete, class: 'btn btn-warning btn-sm')
           - unless user.active?
             = button_to(t('label_approve'), approve_user_path(user), class: 'btn btn-primary btn-sm')
 

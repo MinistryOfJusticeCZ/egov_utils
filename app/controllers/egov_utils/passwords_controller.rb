@@ -15,7 +15,7 @@ module EgovUtils
     def send_reset_token
       return render_404 unless EgovUtils::Settings.allow_password_reset?
       @user = EgovUtils::User.find_by(mail: params[:reset_password][:mail])
-      if @user
+      if @user && @user.password_change_possible?
         @token = @user.generate_reset_password_token
         EgovUtils::UserMailer.password_reset(@user, @token).deliver_later if @user.save
       end

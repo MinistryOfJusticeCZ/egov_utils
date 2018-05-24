@@ -11,12 +11,16 @@ module EgovUtils
 
     # namespace Rails.env
 
+    def allow_internal_accounts?
+      true
+    end
+
     def allow_register?
-      allow_register
+      allow_internal_accounts? && allow_register
     end
 
     def allow_password_reset?
-      allow_register? && allow_password_reset
+      allow_internal_accounts? && allow_password_reset
     end
 
   end

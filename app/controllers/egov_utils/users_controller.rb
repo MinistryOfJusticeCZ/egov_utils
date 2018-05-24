@@ -6,14 +6,15 @@ module EgovUtils
 
     skip_before_action :require_login, only: [:new, :create, :confirm]
 
-    authorize_resource only: :index
-    load_and_authorize_resource only: [:new, :create, :show, :destroy]
+    load_and_authorize_resource
 
     def index
       providers
-      @users = EgovUtils::User.accessible_by(current_ability).order(:provider)
       @groups = EgovUtils::Group.accessible_by(current_ability).order(:provider)
       @new_user = EgovUtils::User.new(generate_password: true)
+      azahara_schema_index do |users|
+        users.add_sort('provider')
+      end
     end
 
     def new
