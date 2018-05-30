@@ -138,13 +138,6 @@ $ ->
     events:
       detailCreated: detailCreated
     <% end %>
-    <% if can? :create, schema.model %>
-    toolbar: [
-      {
-        position: 'top'
-      }
-    ]
-    <% end %>
   });
 
   destroy_evt_method = (evt)->
