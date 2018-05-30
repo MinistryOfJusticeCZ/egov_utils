@@ -141,9 +141,6 @@ $ ->
     <% if can? :create, schema.model %>
     toolbar: [
       {
-        buttons: [
-          { cls: 'btn btn-primary', caption: '<%= t('helpers.submit.create', model: create_model.model_name.human) %>', click: createRecord }
-        ],
         position: 'top'
       }
     ]

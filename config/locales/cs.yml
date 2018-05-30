@@ -61,6 +61,7 @@ cs:
   label_validate_address: Zvalidovat
   label_ldap: LDAP
   label_search: Vyhledat
+  label_send: Odeslat
   label_actions: Akce
   label_done: hotovo
   label_add_group_member: Přidat uživatele
