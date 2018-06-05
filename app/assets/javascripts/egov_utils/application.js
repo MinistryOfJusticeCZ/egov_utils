@@ -14,7 +14,7 @@
 //= require moment/cs
 //= require popper
 //= require bootstrap-sprockets
-//= require bootstrap-datetimepicker
+//= require tempusdominus-bootstrap-4
 //= require shieldui-all.min
 //= require select2/select2
 //= require select2/i18n/cs

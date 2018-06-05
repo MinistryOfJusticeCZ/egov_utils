@@ -17,7 +17,9 @@ gem 'therubyracer', platforms: :ruby
 gem "rspec-rails"
 gem "factory_bot_rails", '~> 4.0'
 
-gem 'bootstrap3-datetimepicker-rails', github: 'ezrondre/bootstrap3-datetimepicker-rails'
+gem "bootstrap_form",
+    git: "https://github.com/bootstrap-ruby/bootstrap_form.git",
+    branch: "master"
 gem 'azahara_schema'
 
 gem 'pry-rails'

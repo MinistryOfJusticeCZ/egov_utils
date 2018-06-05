@@ -13,17 +13,17 @@ window.eGovUtilities =
     $.fn.select2.defaults.set( "theme", "bootstrap" )
 
     # datepicker defaults
-    $.extend $.fn.datetimepicker.defaults.icons, {
-      time: 'fa fa-clock-o',
-      date: 'fa fa-calendar',
-      up: 'fa fa-chevron-up',
-      down: 'fa fa-chevron-down',
-      previous: 'fa fa-chevron-left',
-      next: 'fa fa-chevron-right',
-      today: 'fa fa-calendar-check-o',
-      clear: 'fa fa-trash-o',
-      close: 'fa fa-close'
-    }
+    # $.extend $.fn.datetimepicker.Constructor.Default.icons, {
+    #   time: 'fa fa-clock-o',
+    #   date: 'fa fa-calendar',
+    #   up: 'fa fa-chevron-up',
+    #   down: 'fa fa-chevron-down',
+    #   previous: 'fa fa-chevron-left',
+    #   next: 'fa fa-chevron-right',
+    #   today: 'fa fa-calendar-check-o',
+    #   clear: 'fa fa-trash-o',
+    #   close: 'fa fa-close'
+    # }
 
     $(document).on 'change', '.custom-file-input:file', ()->
       $input = $(this)
@@ -54,13 +54,13 @@ window.eGovUtilities =
     $container ||= $(document)
     if !Modernizr.inputtypes.date
       pickers = $('[type="date"][data-provide="datepicker"]', $container)
-      pickers.parent().datetimepicker()
+      pickers.parents().datetimepicker({allowInputToggle: true})
     if !Modernizr.inputtypes.datetime
       pickers = $('[type="datetime"][data-provide="datepicker"]', $container)
-      pickers.parent().datetimepicker()
+      pickers.parents().datetimepicker({allowInputToggle: true})
     if !Modernizr.inputtypes['datetime-local']
       pickers = $('[type="datetime-local"][data-provide="datepicker"]', $container)
-      pickers.parent().datetimepicker()
+      pickers.parents().datetimepicker({allowInputToggle: true})
 
   initPeople: ($container)->
     $container ||= $(document)

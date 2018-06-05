@@ -1,7 +1,7 @@
 %table.table#users
   %thead
     %tr
-      %th= t('model_attributes.user.fullname')
+      %th= EgovUtils::User.human_attribute_name('fullname')
       %th= EgovUtils::User.human_attribute_name('provider')
       %th= EgovUtils::User.human_attribute_name('roles')
       %th= EgovUtils::User.human_attribute_name('groups')

@@ -109,7 +109,7 @@ $ ->
       <% schema.columns.each do |col| %>
       <%= raw column_for_grid(grid, col) %>
       <% end %>
-      <% if can?(:update, schema.model) || can?(:destroy, schema.model) %>
+      <% if can?(:update, schema.model) || (local_assigns.fetch(:allow_delete, false) && can?(:destroy, schema.model)) %>
       {
         width: 150
         title: "<%= t('label_actions') %>"
