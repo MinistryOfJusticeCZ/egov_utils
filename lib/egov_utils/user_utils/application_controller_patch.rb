@@ -56,7 +56,6 @@ module EgovUtils
           format.html { render template: "errors/error_404", error: exception.try('message'), status: 404 }
           format.js   { head :not_found, content_type: 'text/html' }
         end
-        return false
       end
 
       def editable_attributes(model, action=:update)

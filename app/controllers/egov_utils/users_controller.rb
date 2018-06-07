@@ -6,7 +6,7 @@ module EgovUtils
 
     skip_before_action :require_login, only: [:new, :create, :confirm]
 
-    load_and_authorize_resource
+    load_and_authorize_resource only: [:index, :new, :create, :show, :destroy]
 
     def index
       providers
@@ -53,7 +53,7 @@ module EgovUtils
 
     def approve
       @user = User.find_by(id: params[:id])
-      render_404 and return unless @user || @user.active?
+      render_404 and return if @user.nil? || @user.active?
       authorize!(:manage, User)
       @user.update(active: true)
       redirect_back(fallback_location: @user)
@@ -61,7 +61,7 @@ module EgovUtils
 
     def confirm
       @user = User.find_by(confirmation_code: params[:id])
-      render_404 and return if @user.nil? || !@user.active? || @user.updated_at < (Time.now - 24.hours)
+      render_404 and return if @user.nil? || @user.active? || @user.updated_at < (Time.now - 24.hours)
       @user.update(active: true)
       logged_user = @user
       flash[:notice] = t('success_user_confirm')

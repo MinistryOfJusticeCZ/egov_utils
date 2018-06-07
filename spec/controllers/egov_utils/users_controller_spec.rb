@@ -62,6 +62,27 @@ module EgovUtils
 
     end
 
+    describe '#confirm' do
+
+      let(:user) do
+        instance_double("EgovUtils::User", updated_at: Time.now - 3.hours, :confirmation_code => SecureRandom.hex)
+      end
+
+      it 'confirms user with valid token and inactive user' do
+        allow(user).to receive(:active?).and_return(false)
+        expect(EgovUtils::User).to receive(:find_by).with(hash_including(confirmation_code: user.confirmation_code)).and_return(user)
+        expect(user).to receive(:update).with(hash_including(active: true))
+        get :confirm, params: {id: user.confirmation_code}
+      end
+
+      it 'renders 404 for user with valid token but already active user' do
+        allow(user).to receive(:active?).and_return(true)
+        expect(EgovUtils::User).to receive(:find_by).with(hash_including(confirmation_code: user.confirmation_code)).and_return(user)
+        get :confirm, params: {id: user.confirmation_code}
+        expect(user).not_to receive(:update).with(hash_including(active: true))
+      end
+
+    end
 
   end
 end
