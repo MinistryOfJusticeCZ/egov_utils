@@ -61,7 +61,7 @@ module EgovUtils
 
     def confirm
       @user = User.find_by(confirmation_code: params[:id])
-      render_404 and return unless @user || @user.active? || @user.updated_at < (Time.now - 24.hours)
+      render_404 and return if @user.nil? || !@user.active? || @user.updated_at < (Time.now - 24.hours)
       @user.update(active: true)
       logged_user = @user
       flash[:notice] = t('success_user_confirm')
