@@ -108,8 +108,8 @@ module EgovUtils
       require 'bootstrap_form/check_box_patch'
       BootstrapForm::FormBuilder.__send__(:prepend, BootstrapForm::CheckBoxPatch)
 
+      #TODO: same as redefine method down?
       require 'egov_utils/helpers/tags/datetime_field_patch'
-      ActionView::Helpers::Tags::DatetimeField.prepend(EgovUtils::Helpers::Tags::DatetimeFieldPatch)
       ActionView::Helpers::Tags::DatetimeLocalField.prepend(EgovUtils::Helpers::Tags::DatetimeLocalFieldPatch)
 
       ActionView::Helpers::Tags::DateField.redefine_method(:format_date) do |value|

@@ -4,6 +4,7 @@ module BootstrapForm
       options = args.extract_options!.symbolize_keys!
       prepare_options(name, options)
       options[:input_group][:data].merge!({'date-format' => 'L', 'date-extra-formats' => [BootstrapForm::DATE_FORMAT_JS]}.merge(options[:data] || {}))
+      append_min_max(BootstrapForm::DATE_FORMAT_RUBY, options)
       args << options
       super
     end
@@ -20,6 +21,7 @@ module BootstrapForm
       options = args.extract_options!.symbolize_keys!
       prepare_options(name, options)
       options[:input_group][:data].merge!({'date-extra-formats' => [BootstrapForm::DATE_FORMAT_JS+"THH:mm"+(options[:include_seconds] ? ':ss' : '')]}.merge(options[:data] || {}))
+      append_min_max(BootstrapForm::DATE_FORMAT_RUBY+"T%T", options)
       args << options
       super
     end
@@ -39,6 +41,10 @@ module BootstrapForm
         options[:append_tag] = {data: {toggle: 'datetimepicker', target: '#' + input_group_id}}
         options[:data] ||= {}
         options[:data][:target] = '#' + input_group_id
+      end
+
+      def append_min_max(format, options)
+        options[:input_group][:data].merge!('date-min-date' => options[:min].try(:strftime, format), 'date-max-date' => options[:max].try(:strftime, format))
       end
 
       def calendar_addon

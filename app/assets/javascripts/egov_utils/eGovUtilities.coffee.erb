@@ -54,13 +54,13 @@ window.eGovUtilities =
     $container ||= $(document)
     if !Modernizr.inputtypes.date
       pickers = $('[type="date"][data-provide="datepicker"]', $container)
-      pickers.parents().datetimepicker({allowInputToggle: true})
+      pickers.addClass('datetimepicker-input').parents().datetimepicker({allowInputToggle: true})
     if !Modernizr.inputtypes.datetime
       pickers = $('[type="datetime"][data-provide="datepicker"]', $container)
-      pickers.parents().datetimepicker({allowInputToggle: true})
+      pickers.addClass('datetimepicker-input').parents().datetimepicker({allowInputToggle: true})
     if !Modernizr.inputtypes['datetime-local']
       pickers = $('[type="datetime-local"][data-provide="datepicker"]', $container)
-      pickers.parents().datetimepicker({allowInputToggle: true})
+      pickers.addClass('datetimepicker-input').parents().datetimepicker({allowInputToggle: true})
 
   initPeople: ($container)->
     $container ||= $(document)
