@@ -16,10 +16,6 @@ gem 'therubyracer', platforms: :ruby
 # gem 'byebug', group: [:development, :test]
 gem "rspec-rails"
 gem "factory_bot_rails", '~> 4.0'
-
-gem "bootstrap_form",
-    git: "https://github.com/bootstrap-ruby/bootstrap_form.git",
-    branch: "master"
 gem 'azahara_schema'
 
 gem 'pry-rails'

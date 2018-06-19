@@ -1,22 +1,14 @@
-GIT
-  remote: https://github.com/bootstrap-ruby/bootstrap_form.git
-  revision: fbce97a4d16ad08d10181cf3630c78038b7ea339
-  branch: master
-  specs:
-    bootstrap_form (4.0.0.dev)
-      rails (>= 5.0)
-
 PATH
   remote: .
   specs:
-    egov_utils (0.3.12)
+    egov_utils (0.4.3)
       activeresource (~> 5.0)
       audited (~> 4.4)
       azahara_schema (~> 0.3)
       bcrypt (~> 3.1)
       bootstrap (~> 4.0)
       bootstrap4-datetime-picker-rails (~> 0.1)
-      bootstrap_form (~> 4.0.0.dev)
+      bootstrap_form (~> 4.0.0.alpha)
       cancancan (~> 2.0)
       clipboard-rails (~> 1.7)
       cookies_eu (~> 1.6)
@@ -27,7 +19,7 @@ PATH
       jquery-rails (~> 4.3)
       jquery-ui-rails (~> 6.0)
       modernizr-rails (~> 2.7)
-      momentjs-rails (~> 2.17)
+      momentjs-rails (~> 2.20)
       money (~> 6.11)
       net-ldap (~> 0.16)
       paranoia (~> 2.4)
@@ -96,7 +88,7 @@ GEM
     arel (9.0.0)
     audited (4.7.1)
       activerecord (>= 4.0, < 5.3)
-    autoprefixer-rails (8.6.0)
+    autoprefixer-rails (8.6.3)
       execjs
     azahara_schema (0.3.7)
       rails (~> 5.1)
@@ -105,15 +97,17 @@ GEM
       autoprefixer-rails (>= 6.0.3)
       popper_js (>= 1.12.9, < 2)
       sass (>= 3.5.2)
-    bootstrap4-datetime-picker-rails (0.1.6)
+    bootstrap4-datetime-picker-rails (0.1.7)
       jquery-rails (~> 4.2, >= 4.2.0)
       momentjs-rails (~> 2.10, >= 2.10.5)
+    bootstrap_form (4.0.0.alpha1)
+      rails (>= 5.0)
     builder (3.2.3)
     cancancan (2.2.0)
     clipboard-rails (1.7.1)
     coderay (1.1.2)
     concurrent-ruby (1.0.5)
-    cookies_eu (1.7.1)
+    cookies_eu (1.7.3)
       js_cookie_rails (~> 2.2.0)
     crass (1.0.4)
     database_cleaner (1.7.0)
@@ -142,7 +136,7 @@ GEM
       socksify
     i18n (1.0.1)
       concurrent-ruby (~> 1.0)
-    i18n-js (3.0.7)
+    i18n-js (3.0.8)
       i18n (>= 0.6.6, < 2)
     jquery-rails (4.3.3)
       rails-dom-testing (>= 1, < 3)
@@ -172,7 +166,7 @@ GEM
       i18n (>= 0.6.4, < 1.1)
     net-ldap (0.16.1)
     nio4r (2.3.1)
-    nokogiri (1.8.2)
+    nokogiri (1.8.3)
       mini_portile2 (~> 2.3.0)
     nori (2.6.0)
     paranoia (2.4.1)
@@ -288,7 +282,6 @@ PLATFORMS
 
 DEPENDENCIES
   azahara_schema
-  bootstrap_form!
   database_cleaner
   egov_utils!
   factory_bot_rails (~> 4.0)
