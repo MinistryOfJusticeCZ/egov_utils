@@ -33,6 +33,7 @@ module EgovUtils
     end
 
     def add_users
+      render_404 and return if @group.allow_member_assign?
       @users = User.not_in_group(@group).where(:id => (params[:user_id] || params[:user_ids])).to_a
       @group.users << @users
       respond_to do |format|

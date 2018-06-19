@@ -26,7 +26,7 @@ module EgovUtils
     def ldap_members
       if provider.present?
         Rails.cache.fetch("#{cache_key}/ldap_members", expires_in: 2.hours) do
-          auth_source.group_members(ldap_uid)
+          auth_source.group_members(ldap_dn)
         end
       else
         []
