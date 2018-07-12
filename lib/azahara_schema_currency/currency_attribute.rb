@@ -18,5 +18,11 @@ module AzaharaSchemaCurrency
       entity.try(currency_code_col)
     end
 
+    def value(record)
+      val = super(record)
+      val = BigDecimal.new( val.to_s ) unless val.is_a?(BigDecimal)
+      val
+    end
+
   end
 end

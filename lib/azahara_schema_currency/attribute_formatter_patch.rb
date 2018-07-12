@@ -4,7 +4,7 @@ module AzaharaSchemaCurrency
     def format_value_html(attribute, unformated_value, **options)
       case attribute.type
       when 'currency'
-        Money.new(unformated_value, options[:currency_code].to_s.upercase.presence).format
+        Money.from_amount(unformated_value, options[:currency_code].to_s.upcase.presence).format
       else
         super
       end

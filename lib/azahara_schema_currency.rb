@@ -8,3 +8,5 @@ AzaharaSchema::AttributeFormatter.__send__('prepend', AzaharaSchemaCurrency::Att
 
 require 'azahara_schema_currency/association_attribute_patch'
 AzaharaSchema::AssociationAttribute.__send__('prepend', AzaharaSchemaCurrency::AssociationAttributePatch)
+require 'azahara_schema_currency/aggregation_attribute_patch'
+AzaharaSchema::AggregationAttribute.__send__('prepend', AzaharaSchemaCurrency::AggregationAttributePatch)
