@@ -19,7 +19,7 @@ module EgovUtils
           expect(source).to receive(:search_user).with('Egov').and_return([])
           expect(source).to receive(:search_group).with('Egov').and_return([ldap_attrs])
           get :search, params: { format: :json, q: 'Egov' }
-          expect(response).to be_success
+          expect(response).to be_successful
           json = JSON.parse(response.body)
           expect(json['groups']).not_to be_empty
           expect(json['groups'].first['name']).to eq('EgovUsers')
