@@ -14,7 +14,9 @@ module EgovUtils
       let(:group) { FactoryBot.create(:egov_utils_group) }
 
       it 'finds ldap_members of the group' do
-        expect( group.auth_source ).to receive(:group_members).and_return(user_attrs[1..-1])
+        auth_source = double('EgovUtils::AuthSource')
+        expect( auth_source ).to receive(:group_members).and_return(user_attrs[1..-1])
+        expect( group ).to receive(:auth_source).at_least(:once).and_return(auth_source)
         expect( group.ldap_members.count ).to eq(2)
       end
     end
