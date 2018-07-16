@@ -1,5 +1,8 @@
 FactoryBot.define do
   factory :egov_utils_person, class: 'EgovUtils::Person' do
+    transient do
+      natural_attributes Hash.new
+    end
     association :residence, factory: :egov_utils_address
     joid { SecureRandom.uuid }
     person_type nil
@@ -9,7 +12,7 @@ FactoryBot.define do
     trait :natural do
       person_type 'natural'
       after(:build) do |person, evaluator|
-        evaluator.natural_person = FactoryBot.build(:egov_utils_natural_person, person: person)
+        evaluator.natural_person = FactoryBot.build(:egov_utils_natural_person, evaluator.natural_attributes.merge(person: person))
       end
     end
 
