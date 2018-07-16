@@ -11,7 +11,7 @@ module EgovUtils
 
         private
           def all_agendas
-            ['T', 'Tm', 'INS', 'E'] # a dalsi
+            %w(C Cd D Dt Dtm E EPR EVC EXE L Nc Nt Ntm P PP Rod Sd T Td Tm U)
           end
 
           def javascript_str(options)
