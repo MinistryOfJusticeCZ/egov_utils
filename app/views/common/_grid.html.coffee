@@ -3,8 +3,6 @@ $ ->
     grid ||= schema.outputs.grid
     page_size ||= 50
     additional_params ||= {}
-    create_attributes ||= {}
-    create_model ||= schema.model
   %>
 
   after_modal_submit = (evt, data)->
@@ -14,10 +12,6 @@ $ ->
 
   $('body').off 'egov:submitted', after_modal_submit
   $('body').on 'egov:submitted', '#modal', after_modal_submit
-
-  <%# would be a bit cleaner to give the filled form to the shield grid create method, then send the form by ajax %>
-  createRecord = (evt)->
-    $.ajax('<%= new_polymorphic_path(create_model, create_attributes.merge(format: :js)) %>')
 
 
   editRecord = (index)->
@@ -73,19 +67,6 @@ $ ->
           delete dataObject.take
           dataObject
       modify:
-        create: (items, success, error) ->
-          newItem = items[0]
-          $.ajax
-            url: '<%= polymorphic_path(create_model, format: :json) %>'
-            type: 'POST'
-            dataType: 'json'
-            data: { <%= create_model.model_name.name.underscore %>: newItem.data }
-            complete: (xhr) ->
-              if xhr.readyState == 4 and xhr.status == 201
-                newItem.data.id = xhr.responseJSON.id
-                success()
-                return
-              error(xhr)
         remove: (items, success, error) ->
           $.ajax(
             type: "DELETE"
