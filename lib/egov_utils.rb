@@ -1,3 +1,5 @@
+require 'sassc-rails'
+
 require 'jquery-rails'
 require 'jquery-ui-rails'
 require 'font-awesome-sass'
