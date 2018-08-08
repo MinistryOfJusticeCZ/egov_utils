@@ -122,6 +122,7 @@ window.eGovUtilities =
     options = options || {}
     modalId = modalId || 'modal'
     $modal = $('#'+modalId)
+    modalOptions = options
     if $modal.length != 1
       $modal = $('<div id="'+modalId+'" class="modal fade"'+(if options['backdrop'] then ' data-backdrop="static"' else '')+'><div class="modal-dialog">
     <div class="modal-content">
@@ -133,17 +134,19 @@ window.eGovUtilities =
       <div class="modal-footer"></div>
     </div></div></div>').appendTo('body')
       $modal.on 'submit', 'form', (evt)->
-        evt.preventDefault()
-        $form = $(this)
-        data = $form.serializeArray()
-        $.ajax($form.attr('action')+'.json', {method: $form.attr('method'), data: data, dataType: 'json'}).done (xhr)->
-          $modal.trigger('egov:submitted', [xhr])
+        if modalOptions['ajaxForm'] != false
+          evt.preventDefault()
+          $form = $(this)
+          data = $form.serializeArray()
+          $.ajax($form.attr('action'), {method: $form.attr('method'), data: data, dataType: 'json'}).done (xhr)->
+            $modal.trigger('egov:submitted', [xhr])
+            $modal.modal('hide')
+          .fail (xhr) ->
+            if xhr.status == 422
+              $.ajax($form.attr('action'),  {method: $form.attr('method'), data: data, dataType: 'html'}).done (xhr)->
+                eGovUtilities.setModalContent($modal, xhr)
+        else
           $modal.modal('hide')
-        .fail (xhr) ->
-          if xhr.status == 422
-            $.ajax($form.attr('action'),  {method: $form.attr('method'), data: data, dataType: 'html'}).done (xhr)->
-              eGovUtilities.setModalContent($modal, xhr)
-
     $modal
 
   setModalContent: ($modal, body, title) ->
@@ -153,11 +156,12 @@ window.eGovUtilities =
 
   showModal: (body, options) ->
     options = options || {}
-    $modal = this.initModal((options['modalId']), {backdrop: options['backdrop']})
+    $modal = this.initModal((options['modalId']), {backdrop: options['backdrop'], ajaxForm: options['ajaxForm']})
     title = options['title']
     delete options['modalId']
     delete options['backdrop']
     delete options['title']
+    delete options['ajaxForm']
     eGovUtilities.setModalContent($modal, body, title)
     $modal.modal(options)
     window.setTimeout(()->
