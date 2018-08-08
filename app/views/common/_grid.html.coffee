@@ -43,7 +43,7 @@ $ ->
       data: 'entities'
       total: 'count'
       fields:
-        <% schema.columns.each do |column| %>
+        <% grid_necessary_fields(schema).each do |column| %>
         <%= raw field_for_grid(column) %>
         <% end %>
     events:

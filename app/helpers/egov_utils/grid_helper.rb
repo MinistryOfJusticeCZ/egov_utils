@@ -65,6 +65,12 @@ module EgovUtils
       s << "}"
     end
 
+    def grid_necessary_fields(schema)
+      fields = schema.columns.dup
+      pks = [schema.model.primary_key].concat(fields.collect{|col| col.primary_key_name }).uniq
+      fields.concat(pks.map{|pk_name| schema.attribute(pk_name) })
+    end
+
     def additional_grid_edit_buttons(schema)
     end
   end
