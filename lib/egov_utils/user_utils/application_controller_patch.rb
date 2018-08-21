@@ -30,7 +30,7 @@ module EgovUtils
       end
 
       def mailer_host
-        request.host_with_port
+        request.protocol + request.host_with_port
       end
 
       def user_setup
