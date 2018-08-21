@@ -19,6 +19,8 @@
           - user.groups.each do |g|
             %span= g.name
         %td
+          - if can?(:manage, user) && user.password_change_possible?
+            = link_to(t('label_change_password'), new_password_path(user), class: 'btn btn-sm')
           - if can?(:delete, user)
             = button_to(t('label_delete'), user_path(user), method: :delete, class: 'btn btn-warning btn-sm')
           - unless user.active?

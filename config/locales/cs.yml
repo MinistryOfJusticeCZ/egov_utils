@@ -40,7 +40,7 @@ cs:
   notice_account_locked: Váš účet byl uzamčen správcem aplikace
   notice_logout: Byl/a jste úspěšně odhlášen/a
   notice_signeup_with_mail: Registrace proběhla úspěšně, byl Vám odeslán potvrzovací e-mail, prosím zkontrolujte svou poštu.
-  notice_password_changed: Vaše heslo bylo úspěšně změněno
+  notice_password_changed: Heslo bylo úspěšně změněno
   notice_reset_email_sent: E-mail s instrukcemi pro změnu hesla byl odeslán na zadanou e-mailovou adresu.
   success_user_confirm: Váše e-mailová adresa byla potvrzena. Nyní se již můžete přihlásit.
   error_password_expired: Platnost vašeho hesla vypršela. Prosím změňte ho.

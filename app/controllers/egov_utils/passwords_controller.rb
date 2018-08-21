@@ -17,7 +17,7 @@ module EgovUtils
       @user = EgovUtils::User.find_by(mail: params[:reset_password][:mail])
       if @user && @user.password_change_possible?
         @token = @user.generate_reset_password_token
-        EgovUtils::UserMailer.with(host: mailer_host).password_reset(@user, @token).deliver_later # if @user.save
+        EgovUtils::UserMailer.with(host: mailer_host).password_reset(@user, @token).deliver_later if @user.save
       end
       redirect_to egov_utils.reset_passwords_path, notice: t('notice_reset_email_sent')
     end
@@ -58,7 +58,8 @@ module EgovUtils
         @token = params[:token]
         @user = EgovUtils::User.find_by(confirmation_code: @token)
         if @user.nil? || @user.updated_at < (Time.now - 1.hour)
-          render_404
+          @user = EgovUtils::User.find_by(id: params[:token])
+          !@user.nil? && can?(:manage, @user) && @user || render_404
         else
           @user
         end
