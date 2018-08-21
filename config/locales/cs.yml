@@ -30,6 +30,7 @@ cs:
   ministery_justice_name: Ministerstvo spravedlnosti ČR
   label_no_records: Žádné záznamy k zobrazení
 
+  confirm_action: "Opravdu chcete %{subject}?"
   confirm_destroy: "Opravdu chcete smazat %{subject}?"
 
   warning_staging_version: Toto je testovací verze aplikace.

@@ -29,6 +29,10 @@ module EgovUtils
         User.current || user_setup
       end
 
+      def mailer_host
+        request.host_with_port
+      end
+
       def user_setup
         # Find the current user
         User.current = find_current_user || find_kerberos_user || User.anonymous

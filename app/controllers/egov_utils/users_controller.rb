@@ -25,12 +25,12 @@ module EgovUtils
       respond_to do |format|
         if @user.save
           if EgovUtils::Settings.allow_register? && !current_user.logged?
-            UserMailer.confirmation_email(@user).deliver_later
+            UserMailer.with(host: mailer_host).confirmation_email(@user).deliver_later
             flash[:notice] = t('notice_signeup_with_mail')
           else
             if @user.auth_source.nil?
               @user.update(active: true)
-              UserMailer.account_information(@user, @user.password).deliver_later
+              UserMailer.with(host: mailer_host).account_information(@user, @user.password).deliver_later
             end
             flash[:notice] = t('activerecord.successful.messages.created', model: User.model_name.human)
           end
