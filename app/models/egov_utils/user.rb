@@ -31,6 +31,9 @@ module EgovUtils
       at = Arel::Table.new('egov_utils_groups_users', as: 'gu')
       where(arel_table[:id].not_in( at.project(at[:user_id]).where(at[:group_id].eq(group_id)) ))
     }
+    scope :assignable_to_group, ->(group) {
+      not_in_group(group).where(provider: nil)
+    }
 
     cattr_accessor :default_role
     self.default_role = nil

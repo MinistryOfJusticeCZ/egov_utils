@@ -25,7 +25,7 @@ module EgovUtils
     end
 
     def new_users
-      @principals = EgovUtils::User.active.not_in_group(@group)
+      @principals = EgovUtils::User.active.assignable_to_group(@group)
       respond_to do |format|
         format.html
         format.js { render_modal_js }
@@ -33,8 +33,8 @@ module EgovUtils
     end
 
     def add_users
-      render_404 and return if @group.allow_member_assign?
-      @users = User.not_in_group(@group).where(:id => (params[:user_id] || params[:user_ids])).to_a
+      render_404 and return unless @group.allow_member_assign?
+      @users = User.active.assignable_to_group(@group).where(:id => (params[:user_id] || params[:user_ids])).to_a
       @group.users << @users
       respond_to do |format|
         format.html { redirect_to group_path(@group) }
