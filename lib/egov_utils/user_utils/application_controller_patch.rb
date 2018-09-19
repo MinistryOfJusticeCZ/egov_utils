@@ -79,7 +79,7 @@ module EgovUtils
         def find_kerberos_user
           return nil unless internal_network? && EgovUtils::AuthSource.kerberos_providers.any? && request.env['HTTP_REMOTE_USER'].present?
           username = request.env['HTTP_REMOTE_USER'].split('@')[0]
-          logger.info("  Trying kerberos: #{username}") if logger
+          logger.info("  Trying kerberos: #{username} from (#{request.env['HTTP_REMOTE_USER']})") if logger
           attrs = EgovUtils::AuthSource.find_kerberos_user(username)
           if attrs
             user = User.active.find_by(login: attrs[:login])

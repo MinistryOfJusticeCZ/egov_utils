@@ -1,5 +1,5 @@
 module AzaharaSchemaCurrency
-  module AttributeFormatterPatch
+  module PresenterPatch
 
     def format_value_html(attribute, unformated_value, **options)
       case attribute.type
