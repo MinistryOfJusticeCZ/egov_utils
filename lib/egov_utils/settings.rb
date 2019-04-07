@@ -23,6 +23,10 @@ module EgovUtils
       allow_internal_accounts? && allow_password_reset
     end
 
+    def mock_resources?
+      mock_resources
+    end
+
   end
 
   Settings['allow_register'] ||= false
@@ -30,5 +34,7 @@ module EgovUtils
 
   Settings['redmine'] ||= Settingslogic.new({})
   Settings['redmine']['enabled'] ||= false
+
+  Settings['mock_resources'] ||= !Rails.env.production?
 
 end

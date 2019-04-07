@@ -25,7 +25,7 @@ module EgovUtils
 
     config.generators do |g|
       g.test_framework :rspec
-      g.fixture_replacement :factory_girl, :dir => 'spec/factories'
+      g.fixture_replacement :factory_bot, :dir => 'spec/factories'
     end
 
     initializer :append_migrations do |app|
@@ -129,6 +129,12 @@ module EgovUtils
     initializer 'egov_utils.initialize_factory_paths', after: 'factory_bot.set_factory_paths' do
       if bot_module = 'FactoryBot'.safe_constantize
         FactoryBot.definition_file_paths << EgovUtils::Engine.root.join('spec', 'factories')
+      end
+    end
+
+    initializer 'egov_utils.mock_resources' do
+      if EgovUtils::Settings.mock_resources?
+        EgovUtils::Love.mock!
       end
     end
   end
