@@ -25,8 +25,10 @@ namespace :egov_utils do
         .merge('password' => 'abcdefgh', 'password_confirmation' => 'abcdefgh')
     end
     users = EgovUtils::User.where.not(provider: nil).collect{|u| u.attributes.except('id', 'created_at', 'updated_at') }
+    groups = EgovUtils::Group.where.not(provider: nil).collect{|u| u.attributes.except('id', 'created_at', 'updated_at') }
     DatabaseCleaner.clean_with :truncation
     EgovUtils::User.create(users)
+    EgovUtils::User.create(groups)
     EgovUtils::User.create(admins).each do |admin|
       attrs = admins.detect{ |a| a['login'] == admin.login }
       admin.update_columns(password_digest: attrs['password_digest'])
