@@ -34,6 +34,7 @@ namespace :egov_utils do
   end
 
   task load_staging_data: [:require_factory_bot, :cleanup_db] do
+    FactoryBot.find_definitions if Rails.env.staging?
     require Rails.root.join('db', 'staging.rb')
   end
 end

@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.description = "We hope it will help create better systems for all the eGoverment. In Czech Republic and maybe further."
   s.license     = "MIT"
 
-  s.files = Dir["{app,config,db,lib,vendor}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
+  s.files = Dir["{app,config,db,lib,vendor}/**/*", "MIT-LICENSE", "Rakefile", "README.md", "spec/factories/*"]
 
   s.add_dependency "rails", "~> 5.2"
 
