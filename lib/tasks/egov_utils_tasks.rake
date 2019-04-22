@@ -28,7 +28,7 @@ namespace :egov_utils do
     groups = EgovUtils::Group.where.not(provider: nil).collect{|u| u.attributes.except('id', 'created_at', 'updated_at') }
     DatabaseCleaner.clean_with :truncation
     EgovUtils::User.create(users)
-    EgovUtils::User.create(groups)
+    EgovUtils::Group.create(groups)
     EgovUtils::User.create(admins).each do |admin|
       attrs = admins.detect{ |a| a['login'] == admin.login }
       admin.update_columns(password_digest: attrs['password_digest'])
